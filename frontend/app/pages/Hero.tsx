@@ -102,7 +102,7 @@ export const Hero = () => {
         <div className="hidden md:block col-span-1">
           <div className="p-4 flex justify-start overflow-hidden h-[550px]">
             <motion.div
-              animate={{ y: [0, -1300, 0] }} // Move down by the full height (550px) and then back up
+              animate={{ y: [0, -1300, 0] }} 
               transition={{
                 duration: 15,
                 repeat: Infinity,
@@ -113,7 +113,7 @@ export const Hero = () => {
                 src="/components/hero1.png"
                 alt="Hero"
                 width={550}
-                height={1100} // Taller to simulate the scroll
+                height={1100} 
               />
             </motion.div>
           </div>

@@ -1,15 +1,15 @@
 "use client";
+import React from "react";
 import { IconCloud } from "../../components/ui/icon-cloud";
 
 const slugs = [
   "appier",
   "appsflyer",
   "clevertap",
-  "content-full",
   "jira",
   "moengage",
   "netcore",
-  "optimove",
+  "optimove", 
   "salesforce",
   "servicenow",
   "smartsheet",
@@ -19,11 +19,12 @@ const slugs = [
 ];
 
 export function ToolsCloud() {
+  // Ensure proper path to your logo images
   const images = slugs.map((slug) => `/icons/${slug}.svg`);
 
   return (
-    <div>
-      <IconCloud images={images} />
+    <div className="w-full flex justify-center items-center p-4">
+      <IconCloud images={images} size={500} />
     </div>
   );
 }
