@@ -82,165 +82,189 @@ export const Services = () => {
       </div>
 
       {/* Data Driven Strategies Section */}
-       <div className="p-10 md:p-0"><div className=" bg-[#E5E9FF] px-1 md:px-0 pt-1 md:pt-0  md:bg-white rounded-xl"><div className="data-driven-section">
-       <div className="ml-8"> <div className="text-[#555555] md:text-[#6438C3] font-semibold md:font-extrabold text-xl md:text-3xl  flex justify-center m-6 pt-2 md:mt-20">
-          {dataDrivenStrategies[0].title}
-        </div></div></div>
-        
-        {/* Points Navigation */}
-        <div className="data-points-navigation">
-          <div className="flex justify-center  md:my-10 text-base md:text-lg px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-30 text-center px-4 md:px-20">
-              {dataDrivenStrategies[0].points.map((point, pointIndex) => (
-                <div
-                  key={pointIndex}
-                  className={`cursor-pointer px-2 md:px-20 ${
-                    activeDataDrivenPoint === pointIndex
-                      ? "text-[#2A2A2A] md:text-[#6438C3] md:font-bold bg-[#dae0ff] md:bg-white p-3 md:p-0 rounded-lg"
-                      : "md:hover:text-[#6438C3] text-[#555555] p-3 md:p-0"
-                  }`}
-                  onClick={() => setActiveDataDrivenPoint(pointIndex)}
+      <div className="p-10 md:p-0">
+        <div className=" bg-[#E5E9FF] px-1 md:px-0 pt-1 md:pt-0  md:bg-white rounded-xl">
+          <div className="data-driven-section">
+            <div className="ml-8">
+              {" "}
+              <div className="text-[#555555] md:text-[#6438C3] font-semibold md:font-extrabold text-xl md:text-3xl  flex justify-center m-6 pt-2 md:mt-20">
+                {dataDrivenStrategies[0].title}
+              </div>
+            </div>
+          </div>
+
+          {/* Points Navigation */}
+          <div className="data-points-navigation">
+            <div className="flex justify-center  md:my-10 text-base md:text-lg px-4 md:px-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-30 text-center px-4 md:px-20">
+                {dataDrivenStrategies[0].points.map((point, pointIndex) => (
+                  <div
+                    key={pointIndex}
+                    className={`cursor-pointer px-2 md:px-20 ${
+                      activeDataDrivenPoint === pointIndex
+                        ? "text-[#2A2A2A] md:text-[#6438C3] md:font-bold bg-[#dae0ff] md:bg-white p-3 md:p-0 rounded-lg"
+                        : "md:hover:text-[#6438C3] text-[#555555] p-3 md:p-0"
+                    }`}
+                    onClick={() => setActiveDataDrivenPoint(pointIndex)}
+                  >
+                    {point.text}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Image Display */}
+          <div className="data-image-display">
+            <div className="flex justify-center">
+              <div className="flex justify-center bg-[#E5E9FF] w-full md:w-[1058px] h-[200px] md:h-[480px] rounded-xl">
+                <motion.div
+                  key={activeDataDrivenPoint}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="w-full flex justify-center"
                 >
-                  {point.text}
-                </div>
-              ))}
+                  <Image
+                    src={
+                      dataDrivenStrategies[0].points[activeDataDrivenPoint]
+                        .image
+                    }
+                    alt={dataDrivenStrategies[0].title}
+                    width={1058}
+                    height={480}
+                    quality={100} // Maximum quality
+                    className="object-cover"
+                  />
+                </motion.div>
+              </div>
             </div>
           </div>
         </div>
-        
-        {/* Image Display */}
-        <div className="data-image-display">
-          <div className="flex justify-center">
-            <div className="flex justify-center bg-[#E5E9FF] w-full md:w-[1058px] h-[200px] md:h-[480px] rounded-xl">
-              <motion.div
-                key={activeDataDrivenPoint}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="w-full flex justify-center"
-              >
-                <Image
-                  src={dataDrivenStrategies[0].points[activeDataDrivenPoint].image}
-                  alt={dataDrivenStrategies[0].title}
-                  height={200}
-                  width={300}
-                  className="object-cover md:h-[480px] md:w-[1058px]"
-                />
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </div>
       </div>
 
       {/* MarTech Tools Section */}
-      <div className="p-10 md:p-0"><div className=" bg-[#EBE2FF] px-1 md:px-0 pt-1 md:pt-0  md:bg-white rounded-xl"><div className="martech-section">
-       <div className="ml-8"> <div className="text-[#555555] md:text-[#6438C3] font-semibold md:font-extrabold text-xl md:text-3xl  flex justify-center m-6 pt-2 md:mt-20">
-          {MarTechTools[0].title}
-        </div></div></div>
-        
-        {/* Points Navigation */}
-        <div className="martech-navigation">
-          <div className="flex justify-center  md:my-10 text-base md:text-lg px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-30 text-center px-4 md:px-20">
-              {MarTechTools[0].points.map((point, pointIndex) => (
-                <div
-                  key={pointIndex}
-                  className={`cursor-pointer px-2 md:px-20 ${
-                    activeMarTechPoint === pointIndex
-                      ? "text-[#2A2A2A] md:text-[#6438C3] md:font-bold bg-[#e0d2fd] md:bg-white p-3 md:p-0 rounded-lg"
-                      : "md:hover:text-[#6438C3] text-[#555555] p-3 md:p-0"
-                  }`}
-                  onClick={() => setActiveMarTechPoint(pointIndex)}
-                >
-                  {point.text}
-                </div>
-              ))}
+      <div className="p-10 md:p-0">
+        <div className=" bg-[#EBE2FF] px-1 md:px-0 pt-1 md:pt-0  md:bg-white rounded-xl">
+          <div className="martech-section">
+            <div className="ml-8">
+              {" "}
+              <div className="text-[#555555] md:text-[#6438C3] font-semibold md:font-extrabold text-xl md:text-3xl  flex justify-center m-6 pt-2 md:mt-20">
+                {MarTechTools[0].title}
+              </div>
             </div>
           </div>
-        </div>
-        
-        {/* Image Display */}
-        <div className="data-image-display">
-          <div className="flex justify-center">
-            <div className="flex justify-center bg-[#EBE2FF] w-full md:w-[1058px] h-[200px] md:h-[480px] rounded-xl">
-              <motion.div
-                key={activeMarTechPoint}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="w-full flex justify-center"
-              >
-                <Image
-                  src={MarTechTools[0].points[activeMarTechPoint].image}
-                  alt={MarTechTools[0].title}
-                  height={200}
-                  width={300}
-                  className="object-cover md:h-[480px] md:w-[1058px]"
-                />
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
 
+          {/* Points Navigation */}
+          <div className="martech-navigation">
+            <div className="flex justify-center  md:my-10 text-base md:text-lg px-4 md:px-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-30 text-center px-4 md:px-20">
+                {MarTechTools[0].points.map((point, pointIndex) => (
+                  <div
+                    key={pointIndex}
+                    className={`cursor-pointer px-2 md:px-20 ${
+                      activeMarTechPoint === pointIndex
+                        ? "text-[#2A2A2A] md:text-[#6438C3] md:font-bold bg-[#e0d2fd] md:bg-white p-3 md:p-0 rounded-lg"
+                        : "md:hover:text-[#6438C3] text-[#555555] p-3 md:p-0"
+                    }`}
+                    onClick={() => setActiveMarTechPoint(pointIndex)}
+                  >
+                    {point.text}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Image Display */}
+          <div className="data-image-display">
+            <div className="flex justify-center">
+              <div className="flex justify-center bg-[#EBE2FF] w-full md:w-[1058px] h-[200px] md:h-[480px] rounded-xl">
+                <motion.div
+                  key={activeMarTechPoint}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="w-full flex justify-center"
+                >
+                  <Image
+                    src={MarTechTools[0].points[activeMarTechPoint].image}
+                    alt={MarTechTools[0].title}
+                    width={1058}
+                    height={480}
+                    quality={100} // Maximum quality
+                    className="object-cover"
+                  />
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Optimize Operations Section */}
-      <div className="p-10 md:p-0"><div className=" bg-[#EED3D3] px-1 md:px-0 pt-1 md:pt-0  md:bg-white rounded-xl"><div className="OptimizeOperations-section">
-       <div className="ml-8"> <div className="text-[#555555] md:text-[#6438C3] font-semibold md:font-extrabold text-xl md:text-3xl  flex justify-center m-6 pt-2 md:mt-20">
-          {OptimizeOperations[0].title}
-        </div></div></div>
-        
-        {/* Points Navigation */}
-        <div className="OptimizeOperations-navigation">
-          <div className="flex justify-center  md:my-10 text-base md:text-lg px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-30 text-center px-4 md:px-20">
-              {OptimizeOperations[0].points.map((point, pointIndex) => (
-                <div
-                  key={pointIndex}
-                  className={`cursor-pointer px-2 md:px-20 ${
-                    activeOptimizePoint === pointIndex
-                      ? "text-[#2A2A2A] md:text-[#6438C3] md:font-bold bg-[#ebbdbd] md:bg-white p-3 md:p-0 rounded-lg"
-                      : "md:hover:text-[#6438C3] text-[#555555] p-3 md:p-0"
-                  }`}
-                  onClick={() => setActiveOptimizePoint(pointIndex)}
-                >
-                  {point.text}
-                </div>
-              ))}
+      <div className="p-10 md:p-0">
+        <div className=" bg-[#EED3D3] px-1 md:px-0 pt-1 md:pt-0  md:bg-white rounded-xl">
+          <div className="OptimizeOperations-section">
+            <div className="ml-8">
+              {" "}
+              <div className="text-[#555555] md:text-[#6438C3] font-semibold md:font-extrabold text-xl md:text-3xl  flex justify-center m-6 pt-2 md:mt-20">
+                {OptimizeOperations[0].title}
+              </div>
             </div>
           </div>
-        </div>
-        
-        {/* Image Display */}
-        <div className="data-image-display">
-          <div className="flex justify-center">
-            <div className="flex justify-center bg-[#EED3D3] w-full md:w-[1058px] h-[200px] md:h-[480px] rounded-xl">
-              <motion.div
-                key={activeOptimizePoint}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-                className="w-full flex justify-center"
-              >
-                <Image
-                  src={OptimizeOperations[0].points[activeOptimizePoint].image}
-                  alt={OptimizeOperations[0].title}
-                  height={200}
-                  width={300}
-                  className="object-cover md:h-[480px] md:w-[1058px]"
-                />
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
 
+          {/* Points Navigation */}
+          <div className="OptimizeOperations-navigation">
+            <div className="flex justify-center  md:my-10 text-base md:text-lg px-4 md:px-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-30 text-center px-4 md:px-20">
+                {OptimizeOperations[0].points.map((point, pointIndex) => (
+                  <div
+                    key={pointIndex}
+                    className={`cursor-pointer px-2 md:px-20 ${
+                      activeOptimizePoint === pointIndex
+                        ? "text-[#2A2A2A] md:text-[#6438C3] md:font-bold bg-[#ebbdbd] md:bg-white p-3 md:p-0 rounded-lg"
+                        : "md:hover:text-[#6438C3] text-[#555555] p-3 md:p-0"
+                    }`}
+                    onClick={() => setActiveOptimizePoint(pointIndex)}
+                  >
+                    {point.text}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Image Display */}
+          <div className="data-image-display">
+            <div className="flex justify-center">
+              <div className="flex justify-center bg-[#EED3D3] w-full md:w-[1058px] h-[200px] md:h-[480px] rounded-xl">
+                <motion.div
+                  key={activeOptimizePoint}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.8 }}
+                  transition={{ duration: 0.5, ease: "easeInOut" }}
+                  className="w-full flex justify-center"
+                >
+                  <Image
+                    src={
+                      OptimizeOperations[0].points[activeOptimizePoint].image
+                    }
+                    alt={OptimizeOperations[0].title}
+                    width={1058}
+                    height={480}
+                    quality={100} // Maximum quality
+                    className="object-cover"
+                  />
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Call-to-action Component */}
       <div className="cta-section">
