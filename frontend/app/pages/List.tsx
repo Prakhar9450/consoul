@@ -22,7 +22,7 @@ export default function BlogListing() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center">
+      <div className="mb-8 flex flex-row items-center gap-4">
         <div className="relative flex-1">
           <Input
             placeholder="Search articles and resources"
@@ -31,16 +31,16 @@ export default function BlogListing() {
               setSearch(e.target.value)
               setCurrentPage(1)
             }}
-            className="h-12 rounded-lg pl-6 pr-12 text-base"
+            className="h-12 rounded-lg pl-6 pr-12 text-base w-full"
           />
         </div>
         <Select value={filter} onValueChange={setFilter}>
-          <SelectTrigger className="h-12 w-[140px] rounded-lg border-2 bg-[#6438C3] text-white">
-            <Filter className="mr-2 h-4 w-4" />
+          <SelectTrigger className="h-12 w-[100px] sm:w-[140px] rounded-lg border-2 bg-[#6438C3] text-white px-2 sm:px-4 flex-shrink-0">
+            <Filter className="mr-1 sm:mr-2 h-4 w-4" />
             <SelectValue placeholder="Filter" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Posts</SelectItem>
+            <SelectItem value="all">Filter</SelectItem>
             <SelectItem value="marketing">Marketing</SelectItem>
             <SelectItem value="analytics">Analytics</SelectItem>
           </SelectContent>
@@ -86,4 +86,3 @@ export default function BlogListing() {
     </div>
   )
 }
-
