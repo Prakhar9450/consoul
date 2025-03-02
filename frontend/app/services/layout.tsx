@@ -26,11 +26,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="">
           <Footer />
         </div>
-        <div className="text-center w-full block md:hidden" >
-          <button className="bg-gradient-to-b from-[#6438C3] to-[#4B21A6] w-full text-white px-6 py-3 text-lg font-medium">
-            Book a Free Consultation
-          </button>
-        </div>
+       
       </div>
     );
   }
