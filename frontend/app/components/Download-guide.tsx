@@ -3,10 +3,10 @@ import Image from "next/image"
 
 export const DownloadGuide = () => {
     return <div className="relative">
-        <div className="border p-12 bg-[#6438C3] text-white rounded-3xl font-semibold">
-          <div className="grid grid-cols-6 gap-4">
+        <div className="border p-6 md:p-12 bg-[#6438C3] text-white md:rounded-3xl font-semibold">
+          <div className="grid md:grid-cols-6 gap-4">
             <div className="col-span-4 grid gap-5 ">
-              <div className="text-3xl">
+              <div className="text-lg md:text-3xl">
                 Read our latest step-by-step guide
                 <br />
                 to increasing Customer Lifetime Value Metrics
@@ -45,7 +45,7 @@ export const DownloadGuide = () => {
             </div>
           </div>
         </div>
-        <div className="absolute right-28 bottom-[1px]" >
+        <div className="hidden md:block absolute right-28 bottom-[1px]" >
             <Image
                 src="/icons/docs.svg"
                 alt="guide"

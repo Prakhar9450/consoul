@@ -48,11 +48,11 @@ export const Testimonial = () => {
   };
 
   return (
-    <div className="my-20  min-h-80">
-      <div className="grid grid-cols-2 w-full">
-        <div className="col-span-1 flex justify-center pl-40 ">
+    <div className="my-20  md:min-h-80">
+      <div className="p-4 md:p-0 grid grid-cols-3 gap-2 md:grid-cols-2 w-full">
+        <div className="col-span-1 flex justify-center md:pl-40 ">
           <div className="flex flex-col ">
-            <div className="font-extrabold text-4xl text-[#555555]">
+            <div className="font-extrabold text-xl md:text-4xl text-[#555555]">
               Words from <br /> our clients
             </div>
             {/* Fixed position navigation buttons */}
@@ -64,6 +64,7 @@ export const Testimonial = () => {
                   viewBox="0 0 51 49"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  className="h-10 w-10 md:h-full md:w-full"
                 >
                   <rect
                     x="0.25"
@@ -97,6 +98,7 @@ export const Testimonial = () => {
                   viewBox="0 0 51 49"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
+                  className="h-10 w-10 md:h-full md:w-full"
                 >
                   <rect
                     x="0.25"
@@ -124,8 +126,8 @@ export const Testimonial = () => {
             </div>
           </div>
         </div>
-        <div className="col-span-1 pr-40">
-          <div className="min-h-[200px]">
+        <div className="col-span-2 md:col-span-1 md:pr-40">
+          <div className="md:min-h-[200px]">
             {" "}
             {/* Fixed minimum height container */}
             <motion.div
@@ -134,9 +136,9 @@ export const Testimonial = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -50 }}
               transition={{ duration: 0.5 }}
-              className="flex flex-col px-20"
+              className="flex flex-col  md:px-20"
             >
-              <div className="text-3xl text-[#6438C3] mb-10">
+              <div className=" text-lg md:text-3xl text-[#6438C3] mb-4 md:mb-10">
                 &ldquo;{testimonials[currentIndex].description}&rdquo;
               </div>
 
@@ -150,7 +152,7 @@ export const Testimonial = () => {
                     className="h-10 w-10 rounded-full"
                   />
                 </div>
-                <div>
+                <div className="text-sm">
                   <div>{testimonials[currentIndex].name}</div>
                   <div>{testimonials[currentIndex].designation}</div>
                 </div>

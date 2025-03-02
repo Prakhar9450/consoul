@@ -1,13 +1,13 @@
 "use client"
 import { ToolsCloud } from "../components/ToolsCloud"
 import { Ready } from "../components/Ready"
-import { SuccessStoriesComp } from "../components/SuccessStoriesComp"
+
 
 export const SuccessStories = () => {
   
   return (
     <div>
-     <SuccessStoriesComp />
+    
       <div className="md:my-16 flex justify-center items-center ">
         <div className="text-2xl md:text-5xl font-extrabold text-[#555555] mb-4 md:mb-6 text-center flex justify-end">
           Tools worked on

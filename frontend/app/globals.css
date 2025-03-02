@@ -75,3 +75,71 @@ body {
     }
 }
   
+/* Hide scrollbar for a cleaner look */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+/* Ensure smooth scrolling behavior */
+.overflow-x-auto {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}
+
+/* Snap behavior for cards */
+.snap-x {
+  scroll-snap-type: x mandatory;
+}
+
+.snap-start {
+  scroll-snap-align: start;
+}
+
+/* Container styles */
+.services-nav-container {
+  margin: 1rem 1rem 2.5rem 1rem; /* Adjusted margins for mobile */
+}
+
+/* Desktop layout (default) */
+.services-nav-container .flex {
+  justify-content: space-between;
+  margin: 0 12rem; /* Matches mx-48 from original (12rem = 48 * 0.25rem) */
+}
+
+/* Mobile layout (slider) */
+@media (max-width: 768px) {
+  .services-nav-container {
+    margin: 1rem; /* Reset margins for mobile */
+  }
+
+  .services-nav-container .flex {
+    margin: 0; /* Remove desktop margins */
+    flex-wrap: nowrap; /* Prevent wrapping */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    scroll-snap-type: x mandatory; /* Snap to items */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    padding: 0 1rem; /* Optional padding for better touch area */
+  }
+
+  .services-nav-container .flex > div {
+    flex: 0 0 auto; /* Prevent shrinking */
+    width: 120px; /* Fixed width for each item */
+    padding: 0 0.5rem; /* Space between items */
+    scroll-snap-align: start; /* Snap to start of each item */
+  }
+}
+
+/* Hide scrollbar on mobile */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, and Opera */
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}

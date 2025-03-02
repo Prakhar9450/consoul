@@ -1,4 +1,7 @@
 "use client"
+
+import { TextAnimateDemo } from "@/components/AreYouReadyText"
+
 export const Ready = () => {
     return <div className="bg-gradient-to-l from-[#F1EAFF] to-[#FFEBE8] p-10 py-20 grid gap-10 ">
         <div className="grid grid-cols-2 text-5xl font-extrabold gap-5">
@@ -7,7 +10,7 @@ export const Ready = () => {
 
             </div>
             <div className="text-[#6438C3]">
-                Turn online traffic <br /> into loyal customer
+            <TextAnimateDemo />
 
             </div>
 

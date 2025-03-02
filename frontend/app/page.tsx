@@ -4,6 +4,8 @@ import { Services } from "./pages/Services";
 import { ChooseUs } from "./pages/ChooseUs";
 import { SuccessStories } from "./pages/SuccessStories";
 import Footer from "./components/Footer";
+import { SuccessStoriesComp } from "./components/SuccessStoriesComp";
+import { SuccessStoriesMobileComp } from "./components/SuccessStoriesMobileComp";
 
 
 export default function Home() {
@@ -14,7 +16,9 @@ export default function Home() {
       <Hero />
       <Services />
       <ChooseUs />
-      <SuccessStories />
+      
+     <div className="hidden md:block"><SuccessStoriesComp /> <SuccessStories /></div>
+     <div className="block md:hidden my-10"><SuccessStoriesMobileComp ></SuccessStoriesMobileComp></div>
       <Footer />
     
     </div>

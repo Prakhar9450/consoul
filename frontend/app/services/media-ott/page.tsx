@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Image from "next/image"
 
@@ -18,12 +18,7 @@ interface Section {
 
 export default function Page() {
   const [activeSection, setActiveSection] = useState(0)
-
-  const [activeFeaturesMap, setActiveFeaturesMap] = useState<Record<number, number>>({
-    0: 0,
-    1: 0,
-    2: 0,
-  })
+  const [activeFeaturesMap, setActiveFeaturesMap] = useState<Record<number, number>>({})
 
   const sections: Section[] = [
     {
@@ -109,6 +104,15 @@ export default function Page() {
     },
   ]
 
+  useEffect(() => {
+    const initialMap: Record<number, number> = {};
+    sections.forEach(section => {
+      initialMap[section.id] = 0; // Set all sections to first feature
+    });
+    setActiveFeaturesMap(initialMap);
+    setActiveSection(0); // First section active by default
+  }, []);
+
   const handleSubtitleClick = (sectionId: number) => {
     setActiveSection(sectionId)
     setActiveFeaturesMap((prev) => ({
@@ -119,19 +123,19 @@ export default function Page() {
 
   const renderSectionContent = (section: Section) => {
     const isMiddleSection = section.id === 1
+    const activeFeatureIndex = activeFeaturesMap[section.id] ?? 0; // Default to 0 if undefined
 
     const imageComponent = (
       <motion.div
-        key={activeFeaturesMap[section.id]}
+        key={`${section.id}-${activeFeatureIndex}`}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.8 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="relative h-[300px] rounded-lg"
+        className="relative h-[300px] rounded-lg order-last md:order-none"
       >
         <Image
-          src={sections[section.id].features[activeFeaturesMap[section.id]].image || "/placeholder.svg"}
-          alt={sections[section.id].features[activeFeaturesMap[section.id]].title}
+          src={section.features[activeFeatureIndex].image || "/placeholder.svg"}
+          alt={section.features[activeFeatureIndex].title}
           className="object-cover"
           priority
           height={500}
@@ -142,50 +146,75 @@ export default function Page() {
 
     const featuresComponent = (
       <div className="relative">
-        <div className="absolute left-[1] top-0 w-1 h-full bg-purple-100 rounded-t-full rounded-b-full" />
+        <div className="hidden md:block absolute left-[1] top-0 w-1 h-full bg-purple-100 rounded-t-full rounded-b-full" />
         <div className="space-y-8">
-          {section.features.map((feature, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.3, delay: index * 0.1, ease: "easeInOut" }}
-              className="relative pl-6 cursor-pointer group"
-              onClick={() => {
-                setActiveSection(section.id)
-                setActiveFeaturesMap((prev) => ({
-                  ...prev,
-                  [section.id]: index,
-                }))
-              }}
-            >
-              <div
-                className={`absolute left-0 top-0 w-1 h-full transition-all duration-300 rounded-t-full rounded-b-full ${
-                  activeSection === section.id && activeFeaturesMap[section.id] === index
-                    ? "bg-[#6438C3]"
-                    : "bg-purple-100"
+          {section.features.map((feature, index) => {
+            // Show first feature as active by default when section loads
+            const isActive = (activeSection === section.id && activeFeatureIndex === index) ||
+                           (index === 0 && activeFeaturesMap[section.id] === 0);
+
+            return (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3, delay: index * 0.1, ease: "easeInOut" }}
+                className={`relative pl-6 cursor-pointer group ${
+                  isActive
+                    ? "bg-[#E2E9FF] rounded-lg p-3 md:py-3 md:bg-white"
+                    : "bg-white md:bg-white"
                 }`}
-              />
-              <h3
-                className={`text-xl font-semibold mb-2 transition-colors duration-300 ${
-                  activeSection === section.id && activeFeaturesMap[section.id] === index
-                    ? "text-[#6438C3]"
-                    : "text-gray-800 group-hover:text-[#6438C3]"
-                }`}
+                onClick={() => {
+                  setActiveSection(section.id)
+                  setActiveFeaturesMap((prev) => ({
+                    ...prev,
+                    [section.id]: index,
+                  }))
+                }}
               >
-                {feature.title}
-              </h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </motion.div>
-          ))}
+                <div
+                  className={`hidden md:block absolute left-0 top-0 w-1 h-full transition-all duration-300 rounded-t-full rounded-b-full ${
+                    isActive ? "bg-[#6438C3]" : "bg-purple-100"
+                  }`}
+                />
+                <div className="text-center md:text-left">
+                  <h3
+                    className={`text-xl font-semibold mb-2 transition-colors duration-300 ${
+                      isActive
+                        ? "text-[#555555] md:text-[#6438C3]"
+                        : "text-[#555555] md:text-gray-800 group-hover:text-[#6438C3]"
+                    }`}
+                  >
+                    {feature.title}
+                  </h3>
+                  <p 
+                    className={`text-[#8C8C8C] ${
+                      isActive ? "block" : "hidden md:block"
+                    }`}
+                  >
+                    {feature.description}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     )
 
     return (
       <div className="grid md:grid-cols-2 gap-12 items-start">
-        {isMiddleSection ? imageComponent : featuresComponent}
-        {isMiddleSection ? featuresComponent : imageComponent}
+        {isMiddleSection ? (
+          <>
+            <div className="order-last md:order-first">{imageComponent}</div>
+            <div className="order-first md:order-last">{featuresComponent}</div>
+          </>
+        ) : (
+          <>
+            <div>{featuresComponent}</div>
+            <div className="order-last md:order-none">{imageComponent}</div>
+          </>
+        )}
       </div>
     )
   }
@@ -193,12 +222,12 @@ export default function Page() {
   return (
     <div className="min-h-screen bg-white">
       {sections.map((section) => (
-        <section key={section.id} className="py-16 px-4">
+        <section key={section.id} className="py-10 md:py-20 px-4">
           <div className="max-w-6xl mx-auto">
             <div className="mb-12 text-center">
               <h2
                 className={`text-3xl font-bold mb-4 transition-colors duration-300 cursor-pointer ${
-                  activeSection === section.id ? "text-[#6438C3]" : "text-gray-800 hover:text-[#6438C3]"
+                  activeSection === section.id ? "md:text-[#6438C3]" : "text-gray-800 hover:text-[#6438C3]"
                 }`}
                 onClick={() => setActiveSection(section.id)}
               >
@@ -218,4 +247,3 @@ export default function Page() {
     </div>
   )
 }
-

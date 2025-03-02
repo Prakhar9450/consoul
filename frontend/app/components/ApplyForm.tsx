@@ -5,11 +5,46 @@ import { useState } from "react"
 import { z } from "zod"
 
 const countries = [
-  { code: "IN", name: "India", dialCode: "+91", flag: "🇮🇳" },
-  { code: "US", name: "United States", dialCode: "+1", flag: "🇺🇸" },
-  { code: "UK", name: "United Kingdom", dialCode: "+44", flag: "🇬🇧" },
+  { code: "AT", name: "Austria", dialCode: "+43", flag: "🇦🇹" },
+  { code: "BE", name: "Belgium", dialCode: "+32", flag: "🇧🇪" },
+  { code: "BG", name: "Bulgaria", dialCode: "+359", flag: "🇧🇬" },
   { code: "CA", name: "Canada", dialCode: "+1", flag: "🇨🇦" },
-  // Add more countries as needed
+  { code: "CN", name: "China", dialCode: "+86", flag: "🇨🇳" },
+  { code: "CY", name: "Cyprus", dialCode: "+357", flag: "🇨🇾" },
+  { code: "CZ", name: "Czech Republic", dialCode: "+420", flag: "🇨🇿" },
+  { code: "DE", name: "Germany", dialCode: "+49", flag: "🇩🇪" },
+  { code: "DK", name: "Denmark", dialCode: "+45", flag: "🇩🇰" },
+  { code: "EE", name: "Estonia", dialCode: "+372", flag: "🇪🇪" },
+  { code: "ES", name: "Spain", dialCode: "+34", flag: "🇪🇸" },
+  { code: "FI", name: "Finland", dialCode: "+358", flag: "🇫🇮" },
+  { code: "FR", name: "France", dialCode: "+33", flag: "🇫🇷" },
+  { code: "GR", name: "Greece", dialCode: "+30", flag: "🇬🇷" },
+  { code: "HR", name: "Croatia", dialCode: "+385", flag: "🇭🇷" },
+  { code: "HU", name: "Hungary", dialCode: "+36", flag: "🇭🇺" },
+  { code: "IE", name: "Ireland", dialCode: "+353", flag: "🇮🇪" },
+  { code: "IN", name: "India", dialCode: "+91", flag: "🇮🇳" },
+  { code: "IT", name: "Italy", dialCode: "+39", flag: "🇮🇹" },
+  { code: "JP", name: "Japan", dialCode: "+81", flag: "🇯🇵" },
+  { code: "KR", name: "South Korea", dialCode: "+82", flag: "🇰🇷" },
+  { code: "LT", name: "Lithuania", dialCode: "+370", flag: "🇱🇹" },
+  { code: "LV", name: "Latvia", dialCode: "+371", flag: "🇱🇻" },
+  { code: "MT", name: "Malta", dialCode: "+356", flag: "🇲🇹" },
+  { code: "MY", name: "Malaysia", dialCode: "+60", flag: "🇲🇾" },
+  { code: "NL", name: "Netherlands", dialCode: "+31", flag: "🇳🇱" },
+  { code: "NO", name: "Norway", dialCode: "+47", flag: "🇳🇴" },
+  { code: "PH", name: "Philippines", dialCode: "+63", flag: "🇵🇭" },
+  { code: "PK", name: "Pakistan", dialCode: "+92", flag: "🇵🇰" },
+  { code: "PL", name: "Poland", dialCode: "+48", flag: "🇵🇱" },
+  { code: "PT", name: "Portugal", dialCode: "+351", flag: "🇵🇹" },
+  { code: "RO", name: "Romania", dialCode: "+40", flag: "🇷🇴" },
+  { code: "SE", name: "Sweden", dialCode: "+46", flag: "🇸🇪" },
+  { code: "SG", name: "Singapore", dialCode: "+65", flag: "🇸🇬" },
+  { code: "SI", name: "Slovenia", dialCode: "+386", flag: "🇸🇮" },
+  { code: "SK", name: "Slovakia", dialCode: "+421", flag: "🇸🇰" },
+  { code: "TH", name: "Thailand", dialCode: "+66", flag: "🇹🇭" },
+  { code: "UK", name: "United Kingdom", dialCode: "+44", flag: "🇬🇧" },
+  { code: "US", name: "United States", dialCode: "+1", flag: "🇺🇸" },
+  { code: "VN", name: "Vietnam", dialCode: "+84", flag: "🇻🇳" },
 ]
 
 const formSchema = z.object({
@@ -123,8 +158,8 @@ export default function ApplicationForm() {
           <label htmlFor="phone" className="block text-sm font-medium text-gray-600">
             Phone number *
           </label>
-          <div className="flex gap-3">
-            <div className="relative">
+          <div className="space-y-3 md:flex gap-3">
+            <div className="relative flex">
               <button
                 type="button"
                 onClick={() => setIsCountryDropdownOpen(!isCountryDropdownOpen)}
@@ -138,7 +173,7 @@ export default function ApplicationForm() {
               </button>
 
               {isCountryDropdownOpen && (
-                <div className="absolute top-full left-0 mt-1 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+                <div className="absolute top-full left-0 mt-1 w-48 max-h-64 overflow-y-auto bg-white border border-gray-200 rounded-md shadow-lg z-10">
                   {countries.map(country => (
                     <button
                       key={country.code}
@@ -153,21 +188,21 @@ export default function ApplicationForm() {
                   ))}
                 </div>
               )}
-            </div>
 
-            <input
-              type="tel"
-              id="phone"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              className="flex-1 px-4 py-2.5 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300"
-              placeholder="Enter your phone number"
-            />
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                value={formData.phone}
+                onChange={handleInputChange}
+                className="flex-1 px-1 md:px-4 py-2.5 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-100 focus:border-purple-300"
+                placeholder="Enter your phone number"
+              />
+            </div>
 
             <label
               htmlFor="cv"
-              className="inline-flex items-center px-4 py-2 bg-[#EBE2FF] text-[#4F4F4F] rounded-lg  cursor-pointer gap-2"
+              className="inline-flex items-center px-4 py-2 bg-[#EBE2FF] text-[#4F4F4F] rounded-lg cursor-pointer gap-2"
             >
               <svg className="w-5 h-5 text-[#6438C3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
@@ -194,7 +229,7 @@ export default function ApplicationForm() {
         <div className="flex justify-center mt-8">
           <button
             type="submit"
-            className="w-32 px-4 py-2.5 font-bold bg-gray-200 text-gray-600 rounded-md hover:bg-[#6438C3] hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition-colors"
+            className="w-full md:w-32 px-4 py-2.5 font-bold bg-gray-200 text-gray-600 rounded-md hover:bg-[#6438C3] hover:text-white focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 transition-colors"
           >
             Apply
           </button>

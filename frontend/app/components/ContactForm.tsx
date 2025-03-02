@@ -5,8 +5,8 @@ import Image from "next/image";
 
 export const ContactForm = () => {
   return (
-    <div className="grid grid-cols-2 w-full shadow-xl border rounded-xl">
-      <div className="bg-[#6438C3] p-12 rounded-l-xl text-white">
+    <div className="md:grid grid-cols-2 w-full shadow-xl border rounded-xl">
+      <div className="hidden md:block bg-[#6438C3] p-12 rounded-l-xl text-white">
         <div className="grid gap-6">
           <div className="space-y-4">
             <h1 className="text-4xl font-bold leading-tight">
@@ -55,7 +55,7 @@ export const ContactForm = () => {
         </div>
       </div>
 
-      <div className="bg-white p-12 rounded-r-xl">
+      <div className="bg-[#6438C3] md:bg-white p-12 md:rounded-r-xl">
         <Form />
       </div>
     </div>

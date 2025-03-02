@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/image";
 import ApplicationForm from "../components/ApplyForm";
 import Footer from "../components/Footer";
@@ -77,20 +78,20 @@ export default function Page() {
           location: "Remote",
         },
         {
-            title: "D2C Marketing Internship",
-            type: "Full-time",
-            location: "Remote",
-          },
-          {
-            title: "D2C Marketing Internship",
-            type: "Full-time",
-            location: "Remote",
-          },
-          {
-            title: "D2C Marketing Internship",
-            type: "Full-time",
-            location: "Remote",
-          },
+          title: "D2C Marketing Internship",
+          type: "Full-time",
+          location: "Remote",
+        },
+        {
+          title: "D2C Marketing Internship",
+          type: "Full-time",
+          location: "Remote",
+        },
+        {
+          title: "D2C Marketing Internship",
+          type: "Full-time",
+          location: "Remote",
+        },
       ],
     },
     {
@@ -112,20 +113,20 @@ export default function Page() {
           location: "Remote",
         },
         {
-            title: "D2C Marketing Internship",
-            type: "Full-time",
-            location: "Remote",
-          },
-          {
-            title: "D2C Marketing Internship",
-            type: "Full-time",
-            location: "Remote",
-          },
-          {
-            title: "D2C Marketing Internship",
-            type: "Full-time",
-            location: "Remote",
-          },
+          title: "D2C Marketing Internship",
+          type: "Full-time",
+          location: "Remote",
+        },
+        {
+          title: "D2C Marketing Internship",
+          type: "Full-time",
+          location: "Remote",
+        },
+        {
+          title: "D2C Marketing Internship",
+          type: "Full-time",
+          location: "Remote",
+        },
       ],
     },
     {
@@ -147,34 +148,37 @@ export default function Page() {
           location: "Remote",
         },
         {
-            title: "D2C Marketing Internship",
-            type: "Full-time",
-            location: "Remote",
-          },
-          {
-            title: "D2C Marketing Internship",
-            type: "Full-time",
-            location: "Remote",
-          },
-          {
-            title: "D2C Marketing Internship",
-            type: "Full-time",
-            location: "Remote",
-          },
+          title: "D2C Marketing Internship",
+          type: "Full-time",
+          location: "Remote",
+        },
+        {
+          title: "D2C Marketing Internship",
+          type: "Full-time",
+          location: "Remote",
+        },
+        {
+          title: "D2C Marketing Internship",
+          type: "Full-time",
+          location: "Remote",
+        },
       ],
     },
   ];
 
+
+
   return (
     <div>
-      <div className="grid grid-cols-2 p-5">
-        <div className="flex justify-center p-10">
-          <div className="text-4xl font-extrabold text-[#555555]">
+      {/* Header Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 p-5">
+        <div className="flex justify-center p-5 md:p-10">
+          <div className="text-2xl md:text-4xl font-extrabold text-[#555555] text-center md:text-left">
             Shape the future of <br /> marketing with us
           </div>
         </div>
         <div className="flex justify-center">
-          <div className="text-lg text-[#555555] p-4">
+          <div className="text-base md:text-lg text-[#555555] p-4 text-center md:text-left">
             We&apos;re on a mission to change how
             <br /> businesses build lasting relationships with
             <br /> their customers. If you&apos;re passionate
@@ -183,21 +187,34 @@ export default function Page() {
         </div>
       </div>
 
-      <div>
+      {/* Image Section */}
+      <div className="w-full hidden md:block">
         <Image
           src="/components/careers.png"
           alt="about"
           width={1920}
           height={1080}
+          className="w-full h-auto object-cover"
         />
       </div>
 
-      <div className="my-20 mx-60">
+      <div>
+        <Image 
+          src="/components/careers-mobile.png"
+          alt="about"
+          width={375}
+          height={812}
+          className="w-full h-auto object-cover md:hidden"
+        />
+      </div>
+
+      {/* Job Listings Section */}
+      <div className="my-10 md:my-20 mx-4 md:mx-60">
         <div>
-          <div className="text-3xl text-[#555555] flex justify-center font-bold">
+          <div className="text-2xl md:text-3xl text-[#555555] flex justify-center font-bold">
             Open positions
           </div>
-          <div className="flex justify-center my-6 text-xl text-[#555555] ">
+          <div className="flex justify-center my-6 text-base md:text-xl text-[#555555] text-center px-4">
             <div>
               Can&apos;t find a role that matches your expertise?
               <span className="underline text-[#6438C3] cursor-pointer">
@@ -211,12 +228,16 @@ export default function Page() {
           </div>
         </div>
 
-        {/* Job listings */}
+        {/* Job Listings with Slider on Mobile */}
         <div className="space-y-8">
           {jobs.map((section, index) => (
             <div key={index} className="">
-              <h2 className="text-xl font-semibold mb-4 text-[#555555]">{section.category}</h2>
-              <div className="grid grid-cols-3 gap-5">
+              <h2 className="text-lg md:text-xl font-semibold mb-4 text-[#555555]">
+                {section.category}
+              </h2>
+
+              {/* Desktop Grid */}
+              <div className="hidden md:grid md:grid-cols-3 md:gap-5">
                 {section.positions.map((job, jobIndex) => (
                   <div
                     key={jobIndex}
@@ -250,13 +271,58 @@ export default function Page() {
                   </div>
                 ))}
               </div>
+
+              {/* Mobile Slider */}
+              <div className="md:hidden relative">
+                <div
+                  
+                  className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 pb-4"
+                >
+                  {section.positions.map((job, jobIndex) => (
+                    <div
+                      key={jobIndex}
+                      className="p-6 rounded-2xl border border-purple-300 bg-white hover:bg-[#FAF7FF] transition-colors w-[280px] flex-shrink-0 snap-start"
+                    >
+                      <div className="text-[#6438C3] text-sm font-medium">
+                        {section.category}
+                      </div>
+                      <h3 className="text-xl font-semibold text-gray-800 mt-2">
+                        {job.title}
+                      </h3>
+                      <div className="flex items-center gap-6 mt-4 text-[#747474] text-sm">
+                        <div className="flex items-center gap-2">
+                          <LocationIcon />
+                          <span>{job.location}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <TimeIcon />
+                          <span>{job.type}</span>
+                        </div>
+                      </div>
+                      <div className="mt-4">
+                        <a
+                          href="#"
+                          className="text-[#6438C3] hover:underline inline-flex items-center text-sm font-medium"
+                        >
+                          View job
+                          <span className="ml-1">→</span>
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {/* Slider Controls */}
+              
+              </div>
             </div>
           ))}
         </div>
-        <div className="my-20" id="contact">
-            <ApplicationForm />
+
+        <div className="my-10 md:my-20" id="contact">
+          <ApplicationForm />
         </div>
       </div>
+
       <div className="border-t">
         <Footer />
       </div>

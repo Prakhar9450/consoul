@@ -2,7 +2,7 @@
 import Image from "next/image"
 import { useRouter, usePathname } from "next/navigation"
 import { useState, useEffect } from "react"
-import { Menu, X } from "lucide-react"
+import { X } from "lucide-react"
 
 export const Navbar = () => {
   const NavbarItems = [
@@ -29,10 +29,20 @@ export const Navbar = () => {
     { label: "Contact", path: "#contact" },
   ]
 
+  const services = [
+    { name: "Media & OTT", icon: "/icons/mediaott.svg", route: "/services/media-ott" },
+    { name: "Food & Beverages", icon: "/icons/food.svg", route: "/services/food&beverages" },
+    { name: "E-Commerce & Retail", icon: "/icons/ecommerce.svg", route: "/services/ecommerce&retail" },
+    { name: "Travel & Hospitality", icon: "/icons/travel.svg", route: "/services/travel&hospitality" },
+    { name: "EduTech", icon: "/icons/edutech.svg", route: "/services/edutech" },
+    { name: "Banking & Financial Services", icon: "/icons/banking.svg", route: "/services/banking&financial" },
+  ]
+
   const router = useRouter()
   const pathname = usePathname()
   const [activeIndex, setActiveIndex] = useState<number | null>(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isServicesOpen, setIsServicesOpen] = useState(false)
 
   useEffect(() => {
     const currentIndex = NavbarItems.findIndex((item) => item.path === pathname)
@@ -45,8 +55,13 @@ export const Navbar = () => {
     setIsMenuOpen(false)
   }
 
+  const handleServiceClick = (route: string) => {
+    router.push(route)
+    setIsMenuOpen(false)
+  }
+
   return (
-    <nav className="mx- sm:px-6 py-4">
+    <nav className="m-4 md:m-0 p-4 py-4">
       <div className="flex justify-between items-center lg:justify-center lg:space-x-20">
         <div className="flex items-center">
           <Image
@@ -79,22 +94,56 @@ export const Navbar = () => {
         </button>
         <div className="lg:hidden">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {isMenuOpen ? <X color="#6438C3" size={24} /> : <Image src="/icons/hamburger.svg" alt="menu" width={24} height={24} />}
           </button>
         </div>
       </div>
       {isMenuOpen && (
-        <div className="lg:hidden mt-4">
+        <div className="space-y-3 lg:hidden mt-4">
           {NavbarItems.map((item, index) => (
-            <div
-              key={index}
-              className={`flex text-lg items-center gap-1 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
-                activeIndex === index ? "text-[#6438C3] font-bold" : ""
-              }`}
-              onClick={() => handleClick(item.path, index)}
-            >
-              {item.icon}
-              <span>{item.label}</span>
+            <div key={index}>
+              {item.label === "Services" ? (
+                <div>
+                  <div
+                    className={`flex text-lg items-center gap-1 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
+                      activeIndex === index ? "text-[#6438C3] font-bold" : ""
+                    }`}
+                    onClick={() => {
+                      setIsServicesOpen(!isServicesOpen)
+                    }}
+                  >
+                   
+                    <span>{item.label}</span>
+                    {item.icon}
+                  </div>
+                  {isServicesOpen && (
+                    <div className="pl-4 space-y-2">
+                      {services.map((service, serviceIndex) => (
+                        <div
+                          key={serviceIndex}
+                          className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
+                            pathname === service.route ? "text-[#6438C3] font-bold" : ""
+                          }`}
+                          onClick={() => handleServiceClick(service.route)}
+                        >
+                          <Image src={service.icon} alt={service.name} width={16} height={16} />
+                          <span>{service.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <div
+                  className={`flex text-lg items-center gap-1 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
+                    activeIndex === index ? "text-[#6438C3] font-bold" : ""
+                  }`}
+                  onClick={() => handleClick(item.path, index)}
+                >
+                  <span>{item.label}</span>
+                  {item.icon}
+                </div>
+              )}
             </div>
           ))}
           <button className="mt-4 w-full bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white py-4 px-6 rounded-lg">
@@ -105,4 +154,3 @@ export const Navbar = () => {
     </nav>
   )
 }
-
