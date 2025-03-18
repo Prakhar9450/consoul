@@ -4,6 +4,9 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { DownloadGuide } from "../components/Download-guide";
 import { Testimonial } from "../components/Testimonial";
+import ExternalLinkButton from "../components/ui/ExternalLinkButton";
+import SwipeButton from "../components/ui/SwipeButton";
+import { useRouter } from "next/navigation";
 
 export const Services = () => {
   // Keep all arrays separate
@@ -67,10 +70,44 @@ export const Services = () => {
     },
   ];
 
+  const logos = [
+    "/logos/gitam.svg",
+    "/logos/macmerise.svg",
+    "/logos/hdfc.svg",
+    "/logos/kfc.svg",
+    "/logos/westside.svg",
+    "/logos/axisbank.svg",
+    "/logos/p&g.svg",
+    "/logos/lomotif.svg",
+    "/logos/yesstyle.svg",
+    "/logos/coto.svg",
+    "/logos/gitam.svg",
+    "/logos/macmerise.svg",
+    "/logos/hdfc.svg",
+    "/logos/kfc.svg",
+    "/logos/westside.svg",
+    "/logos/axisbank.svg",
+    "/logos/p&g.svg",
+    "/logos/lomotif.svg",
+    "/logos/yesstyle.svg",
+    "/logos/coto.svg",
+    "/logos/gitam.svg",
+    "/logos/macmerise.svg",
+    "/logos/hdfc.svg",
+    "/logos/kfc.svg",
+    "/logos/westside.svg",
+    "/logos/axisbank.svg",
+    "/logos/p&g.svg",
+    "/logos/lomotif.svg",
+    "/logos/yesstyle.svg",
+    "/logos/coto.svg",
+  ];
+
   // Initialize state for each section separately
   const [activeDataDrivenPoint, setActiveDataDrivenPoint] = useState(0);
   const [activeMarTechPoint, setActiveMarTechPoint] = useState(0);
   const [activeOptimizePoint, setActiveOptimizePoint] = useState(0);
+  const router = useRouter();
 
   return (
     <div className="my-10 md:my-20">
@@ -274,26 +311,19 @@ export const Services = () => {
               One-stop solution to keep your customers loyal and increase LTV
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 text-base md:text-xl font-medium gap-4">
-              <div className=" justify-center  hidden md:flex">
-                <button className="border p-2 md:p-3 px-4 md:px-6 bg-[#6438C3] text-white rounded-lg text-base md:text-xl">
-                  Get in touch
-                </button>
+              <div className=" justify-center  hidden md:flex" onClick={()=>router.push('/about')}>
+               
+                 <SwipeButton
+                          className="hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg"
+                          firstClass="p-2 md:p-3 px-4 md:px-6 bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-lg"
+                          firstText="Get in touch"
+                          secondClass="p-2 md:p-3 px-4 md:px-6 bg-[#A47EF6] text-white text-lg"
+                          secondText="Get in touch"
+                        ></SwipeButton>
               </div>
               <div className="flex justify-center md:justify-start">
-                <button className="text-[#6438C3] flex items-center hover:underline text-xl">
-                  <span className="mr-2">Go to Services</span>
-                  <svg
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M18.8771 9.32604L7.55309 20.6501C7.31982 20.8834 7.02294 21 6.66243 21C6.30193 21 6.00504 20.8834 5.77178 20.6501C5.53851 20.4168 5.42188 20.1199 5.42188 19.7594C5.42188 19.3989 5.53851 19.1021 5.77178 18.8688L17.0958 7.54473H7.42585C7.06535 7.54473 6.76316 7.4228 6.51929 7.17893C6.27542 6.93506 6.15349 6.63287 6.15349 6.27237C6.15349 5.91186 6.27542 5.60968 6.51929 5.36581C6.76316 5.12194 7.06535 5 7.42585 5H20.1495C20.51 5 20.8122 5.12194 21.0561 5.36581C21.2999 5.60968 21.4219 5.91186 21.4219 6.27237V18.996C21.4219 19.3565 21.2999 19.6587 21.0561 19.9026C20.8122 20.1465 20.51 20.2684 20.1495 20.2684C19.789 20.2684 19.4868 20.1465 19.2429 19.9026C18.9991 19.6587 18.8771 19.3565 18.8771 18.996V9.32604Z"
-                      fill="#6438C3"
-                    />
-                  </svg>
+                <button className="text-[#6438C3] flex items-center hover:underline text-xl" onClick={()=>router.push('/services')}>
+                <ExternalLinkButton text="Go to services"  />
                 </button>
               </div>
             </div>
@@ -311,6 +341,25 @@ export const Services = () => {
       {/* Testimonial Component */}
       <div className="testimonial-section">
         <Testimonial />
+      </div>
+
+      <div className="overflow-hidden w-full mt-6">
+        <motion.div
+          className="flex space-x-20"
+          animate={{ x: ["0%", "-100%"] }}
+          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+        >
+          {logos.map((logo, index) => (
+            <Image
+              key={index}
+              src={logo}
+              className="w-40 h-auto"
+              alt="logo"
+              height={40}
+              width={40}
+            />
+          ))}
+        </motion.div>
       </div>
     </div>
   );

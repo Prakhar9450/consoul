@@ -24,8 +24,8 @@ export interface BlogPost {
       image: "/components/success.svg", 
       },
 
-
       
+
     {
       id: "2",
       title: "Lorem Ipsum is simply dummy text of the printing and typesetting industry",

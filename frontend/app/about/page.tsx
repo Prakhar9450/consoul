@@ -1,12 +1,13 @@
 "use client";
-
 import Image from "next/image";
 import { NumberTicker } from "../../components/ui/number-ticker";
 import { Form } from "../components/Form";
 import Footer from "../components/Footer";
 import { ContactForm } from "../components/ContactForm";
+import { useRouter } from "next/navigation";
 
-export default function page() {
+
+export default function Page() {
   const team = [
     {
       image: "/logos/headstrat1.svg",
@@ -24,6 +25,7 @@ export default function page() {
       position: "Head of operations",
     },
   ];
+  const router = useRouter();
   return (
     <div>
       <div className="grid md:grid-cols-2 m-2 md:m-0 md:p-5">
@@ -57,9 +59,9 @@ export default function page() {
       </div>
 
       <div>
-      <div className="grid grid-cols-2 p-10 my-10 gap-10 md:gap-20  md:items-center">
+      <div className="grid grid-cols-2 p-5 my-10 gap-5 md:gap-20  md:items-center">
   <div className="flex flex-col md:justify-center md:items-center text-center space-y-2 my-2">
-    <div className="w-40 h-40 rounded-lg overflow-hidden">
+    <div className="w-30 h-40 rounded-lg overflow-hidden">
       <Image
         src="/logos/founder.svg"
         alt="Vani Garg"
@@ -72,7 +74,7 @@ export default function page() {
       Vani Garg
     </div>
     <div className="text-base md:text-xl">Founder & CEO</div>
-    <div className="text-base md:text-xl">
+    <div className="text-base md:text-xl text-blue-600">
       Connect with Vani on{' '}
       <span className="underline">LinkedIn</span>
     </div>
@@ -99,7 +101,7 @@ export default function page() {
                 />
                 %
               </div>
-              <div className="text-sm md:text-2xl text-[#555555]">
+              <div className="text-xs md:text-2xl text-[#555555]">
                 cost saved by our experts
                 <br className="hidden md:block" /> Martech stack
               </div>
@@ -115,7 +117,7 @@ export default function page() {
                 />
                 +
               </div>
-              <div className="text-sm md:text-2xl text-[#555555]">
+              <div className="text-xs md:text-2xl text-[#555555]">
                 Tools successfully tested
                 <br className="hidden md:block" /> and implemented
               </div>
@@ -131,7 +133,7 @@ export default function page() {
                 />
                 %
               </div>
-              <div className=" text-sm md:text-2xl text-[#555555]">
+              <div className=" text-xs md:text-2xl text-[#555555]">
                 Boost recorded in <br className="hidden md:block" />
                 Customer Lifetime Value
               </div>
@@ -170,7 +172,7 @@ export default function page() {
               <div className="text-sm md:text-base">
                 {member.position}
               </div>
-              <div className="text-sm md:text-base">In</div>
+              <Image src='/logos/linkedin.svg' width={15} height={15} alt="Linkedin"></Image>
             </div>
           </div>
         </div>
@@ -192,7 +194,7 @@ export default function page() {
             only the perfect professional fits, but people who embody our
             company values.
           </div>
-          <div className="text-[#6438C3] text-lg hover:underline cursor-pointer flex justify-center">
+          <div className="text-[#6438C3] text-lg hover:underline cursor-pointer flex justify-center" onClick={()=>router.push('/careers')}>
             View open positions ↗
           </div>
         </div>

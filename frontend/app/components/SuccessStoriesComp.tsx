@@ -2,6 +2,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import SwipeButton from "./ui/SwipeButton";
+import ReadAllSuccessStoriesButton from "./ui/ReadAllSuccessStoriesButton";
 export const SuccessStoriesComp = () => {
   const stories = [
     {
@@ -95,17 +97,23 @@ export const SuccessStoriesComp = () => {
               <p className="text-[#555555] mb-2">
                 Want targeted communication for your brand?
               </p>
-              <button className="bg-[#6438C3] text-white py-2 md:py-3 px-4 md:px-6 rounded-lg text-base md:text-lg font-semibold w-full">
-                Yes, let’s talk
+              <button className="bg-[#6438C3] text-white  rounded-lg text-base  w-full">
+                
               </button>
+
+                    <SwipeButton
+                      className="w-full hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg md:text-lg font-semibold"
+                      firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-lg py-2 md:py-3 px-4 md:px-6 "
+                      firstText="Yes, let’s talk"
+                      secondClass="bg-[#A47EF6] text-white py-2 md:py-3 px-4 md:px-6  text-lg"
+                      secondText="Yes, let’s talk"
+                    ></SwipeButton>
+                     <ReadAllSuccessStoriesButton text="Read all success stories" ></ReadAllSuccessStoriesButton>
             </div>
 
-            <a
-              href="#"
-              className="text-[#6438C3] mt-4 w-full pl-20"
-            >
-              <div className="flex"><span className="text-lg">Read all success stories </span> <span className="flex flex-col justify-center"><Image src='icons/arrow.svg' alt="arrow" width={20} height={20}/></span></div>
-            </a>
+           
+                
+           
           </div>
 
           {/* Right Side - Image */}

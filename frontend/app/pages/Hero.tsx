@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import SwipeButton from "../components/ui/SwipeButton";
 
 export const Hero = () => {
   const logos = [
@@ -35,7 +36,6 @@ export const Hero = () => {
     "/logos/yesstyle.svg",
     "/logos/coto.svg",
   ];
-
   return (
     <div>
       <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:p-0">
@@ -51,16 +51,11 @@ export const Hero = () => {
               </div>
               <div className="text-[15px] md:text-xl">
                 We help you understand customers like never
-                <br className="md:hidden" />{" "}
-              
-                 before,
+                <br className="md:hidden" /> before,
                 <br className="md:inline hidden" />{" "}
-              
                 <span>
                   and build strategies that make them
-                  <br className="md:hidden" />{" "}
-                
-                 stay long.
+                  <br className="md:hidden" /> stay long.
                 </span>
               </div>
 
@@ -101,13 +96,37 @@ export const Hero = () => {
               </div>
 
               <div>
-                <button className="hidden md:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-xl p-3 rounded-lg px-6">
-                  Book a free consultation
-                </button>
+                {/*   */}
+                <SwipeButton
+                  className="hidden md:block rounded-lg "
+                  firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-xl p-3 "
+                  firstText="Book a free Consulation"
+                  secondClass="bg-[#A47EF6] text-white text-xl p-3 "
+                  secondText="Book a free Consulation"
+                />
               </div>
-            </div>
+            </div>     
           </div>
         </div>
+
+         <div className="overflow-hidden w-full mt-6 block md:hidden">
+                <motion.div
+                  className="flex space-x-20"
+                  animate={{ x: ["0%", "-100%"] }}
+                  transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+                >
+                  {logos.map((logo, index) => (
+                    <Image
+                      key={index}
+                      src={logo}
+                      className="w-40 h-auto"
+                      alt="logo"
+                      height={40}
+                      width={40}
+                    />
+                  ))}
+                </motion.div>
+              </div>
 
         <div className="hidden md:block col-span-1">
           <div className="p-4 flex justify-start overflow-hidden h-[550px]">
@@ -128,25 +147,6 @@ export const Hero = () => {
             </motion.div>
           </div>
         </div>
-      </div>
-
-      <div className="overflow-hidden w-full mt-6">
-        <motion.div
-          className="flex space-x-20"
-          animate={{ x: ["0%", "-100%"] }}
-          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-        >
-          {logos.map((logo, index) => (
-            <Image
-              key={index}
-              src={logo}
-              className="w-40 h-auto"
-              alt="logo"
-              height={40}
-              width={40}
-            />
-          ))}
-        </motion.div>
       </div>
     </div>
   );

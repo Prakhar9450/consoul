@@ -15,7 +15,8 @@ const slugs = [
   "smartsheet",
   "unica",
   "vtiger",
-  "zoho"
+  "zoho",
+
 ];
 
 export function ToolsCloud() {
