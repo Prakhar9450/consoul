@@ -6,6 +6,7 @@ import { auth } from "../lib/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import AdminLogin from "../components/AdminLogin";
 import BlogDashboard from "../components/BlogDashboard";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
@@ -32,6 +33,10 @@ export default function Home() {
   return (
     <main className="container mx-auto px-4 py-8">
       {user ? <BlogDashboard user={user} /> : <AdminLogin />}
+      {/* Footer */}
+      <div className="container mx-auto px-4">
+        <Footer />
+      </div>
     </main>
   );
 }

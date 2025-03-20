@@ -1,12 +1,13 @@
+"use client";
 import Image from "next/image";
-import BlogListing from "../pages/List";
-import Footer from "../components/Footer";
+import BlogListing from "@/app/components/BlogListing";
+import Footer from "@/app/components/Footer";
 
-export default function Page() {
+export default function BlogsPage() {
   return (
     <div>
       {/* Hero Section */}
-      <div className="bg-gradient-to-b from-[#6438C3] to-[#4B21A6]  text-white py-12 md:py-20">
+      <div className="bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white py-12 md:py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="flex justify-center">
