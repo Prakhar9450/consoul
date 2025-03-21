@@ -68,7 +68,7 @@ export default function AdminBlogCard({ blog, onDelete }: BlogCardProps) {
           Read More
         </Button>
         <Button
-          variant="ghost"
+          variant="outline"
           className="ml-2"
           onClick={() => setExpanded(!expanded)}>
           {expanded ? "Show Less" : "Expand"}

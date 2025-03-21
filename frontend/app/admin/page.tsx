@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth } from "../lib/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import AdminLogin from "../components/AdminLogin";
 import BlogDashboard from "../components/BlogDashboard";
+import SuccessStoryDashboard from "@/app/components/SuccessStoryDashboard";
 import Footer from "../components/Footer";
 
 export default function Home() {
@@ -32,7 +34,20 @@ export default function Home() {
 
   return (
     <main className="container mx-auto px-4 py-8">
-      {user ? <BlogDashboard user={user} /> : <AdminLogin />}
+      <Tabs defaultValue="blogs" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 mb-8">
+          <TabsTrigger value="blogs">My Blog Dashboard</TabsTrigger>
+          <TabsTrigger value="success-stories">
+            My Success Stories Dashboard
+          </TabsTrigger>
+        </TabsList>
+        <TabsContent value="blogs">
+          <BlogDashboard user={user} />
+        </TabsContent>
+        <TabsContent value="success-stories">
+          <SuccessStoryDashboard user={user} />
+        </TabsContent>
+      </Tabs>
       {/* Footer */}
       <div className="container mx-auto px-4">
         <Footer />
