@@ -16,8 +16,7 @@ export const Navbar = () => {
           viewBox="0 0 24 24"
           strokeWidth={1.5}
           stroke="currentColor"
-          className="w-4 h-4"
-        >
+          className="w-4 h-4">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -32,6 +31,7 @@ export const Navbar = () => {
     { label: "Careers", path: "/careers" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "#contact" },
+    { label: "Admin", path: "/admin" },
   ];
 
   const services = [
@@ -108,8 +108,7 @@ export const Navbar = () => {
                 className={`flex text-lg items-center gap-1 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
                   activeIndex === index ? "text-[#6438C3] font-bold" : ""
                 }`}
-                onClick={() => handleClick(item.path, index)}
-              >
+                onClick={() => handleClick(item.path, index)}>
                 {item.icon}
                 <span>{item.label}</span>
               </div>
@@ -121,8 +120,7 @@ export const Navbar = () => {
           firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-lg py-3 px-6 "
           firstText="Book a call"
           secondClass="bg-[#A47EF6] text-white py-3 px-6  text-lg"
-          secondText="Book a call"
-        ></SwipeButton>
+          secondText="Book a call"></SwipeButton>
         <div className="lg:hidden">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? (
@@ -150,8 +148,7 @@ export const Navbar = () => {
                     }`}
                     onClick={() => {
                       setIsServicesOpen(!isServicesOpen);
-                    }}
-                  >
+                    }}>
                     <span>{item.label}</span>
                     {item.icon}
                   </div>
@@ -165,8 +162,7 @@ export const Navbar = () => {
                               ? "text-[#6438C3] font-bold"
                               : ""
                           }`}
-                          onClick={() => handleServiceClick(service.route)}
-                        >
+                          onClick={() => handleServiceClick(service.route)}>
                           <Image
                             src={service.icon}
                             alt={service.name}
@@ -184,8 +180,7 @@ export const Navbar = () => {
                   className={`flex text-lg items-center gap-1 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
                     activeIndex === index ? "text-[#6438C3] font-bold" : ""
                   }`}
-                  onClick={() => handleClick(item.path, index)}
-                >
+                  onClick={() => handleClick(item.path, index)}>
                   <span>{item.label}</span>
                   {item.icon}
                 </div>
