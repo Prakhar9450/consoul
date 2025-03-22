@@ -15,6 +15,7 @@ interface SuccessStory {
   id: string;
   title: string;
   thumbnailURL: string;
+  company: string;
   numbers: NumberItem[];
   keyChallenges: string[];
   howWeHelped: HelpItem[];
@@ -70,7 +71,7 @@ export default function PublicSuccessStoryCard({
             alt={story.title}
             width={600}
             height={400}
-            className="h-[200px] w-full object-cover transition-transform duration-300 hover:scale-105"
+            className="h-[250px] w-full object-cover transition-transform duration-300 hover:scale-105"
           />
         </div>
       </Link>
@@ -89,6 +90,12 @@ export default function PublicSuccessStoryCard({
         </Link>
 
         <p className="text-muted-foreground line-clamp-2">{description}</p>
+
+        <Link href={`/success-story/${story.id}`} className="block">
+          <h4 className="text-lg font-medium text-primary hover:text-primary-dark transition-colors">
+            {story.company}
+          </h4>
+        </Link>
 
         {story.tags && story.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 pt-2">

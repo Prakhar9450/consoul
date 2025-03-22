@@ -1,7 +1,14 @@
-"use client"
+"use client";
+
+import type React from "react";
+
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
+import { db } from "@/app/lib/firebaseConfig";
+import Footer from "@/app/components/Footer";
 import ApplicationForm from "../components/ApplyForm";
-import Footer from "../components/Footer";
 
 const LocationIcon = () => (
   <svg
@@ -9,16 +16,14 @@ const LocationIcon = () => (
     height="24"
     viewBox="0 0 24 24"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+    xmlns="http://www.w3.org/2000/svg">
     <mask
       id="mask0_3_1905"
       maskUnits="userSpaceOnUse"
       x="0"
       y="0"
       width="24"
-      height="24"
-    >
+      height="24">
       <rect width="24" height="24" fill="#D9D9D9" />
     </mask>
     <g mask="url(#mask0_3_1905)">
@@ -36,16 +41,14 @@ const TimeIcon = () => (
     height="24"
     viewBox="0 0 24 24"
     fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+    xmlns="http://www.w3.org/2000/svg">
     <mask
       id="mask0_3_1910"
       maskUnits="userSpaceOnUse"
       x="0"
       y="0"
       width="24"
-      height="24"
-    >
+      height="24">
       <rect width="24" height="24" fill="#D9D9D9" />
     </mask>
     <g mask="url(#mask0_3_1910)">
@@ -57,275 +60,293 @@ const TimeIcon = () => (
   </svg>
 );
 
-export default function Page() {
-  const jobs = [
-    {
-      category: "Analytics",
-      positions: [
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-      ],
-    },
-    {
-      category: "Operations",
-      positions: [
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-      ],
-    },
-    {
-      category: "Strategy",
-      positions: [
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-        {
-          title: "D2C Marketing Internship",
-          type: "Full-time",
-          location: "Remote",
-        },
-      ],
-    },
-  ];
+interface Career {
+  id: string;
+  title: string;
+  category: string;
+  customCategory?: string;
+  position: string;
+  customLocation?: string;
+  type: string;
+  link: string;
+  createdAt: any;
+  userId: string;
+}
 
+export default function CareersPage() {
+  const [careers, setCareers] = useState<Record<string, Career[]>>({});
+  const [loading, setLoading] = useState(true);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const formRef = useRef<HTMLDivElement>(null);
+  const [countryCode, setCountryCode] = useState("+91");
+  const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
 
+  const scrollToForm = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  useEffect(() => {
+    const fetchCareers = async () => {
+      setLoading(true);
+      try {
+        const q = query(
+          collection(db, "careers"),
+          orderBy("createdAt", "desc")
+        );
+
+        const querySnapshot = await getDocs(q);
+        const careersByCategory: Record<string, Career[]> = {};
+
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const category =
+            data.category === "Other" && data.customCategory
+              ? data.customCategory
+              : data.category;
+
+          if (!careersByCategory[category]) {
+            careersByCategory[category] = [];
+          }
+
+          careersByCategory[category].push({
+            id: doc.id,
+            title: data.title,
+            category: data.category,
+            customCategory: data.customCategory,
+            position: data.position,
+            customLocation: data.customLocation,
+            type: data.type,
+            link: data.link,
+            createdAt: data.createdAt,
+            userId: data.userId,
+          });
+        });
+
+        setCareers(careersByCategory);
+      } catch (error) {
+        console.error("Error fetching careers:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCareers();
+  }, []);
+
+  const handleApply = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Handle application submission
+    console.log("Application submitted:", {
+      fullName,
+      email,
+      phone: `${countryCode} ${phone}`,
+    });
+    // Reset form
+    setFullName("");
+    setEmail("");
+    setPhone("");
+  };
 
   return (
-    <div>
-      {/* Header Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 p-5">
-        <div className="flex justify-center p-5 md:p-10">
-          <div className="text-2xl md:text-4xl font-extrabold text-[#555555] text-center md:text-left">
-            Shape the future of <br /> marketing with us
+    <div className="flex flex-col min-h-screen">
+      <main className="flex-grow">
+        {/* Header Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 p-5">
+          <div className="flex justify-center p-5 md:p-10">
+            <div className="text-2xl md:text-4xl font-extrabold text-[#555555] text-center md:text-left">
+              Shape the future of <br /> marketing with us
+            </div>
           </div>
-        </div>
-        <div className="flex justify-center">
-          <div className="text-base md:text-lg text-[#555555] p-4 text-center md:text-left">
-            We&apos;re on a mission to change how
-            <br /> businesses build lasting relationships with
-            <br /> their customers. If you&apos;re passionate
-            <br /> about it, we&apos;d love to have you on board.
-          </div>
-        </div>
-      </div>
-
-      {/* Image Section */}
-      <div className="w-full hidden md:block">
-        <Image
-          src="/components/careers.png"
-          alt="about"
-          width={1920}
-          height={1080}
-          className="w-full h-auto object-cover"
-        />
-      </div>
-
-      <div>
-        <Image 
-          src="/components/careers-mobile.png"
-          alt="about"
-          width={375}
-          height={812}
-          className="w-full h-auto object-cover md:hidden"
-        />
-      </div>
-
-      {/* Job Listings Section */}
-      <div className="my-10 md:my-20 mx-4 md:mx-60">
-        <div>
-          <div className="text-2xl md:text-3xl text-[#555555] flex justify-center font-bold">
-            Open positions
-          </div>
-          <div className="flex justify-center my-6 text-base md:text-xl text-[#555555] text-center px-4">
-            <div>
-              Can&apos;t find a role that matches your expertise?
-              <span className="underline text-[#6438C3] cursor-pointer">
-                {" "}
-                Apply with your CV and a cover letter
-              </span>
-              <br />
-              We&apos;d love to learn more about you and explore how you can be part
-              of our team!
+          <div className="flex justify-center">
+            <div className="text-base md:text-lg text-[#555555] p-4 text-center md:text-left">
+              We&apos;re on a mission to change how
+              <br /> businesses build lasting relationships with
+              <br /> their customers. If you&apos;re passionate
+              <br /> about it, we&apos;d love to have you on board.
             </div>
           </div>
         </div>
 
-        {/* Job Listings with Slider on Mobile */}
-        <div className="space-y-8">
-          {jobs.map((section, index) => (
-            <div key={index} className="">
-              <h2 className="text-lg md:text-xl font-semibold mb-4 text-[#555555]">
-                {section.category}
-              </h2>
+        {/* Image Section - Different images for mobile and desktop */}
+        <div className="w-full hidden md:block">
+          <Image
+            src="/components/careers.png"
+            alt="Careers"
+            width={1200}
+            height={400}
+            className="w-full h-auto object-cover"
+          />
+        </div>
 
-              {/* Desktop Grid */}
-              <div className="hidden md:grid md:grid-cols-3 md:gap-5">
-                {section.positions.map((job, jobIndex) => (
-                  <div
-                    key={jobIndex}
-                    className="p-6 rounded-2xl border border-purple-300 bg-white hover:bg-[#FAF7FF] transition-colors w-[280px]"
-                  >
-                    <div className="text-[#6438C3] text-sm font-medium">
-                      {section.category}
-                    </div>
-                    <h3 className="text-xl font-semibold text-gray-800 mt-2">
-                      {job.title}
+        <div className="md:hidden">
+          <Image
+            src="/components/careers-mobile.png"
+            alt="Careers Mobile"
+            width={600}
+            height={300}
+            className="w-full h-auto object-cover"
+          />
+        </div>
+
+        {/* Open Positions Section */}
+        <div className="py-16">
+          <div className="container mx-auto px-4">
+            <h2 className="text-3xl font-bold text-center text-gray-700 mb-8">
+              Open positions
+            </h2>
+
+            <div className="text-center mb-12">
+              <p className="text-lg text-gray-600 mb-2">
+                Can't find a role that matches your expertise?{" "}
+                <a className="text-[#1f1bff]" href="#" onClick={scrollToForm}>
+                  Apply with your CV and a cover letter
+                </a>
+              </p>
+              <p className="text-lg text-gray-600">
+                We'd love to learn more about you and explore how you can be
+                part of our team!
+              </p>
+            </div>
+
+            {loading ? (
+              <div className="flex justify-center py-12">
+                <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
+              </div>
+            ) : Object.keys(careers).length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-xl text-gray-500">
+                  No open positions at the moment. Check back later!
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-12">
+                {Object.entries(careers).map(([category, positions]) => (
+                  <div key={category} className="mb-8">
+                    {/* Desktop Heading */}
+                    <h3 className="hidden md:block text-lg md:text-xl font-semibold mb-4 text-[#555555] mx-32">
+                      {category}
                     </h3>
-                    <div className="flex items-center gap-6 mt-4 text-[#747474] text-sm">
-                      <div className="flex items-center gap-2">
-                        <LocationIcon />
-                        <span>{job.location}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <TimeIcon />
-                        <span>{job.type}</span>
-                      </div>
+
+                    {/* Desktop Grid */}
+                    <div className="hidden md:grid md:grid-cols-3 md:gap-5 mx-32">
+                      {positions.map((career) => (
+                        <div
+                          key={career.id}
+                          className="p-6 rounded-2xl border border-purple-300 bg-white hover:bg-[#FAF7FF] transition-colors w-[280px]">
+                          <div className="text-[#6438C3] text-sm font-medium">
+                            {career.category === "Other" &&
+                            career.customCategory
+                              ? career.customCategory
+                              : career.category}
+                          </div>
+
+                          <h4 className="text-xl font-semibold text-gray-800 mt-2">
+                            {career.title}
+                          </h4>
+
+                          <div className="flex items-center gap-6 mt-4 text-[#747474] text-sm">
+                            <div className="flex items-center gap-2">
+                              <LocationIcon />
+                              <span>
+                                {career.position === "Onsite" &&
+                                career.customLocation
+                                  ? career.customLocation
+                                  : career.position}
+                              </span>
+                            </div>
+
+                            <div className="flex items-center gap-2">
+                              <TimeIcon />
+                              <span>{career.type}</span>
+                            </div>
+                          </div>
+
+                          <div className="mt-4">
+                            <Link
+                              href={career.link}
+                              target="_blank"
+                              className="text-[#6438C3] hover:underline inline-flex items-center text-sm font-medium">
+                              View job
+                              <span className="ml-1">→</span>
+                            </Link>
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <div className="mt-4">
-                      <a
-                        href="#"
-                        className="text-[#6438C3] hover:underline inline-flex items-center text-sm font-medium"
-                      >
-                        View job
-                        <span className="ml-1">→</span>
-                      </a>
+
+                    {/* Mobile Slider */}
+                    <div className="md:hidden relative">
+                      {/* Mobile Heading */}
+                      <h3 className="block md:hidden text-lg md:text-xl font-semibold mb-4 text-[#555555]">
+                        {category}
+                      </h3>
+
+                      <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 pb-4">
+                        {positions.map((career) => (
+                          <div
+                            key={career.id}
+                            className="p-6 rounded-2xl border border-purple-300 bg-white hover:bg-[#FAF7FF] transition-colors w-[280px] flex-shrink-0 snap-start">
+                            <div className="text-[#6438C3] text-sm font-medium">
+                              {career.category === "Other" &&
+                              career.customCategory
+                                ? career.customCategory
+                                : career.category}
+                            </div>
+
+                            <h4 className="text-xl font-semibold text-gray-800 mt-2">
+                              {career.title}
+                            </h4>
+
+                            <div className="flex items-center gap-6 mt-4 text-[#747474] text-sm">
+                              <div className="flex items-center gap-2">
+                                <LocationIcon />
+                                <span>
+                                  {career.position === "Onsite" &&
+                                  career.customLocation
+                                    ? career.customLocation
+                                    : career.position}
+                                </span>
+                              </div>
+
+                              <div className="flex items-center gap-2">
+                                <TimeIcon />
+                                <span>{career.type}</span>
+                              </div>
+                            </div>
+
+                            <div className="mt-4">
+                              <Link
+                                href={career.link}
+                                target="_blank"
+                                className="text-[#6438C3] hover:underline inline-flex items-center text-sm font-medium">
+                                View job
+                                <span className="ml-1">→</span>
+                              </Link>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
-
-              {/* Mobile Slider */}
-              <div className="md:hidden relative">
-                <div
-                  
-                  className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 pb-4"
-                >
-                  {section.positions.map((job, jobIndex) => (
-                    <div
-                      key={jobIndex}
-                      className="p-6 rounded-2xl border border-purple-300 bg-white hover:bg-[#FAF7FF] transition-colors w-[280px] flex-shrink-0 snap-start"
-                    >
-                      <div className="text-[#6438C3] text-sm font-medium">
-                        {section.category}
-                      </div>
-                      <h3 className="text-xl font-semibold text-gray-800 mt-2">
-                        {job.title}
-                      </h3>
-                      <div className="flex items-center gap-6 mt-4 text-[#747474] text-sm">
-                        <div className="flex items-center gap-2">
-                          <LocationIcon />
-                          <span>{job.location}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <TimeIcon />
-                          <span>{job.type}</span>
-                        </div>
-                      </div>
-                      <div className="mt-4">
-                        <a
-                          href="#"
-                          className="text-[#6438C3] hover:underline inline-flex items-center text-sm font-medium"
-                        >
-                          View job
-                          <span className="ml-1">→</span>
-                        </a>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                {/* Slider Controls */}
-              
-              </div>
-            </div>
-          ))}
+            )}
+          </div>
         </div>
 
-        <div className="my-10 md:my-20" id="contact">
+        {/* Application Form Section */}
+
+        <div ref={formRef} className="my-10 md:my-20" id="contact">
           <ApplicationForm />
         </div>
-      </div>
+      </main>
 
-      <div className="border-t">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }

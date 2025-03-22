@@ -29,6 +29,7 @@ interface SuccessStory {
   id: string;
   title: string;
   thumbnailURL: string;
+  company: string;
   numbers: NumberItem[];
   keyChallenges: string[];
   howWeHelped: HelpItem[];
@@ -66,6 +67,7 @@ export default function SuccessStoryListing() {
             title: data.title,
             thumbnailURL:
               data.thumbnailURL || "/placeholder.svg?height=400&width=600",
+            company: data.company,
             numbers: data.numbers || [],
             keyChallenges: data.keyChallenges || [],
             howWeHelped: data.howWeHelped || [],

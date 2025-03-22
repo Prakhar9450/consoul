@@ -29,6 +29,7 @@ interface SuccessStoryCardProps {
     id: string;
     title: string;
     thumbnailURL: string;
+    company: string;
     numbers: NumberItem[];
     keyChallenges: string[];
     howWeHelped: HelpItem[];
@@ -76,6 +77,10 @@ export default function AdminSuccessStoryCard({
             className="h-full w-full object-cover"
           />
         </div>
+
+        {/* Company */}
+        <h4 className="font-medium mb-2">Company Name:</h4>
+        <p className="text-muted-foreground mb-2">{story.company}</p>
 
         {expanded && (
           <>

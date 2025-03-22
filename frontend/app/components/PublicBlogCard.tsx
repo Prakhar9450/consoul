@@ -34,15 +34,15 @@ export default function PublicBlogCard({ post }: PublicBlogCardProps) {
       <Link href={`/blog/${post.id}`}>
         <div className="overflow-hidden rounded-lg">
           {post.thumbnailUrl ? (
-            <div className="relative h-[400px] w-full">
+            <div className="relative h-[250px] w-full">
               <img
                 src={post.thumbnailUrl || "/placeholder.svg"}
                 alt={post.title}
-                className="h-[400px] w-full object-cover transition-transform duration-300 hover:scale-105"
+                className="h-[250px] w-full object-cover transition-transform duration-300 hover:scale-105"
               />
             </div>
           ) : (
-            <div className="h-[400px] w-full flex items-center justify-center bg-gray-200 text-gray-500">
+            <div className="h-[250px] w-full flex items-center justify-center bg-gray-200 text-gray-500">
               No Image Available
             </div>
           )}

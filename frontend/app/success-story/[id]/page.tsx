@@ -31,6 +31,7 @@ interface SuccessStory {
   id: string;
   title: string;
   thumbnailURL: string;
+  company: string;
   numbers: NumberItem[];
   keyChallenges: string[];
   howWeHelped: HelpItem[];
@@ -65,6 +66,7 @@ export default function SuccessStoryPage() {
             title: data.title,
             thumbnailURL:
               data.thumbnailURL || "/placeholder.svg?height=600&width=800",
+            company: data.company || "",
             numbers: data.numbers || [],
             keyChallenges: data.keyChallenges || [],
             howWeHelped: data.howWeHelped || [],
@@ -115,6 +117,7 @@ export default function SuccessStoryPage() {
             title: data.title,
             thumbnailURL:
               data.thumbnailURL || "/placeholder.svg?height=400&width=600",
+            company: data.company,
             numbers: data.numbers || [],
             keyChallenges: data.keyChallenges || [],
             howWeHelped: data.howWeHelped || [],
@@ -238,9 +241,8 @@ export default function SuccessStoryPage() {
               {story.howWeHelped.length > 0 && (
                 <div className="mb-12 my-32">
                   <h2 className="text-2xl font-bold mb-8 text-center text-[#555555]">
-                    How we helped{" "}
-                    {story.clientName?.split(" ")[0] || "Westside"} achieve
-                    their best results
+                    How we helped {story.company || "company"} achieve their
+                    best results
                   </h2>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-6 max-w-3xl mx-auto">

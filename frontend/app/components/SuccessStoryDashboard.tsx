@@ -45,6 +45,7 @@ interface SuccessStory {
   id: string;
   title: string;
   thumbnailURL: string;
+  company: string;
   numbers: NumberItem[];
   keyChallenges: string[];
   howWeHelped: HelpItem[];
@@ -55,6 +56,7 @@ interface SuccessStory {
 export default function SuccessStoryDashboard({ user }: { user: any }) {
   const [title, setTitle] = useState("");
   const [thumbnailURL, setThumbnailURL] = useState("");
+  const [company, setCompany] = useState("");
   const [numbers, setNumbers] = useState<NumberItem[]>([{ key: "", value: 0 }]);
   const [keyChallenges, setKeyChallenges] = useState<string[]>([""]);
   const [howWeHelped, setHowWeHelped] = useState<HelpItem[]>([
@@ -84,6 +86,7 @@ export default function SuccessStoryDashboard({ user }: { user: any }) {
           id: doc.id,
           title: data.title,
           thumbnailURL: data.thumbnailURL,
+          company: data.company,
           numbers: data.numbers,
           keyChallenges: data.keyChallenges,
           howWeHelped: data.howWeHelped,
@@ -117,6 +120,11 @@ export default function SuccessStoryDashboard({ user }: { user: any }) {
 
     if (!thumbnailURL.trim()) {
       setError("Thumbnail URL is required");
+      return;
+    }
+
+    if (!company.trim()) {
+      setError("Company Name is required");
       return;
     }
 
@@ -157,6 +165,7 @@ export default function SuccessStoryDashboard({ user }: { user: any }) {
         userId: user.uid,
         title,
         thumbnailURL,
+        company,
         numbers: validNumbers,
         keyChallenges: validChallenges,
         howWeHelped: validHelp,
@@ -167,6 +176,7 @@ export default function SuccessStoryDashboard({ user }: { user: any }) {
       // Clear form
       setTitle("");
       setThumbnailURL("");
+      setCompany("");
       setNumbers([{ key: "", value: 0 }]);
       setKeyChallenges([""]);
       setHowWeHelped([{ key: "", value: "" }]);
@@ -296,6 +306,18 @@ export default function SuccessStoryDashboard({ user }: { user: any }) {
                   required
                 />
               </div>
+            </div>
+
+            {/* Company Name */}
+            <div className="space-y-2">
+              <Label htmlFor="company">Company Name</Label>
+              <Input
+                id="company"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+                placeholder="Enter company name"
+                required
+              />
             </div>
 
             {/* Numbers */}
