@@ -3,6 +3,7 @@
 import type React from "react";
 
 import { useState, useEffect } from "react";
+import { signOut } from "firebase/auth";
 import {
   collection,
   addDoc,
@@ -14,7 +15,7 @@ import {
   serverTimestamp,
   orderBy,
 } from "firebase/firestore";
-import { db } from "@/app/lib/firebaseConfig";
+import { auth, db } from "@/app/lib/firebaseConfig";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -184,8 +185,22 @@ export default function CareerDashboard({ user }: { user: any }) {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+    } catch (error) {
+      setError("Failed to log out");
+    }
+  };
+
   return (
     <div className="space-y-8">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold">My Career Opportunity Dashboard</h1>
+        <Button variant="outline" onClick={handleLogout}>
+          Logout
+        </Button>
+      </div>
       <Card>
         <CardHeader>
           <CardTitle>Create New Career Opportunity</CardTitle>

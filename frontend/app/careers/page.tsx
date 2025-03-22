@@ -8,7 +8,7 @@ import Link from "next/link";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "@/app/lib/firebaseConfig";
 import Footer from "@/app/components/Footer";
-import ApplicationForm from "../components/ApplyForm";
+import ApplicationForm from "@/app/components/ApplyForm";
 
 const LocationIcon = () => (
   <svg
@@ -81,7 +81,6 @@ export default function CareersPage() {
   const [phone, setPhone] = useState("");
   const formRef = useRef<HTMLDivElement>(null);
   const [countryCode, setCountryCode] = useState("+91");
-  const [isCountryDropdownOpen, setIsCountryDropdownOpen] = useState(false);
 
   const scrollToForm = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -340,7 +339,6 @@ export default function CareersPage() {
         </div>
 
         {/* Application Form Section */}
-
         <div ref={formRef} className="my-10 md:my-20" id="contact">
           <ApplicationForm />
         </div>

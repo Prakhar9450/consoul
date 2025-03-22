@@ -15,7 +15,7 @@ import {
   serverTimestamp,
   orderBy,
 } from "firebase/firestore";
-import { auth, db } from "../lib/firebaseConfig";
+import { auth, db } from "@/app/lib/firebaseConfig";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -30,7 +30,7 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-import BlogCard from "../components/AdminBlogCard";
+import BlogCard from "@/app/components/AdminBlogCard";
 
 interface Blog {
   id: string;

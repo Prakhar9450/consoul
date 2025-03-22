@@ -33,8 +33,8 @@ interface BlogPost {
     bio?: string;
     photoURL?: string;
   };
-  thumbnailUrl?: string; // Changed from thumbnailURL
-  imagesUrl?: string; // Changed from imagesURL array to single string
+  thumbnailUrl?: string;
+  imagesUrl?: string;
 }
 
 export default function BlogPostPage() {
@@ -69,7 +69,7 @@ export default function BlogPostPage() {
               bio: "Vani Garg is the visionary founder of ConSoul LLP, driving innovative retention marketing strategies to enhance customer loyalty and business growth. With a passion for delivering impactful solutions, she helps brands unlock their true potential through data-driven insights and personalized engagement.",
               photoURL: "/logos/headstrat.svg",
             },
-            // Use the correct property names to match other components
+
             thumbnailUrl:
               data.thumbnailUrl ||
               data.thumbnailURL ||
@@ -110,7 +110,6 @@ export default function BlogPostPage() {
 
       querySnapshot.forEach((doc) => {
         if (doc.id !== params.id) {
-          // Exclude current post
           const data = doc.data();
           posts.push({
             id: doc.id,
@@ -119,7 +118,6 @@ export default function BlogPostPage() {
             content: data.content,
             createdAt: data.createdAt,
             userId: data.userId,
-            // Use the correct property name
             thumbnailUrl:
               data.thumbnailUrl ||
               data.thumbnailURL ||
