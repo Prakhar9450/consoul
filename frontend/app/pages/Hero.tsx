@@ -3,6 +3,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import SwipeButton from "../components/ui/SwipeButton";
+import { TextAnimate } from "@/components/magicui/text-animate";
 
 export const Hero = () => {
   // Load logos dynamically to prevent unnecessary loading on initial render
@@ -11,7 +12,7 @@ export const Hero = () => {
   useEffect(() => {
     // Set visibility after component mounts to enable lazy loading
     setIsVisible(true);
-    
+
     // Preload the hero image for desktop
     if (window.innerWidth >= 768) {
       const img = new window.Image();
@@ -19,7 +20,6 @@ export const Hero = () => {
     }
   }, []);
 
-  
   const logoBaseList = [
     "/logos/gitam.svg",
     "/logos/macmerise.svg",
@@ -32,8 +32,7 @@ export const Hero = () => {
     "/logos/yesstyle.svg",
     "/logos/coto.svg",
   ];
-  
- 
+
   const logos = [...logoBaseList, ...logoBaseList];
 
   return (
@@ -43,10 +42,21 @@ export const Hero = () => {
           <div className="flex justify-end">
             <div className="p-4 grid text-[#555555] md:pt-20 gap-6">
               <div className="font-extrabold text-xl md:text-4xl">
-                Your go-to partner to
-                <br />
-                increase{" "}
-                <span className="text-[#6438C3]">Customer Retention</span>
+                <TextAnimate animation="blurInUp" by="character" once>
+                  Your go-to partner to
+                </TextAnimate>
+
+                <div className="flex">
+                  <TextAnimate animation="blurInUp" by="character" once>
+                    increase
+                  </TextAnimate>
+                  <div className="w-2"></div> {/* Space between words */}
+                  <span className="text-[#6438C3]">
+                    <TextAnimate animation="blurInUp" by="character" once>
+                      Customer Retention
+                    </TextAnimate>
+                  </span>
+                </div>
               </div>
               <div className="text-[15px] md:text-xl">
                 We help you understand customers like never
@@ -59,8 +69,11 @@ export const Hero = () => {
               </div>
 
               <div className="grid gap-2 text-[15px] md:text-lg">
-             
-                {["Keep customers loyal", "Achieve KPIs faster", "Maximise ROIs with solutions backed by data"].map((text, index) => (
+                {[
+                  "Keep customers loyal",
+                  "Achieve KPIs faster",
+                  "Maximise ROIs with solutions backed by data",
+                ].map((text, index) => (
                   <div key={index} className="flex">
                     <span className="flex flex-col justify-center mx-2">
                       <Image
@@ -85,11 +98,10 @@ export const Hero = () => {
                   secondText="Book a free Consulation"
                 />
               </div>
-            </div>     
+            </div>
           </div>
         </div>
 
-       
         {isVisible && (
           <div className="overflow-hidden w-full mt-6 block md:hidden">
             <motion.div
@@ -112,7 +124,6 @@ export const Hero = () => {
           </div>
         )}
 
-      
         <div className="hidden md:block col-span-1">
           <div className="p-4 flex justify-start overflow-hidden h-[550px]">
             <motion.div

@@ -258,11 +258,7 @@ export default function BlogPostPage() {
                     height={400}
                     className="w-full h-auto rounded-lg"
                   />
-                  <p className="text-sm text-gray-500 mt-2">
-                    Caption: this is the space for caption this is the space for
-                    caption this is the space for caption this is the space for
-                    caption
-                  </p>
+                
                 </div>
               )}
 

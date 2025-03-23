@@ -60,16 +60,13 @@ export default function AdminLogin() {
     <div className="flex min-h-[80vh] items-center justify-center">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Blog App</CardTitle>
+          <CardTitle className="text-2xl font-bold">Admin Controls</CardTitle>
           <CardDescription>
-            Login or create an account to manage your blogs
+            Login or create an account
           </CardDescription>
         </CardHeader>
         <Tabs defaultValue="login">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="login">Login</TabsTrigger>
-            <TabsTrigger value="signup">Sign Up</TabsTrigger>
-          </TabsList>
+         
           <TabsContent value="login">
             <form onSubmit={handleLogin}>
               <CardContent className="space-y-4 pt-4">
