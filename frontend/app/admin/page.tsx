@@ -2,19 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth } from "../lib/firebaseConfig";
+import { auth } from "@/app/lib/firebaseConfig";
 import { onAuthStateChanged } from "firebase/auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import AdminLogin from "../components/AdminLogin";
-import BlogDashboard from "../components/BlogDashboard";
+import AdminLogin from "@/app/components/AdminLogin";
+import BlogDashboard from "@/app/components/BlogDashboard";
 import SuccessStoryDashboard from "@/app/components/SuccessStoryDashboard";
-import Footer from "../components/Footer";
+import Footer from "@/app/components/Footer";
 import CareerDashboard from "@/app/components/CareerDashboard";
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -30,6 +29,14 @@ export default function Home() {
       <div className="flex h-screen items-center justify-center">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent"></div>
       </div>
+    );
+  }
+
+  if (!user) {
+    return (
+      <main className="container mx-auto px-4 py-8">
+        <AdminLogin />
+      </main>
     );
   }
 
@@ -53,7 +60,7 @@ export default function Home() {
           <CareerDashboard user={user} />
         </TabsContent>
       </Tabs>
-      {/* Footer */}
+
       <div className="container mx-auto px-4">
         <Footer />
       </div>

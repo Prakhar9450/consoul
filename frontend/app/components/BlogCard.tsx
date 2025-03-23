@@ -1,9 +1,9 @@
-"use client"
-import Image from "next/image"
-import Link from "next/link"
-import { Badge } from "../../components/ui/badge"
-import { Card, CardContent } from "../../components/ui/card"
-import type { BlogPost } from "../lib/data"
+"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
+import type { BlogPost } from "@/app/lib/data";
 
 export function BlogCard({ post }: { post: BlogPost }) {
   return (
@@ -30,21 +30,18 @@ export function BlogCard({ post }: { post: BlogPost }) {
             {post.title}
           </h2>
         </Link>
-        <p className="text-base text-muted-foreground">
-          {post.description}
-        </p>
+        <p className="text-base text-muted-foreground">{post.description}</p>
         <div className="flex flex-wrap gap-2 pt-2">
           {post.tags.map((tag) => (
-            <Badge 
-              key={tag} 
-              variant="secondary" 
-              className="rounded-md bg-transparent px-3 py-1 text-sm font-normal text-muted-foreground"
-            >
+            <Badge
+              key={tag}
+              variant="secondary"
+              className="rounded-md bg-transparent px-3 py-1 text-sm font-normal text-muted-foreground">
               {tag}
             </Badge>
           ))}
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }
