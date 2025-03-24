@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { DownloadGuide } from "../components/Download-guide";
 import { Testimonial } from "../components/Testimonial";
 import ExternalLinkButton from "../components/ui/ExternalLinkButton";
@@ -37,7 +37,7 @@ export const Services = () => {
         text: "Channel optimisation for timely, targeted messaging",
         image: "/components/data-driven-3.png",
       },
-    ]
+    ],
   };
 
   const marTechTools: ServiceData = {
@@ -55,7 +55,7 @@ export const Services = () => {
         text: "Migrate and align tools for smoother operations",
         image: "/components/martech-3.png",
       },
-    ]
+    ],
   };
 
   const optimizeOperations: ServiceData = {
@@ -73,7 +73,7 @@ export const Services = () => {
         text: "Experiment and real-time data to boost performance",
         image: "/components/optimize-ops-3.png",
       },
-    ]
+    ],
   };
 
   // Create a single list of unique logos rather than repeating
@@ -99,29 +99,29 @@ export const Services = () => {
   const [imagesPreloaded, setImagesPreloaded] = useState({
     dataDriven: false,
     marTech: false,
-    optimize: false
+    optimize: false,
   });
   const router = useRouter();
 
   // Create refs for section visibility detection
   const [dataDrivenRef, dataDrivenInView] = useInView({
     triggerOnce: true,
-    threshold: 0.1
+    threshold: 0.1,
   });
-  
+
   const [marTechRef, marTechInView] = useInView({
     triggerOnce: true,
-    threshold: 0.1
+    threshold: 0.1,
   });
-  
+
   const [optimizeRef, optimizeInView] = useInView({
     triggerOnce: true,
-    threshold: 0.1
+    threshold: 0.1,
   });
-  
+
   const [logosRef, logosInView] = useInView({
     triggerOnce: true,
-    threshold: 0.1
+    threshold: 0.1,
   });
 
   // Preload images for each section when they come into view
@@ -129,7 +129,7 @@ export const Services = () => {
     if (dataDrivenInView && !imagesPreloaded.dataDriven) {
       const preloadImages = async () => {
         try {
-          const promises = dataDrivenStrategies.points.map(point => {
+          const promises = dataDrivenStrategies.points.map((point) => {
             return new Promise((resolve) => {
               const img = new window.Image();
               img.src = point.image;
@@ -137,7 +137,7 @@ export const Services = () => {
             });
           });
           await Promise.all(promises);
-          setImagesPreloaded(prev => ({ ...prev, dataDriven: true }));
+          setImagesPreloaded((prev) => ({ ...prev, dataDriven: true }));
         } catch (error) {
           console.error("Failed to preload data-driven images", error);
         }
@@ -150,7 +150,7 @@ export const Services = () => {
     if (marTechInView && !imagesPreloaded.marTech) {
       const preloadImages = async () => {
         try {
-          const promises = marTechTools.points.map(point => {
+          const promises = marTechTools.points.map((point) => {
             return new Promise((resolve) => {
               const img = new window.Image();
               img.src = point.image;
@@ -158,7 +158,7 @@ export const Services = () => {
             });
           });
           await Promise.all(promises);
-          setImagesPreloaded(prev => ({ ...prev, marTech: true }));
+          setImagesPreloaded((prev) => ({ ...prev, marTech: true }));
         } catch (error) {
           console.error("Failed to preload marTech images", error);
         }
@@ -171,7 +171,7 @@ export const Services = () => {
     if (optimizeInView && !imagesPreloaded.optimize) {
       const preloadImages = async () => {
         try {
-          const promises = optimizeOperations.points.map(point => {
+          const promises = optimizeOperations.points.map((point) => {
             return new Promise((resolve) => {
               const img = new window.Image();
               img.src = point.image;
@@ -179,7 +179,7 @@ export const Services = () => {
             });
           });
           await Promise.all(promises);
-          setImagesPreloaded(prev => ({ ...prev, optimize: true }));
+          setImagesPreloaded((prev) => ({ ...prev, optimize: true }));
         } catch (error) {
           console.error("Failed to preload optimize images", error);
         }
@@ -200,92 +200,96 @@ export const Services = () => {
     imagesLoaded: boolean;
   };
 
-  const ServiceSection = useCallback(({ 
-    bgColor, 
-    data, 
-    activePoint, 
-    setActivePoint, 
-    inViewRef, 
-    isInView,
-    imagesLoaded
-  }: ServiceSectionProps) => {
-    // Background color classes based on the section type
-    const getBgClass = () => {
-      if (bgColor === "#E5E9FF") return "bg-[#E5E9FF]";
-      if (bgColor === "#EBE2FF") return "bg-[#EBE2FF]";
-      if (bgColor === "#EED3D3") return "bg-[#EED3D3]";
-      return "bg-gray-100";
-    };
-    
-    // Active state background classes
-    const getActiveBgClass = () => {
-      if (bgColor === "#E5E9FF") return "bg-[#dae0ff]";
-      if (bgColor === "#EBE2FF") return "bg-[#e0d2fd]";
-      if (bgColor === "#EED3D3") return "bg-[#ebbdbd]";
-      return "bg-gray-200";
-    };
-    
-    return (
-      <div className="p-10 md:p-0" ref={inViewRef}>
-        <div className={`${getBgClass()} px-1 md:px-0 pt-1 md:pt-0 md:bg-white rounded-xl`}>
-          <div className="ml-8">
-            <div className="text-[#555555] md:text-[#6438C3] font-semibold md:font-extrabold text-xl md:text-3xl flex justify-center m-6 pt-2 md:mt-20">
-              {data.title}
-            </div>
-          </div>
+  const ServiceSection = useCallback(
+    ({
+      bgColor,
+      data,
+      activePoint,
+      setActivePoint,
+      inViewRef,
+      isInView,
+      imagesLoaded,
+    }: ServiceSectionProps) => {
+      // Background color classes based on the section type
+      const getBgClass = () => {
+        if (bgColor === "#E5E9FF") return "bg-[#E5E9FF]";
+        if (bgColor === "#EBE2FF") return "bg-[#EBE2FF]";
+        if (bgColor === "#EED3D3") return "bg-[#EED3D3]";
+        return "bg-gray-100";
+      };
 
-          {/* Points Navigation */}
-          <div className="flex justify-center md:my-10 text-base md:text-lg px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-30 text-center px-4 md:px-20">
-              {data.points.map((point, pointIndex) => (
-                <div
-                  key={pointIndex}
-                  className={`cursor-pointer px-2 md:px-20 ${
-                    activePoint === pointIndex
-                      ? `text-[#2A2A2A] md:text-[#6438C3] md:font-bold ${getActiveBgClass()} md:bg-white p-3 md:p-0 rounded-lg`
-                      : "md:hover:text-[#6438C3] text-[#555555] p-3 md:p-0"
-                  }`}
-                  onClick={() => setActivePoint(pointIndex)}
-                >
-                  {point.text}
+      // Active state background classes
+      const getActiveBgClass = () => {
+        if (bgColor === "#E5E9FF") return "bg-[#dae0ff]";
+        if (bgColor === "#EBE2FF") return "bg-[#e0d2fd]";
+        if (bgColor === "#EED3D3") return "bg-[#ebbdbd]";
+        return "bg-gray-200";
+      };
+
+      return (
+        <div className="p-10 md:p-0" ref={inViewRef}>
+          <div
+            className={`${getBgClass()} px-1 md:px-0 pt-1 md:pt-0 md:bg-white rounded-xl`}>
+            <div className="ml-8">
+              <div className="text-[#555555] md:text-[#6438C3] font-semibold md:font-extrabold text-xl md:text-3xl flex justify-center m-6 pt-2 md:mt-20">
+                {data.title}
+              </div>
+            </div>
+
+            {/* Points Navigation */}
+            <div className="flex justify-center md:my-10 text-base md:text-lg px-4 md:px-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-10 text-center px-4 md:px-24">
+                {data.points.map((point, pointIndex) => (
+                  <div
+                    key={pointIndex}
+                    className={`cursor-pointer px-2 md:px-10 ${
+                      activePoint === pointIndex
+                        ? `text-[#2A2A2A] md:text-[#6438C3] md:font-bold ${getActiveBgClass()} md:bg-white p-3 md:p-0 rounded-lg`
+                        : "md:hover:text-[#6438C3] text-[#555555] p-3 md:p-0"
+                    }`}
+                    onMouseEnter={() => setActivePoint(pointIndex)}>
+                    {point.text}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Image Display */}
+            <div className="flex justify-center">
+              <div
+                className={`flex justify-center ${getBgClass()} w-full md:w-[1058px] h-[200px] md:h-[480px] rounded-xl`}>
+                <div className="relative w-full md:w-[1058px] h-[200px] md:h-[480px] rounded-xl overflow-hidden">
+                  {data.points.map((point, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: activePoint === index ? 1 : 0 }}
+                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                      className="absolute inset-0 flex justify-center">
+                      {(isInView || imagesLoaded) && (
+                        <Image
+                          src={point.image}
+                          alt={`${data.title} - ${point.text}`}
+                          width={1058}
+                          height={480}
+                          quality={80}
+                          loading={isInView ? "eager" : "lazy"}
+                          className="object-cover w-full h-full"
+                          placeholder="blur"
+                          blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1058 480'%3E%3Crect width='100%25' height='100%25' fill='%23f0f0f0'/%3E%3C/svg%3E"
+                        />
+                      )}
+                    </motion.div>
+                  ))}
                 </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Image Display */}
-          <div className="flex justify-center">
-            <div className={`flex justify-center ${getBgClass()} w-full md:w-[1058px] h-[200px] md:h-[480px] rounded-xl`}>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activePoint}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.8 }}
-                  transition={{ duration: 0.5, ease: "easeInOut" }}
-                  className="w-full flex justify-center"
-                >
-                  {(isInView || imagesLoaded) && (
-                    <Image
-                      src={data.points[activePoint].image}
-                      alt={`${data.title} - ${data.points[activePoint].text}`}
-                      width={1058}
-                      height={480}
-                      quality={80} // Optimized quality
-                      loading={isInView ? "eager" : "lazy"}
-                      className="object-cover"
-                      placeholder="blur"
-                      blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1058 480'%3E%3Crect width='100%25' height='100%25' fill='%23f0f0f0'/%3E%3C/svg%3E"
-                    />
-                  )}
-                </motion.div>
-              </AnimatePresence>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
-  }, []);
+      );
+    },
+    []
+  );
 
   return (
     <div className="my-10 md:my-20">
@@ -333,11 +337,13 @@ export const Services = () => {
       <div className="cta-section">
         <div className="flex justify-center">
           <div className="grid md:my-6 md:gap-4 text-base md:text-xl">
-            <div className="text-center hidden md:block">
+            <div className="text-center hidden md:block text-[#2a2a2a]">
               One-stop solution to keep your customers loyal and increase LTV
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 text-base md:text-xl font-medium gap-4">
-              <div className="justify-center hidden md:flex" onClick={() => router.push('/about')}>
+              <div
+                className="justify-center hidden md:flex"
+                onClick={() => router.push("/about")}>
                 <SwipeButton
                   className="hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg"
                   firstClass="p-2 md:p-3 px-4 md:px-6 bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-lg"
@@ -347,7 +353,9 @@ export const Services = () => {
                 />
               </div>
               <div className="flex justify-center md:justify-start">
-                <button className="text-[#6438C3] flex items-center hover:underline text-xl" onClick={() => router.push('/services')}>
+                <button
+                  className="text-[#6438C3] flex items-center hover:underline text-xl"
+                  onClick={() => router.push("/services")}>
                   <ExternalLinkButton text="Go to services" />
                 </button>
               </div>
@@ -369,19 +377,20 @@ export const Services = () => {
       </div>
 
       {/* Logo Carousel - Only render when in view */}
-      <div className="overflow-hidden w-full mt-6 hidden md:block" ref={logosRef}>
+      <div
+        className="overflow-hidden w-full mt-6 hidden md:block"
+        ref={logosRef}>
         {logosInView && (
           <motion.div
             className="flex space-x-20"
             animate={{ x: ["0%", "-100%"] }}
-            transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-          >
+            transition={{ repeat: Infinity, duration: 20, ease: "linear" }}>
             {logos.map((logo, index) => (
               <Image
                 key={index}
                 src={logo}
                 className="w-40 h-auto"
-                alt={`Partner logo ${index % logoBaseList.length + 1}`}
+                alt={`Partner logo ${(index % logoBaseList.length) + 1}`}
                 height={40}
                 width={160}
                 loading="lazy"
