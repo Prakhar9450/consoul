@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+      // Add these options to your existing tsconfig.json
+      "noImplicitAny": false,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+    }
+  }

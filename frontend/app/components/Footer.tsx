@@ -71,6 +71,13 @@ export default function Footer() {
               >
                 Blog
               </Link>
+              <Link
+                href="/admin"
+                className="text-muted-foreground hover:text-[#6438C3]"
+              >
+                admin
+              </Link>
+
             </nav>
           </div>
           </div>

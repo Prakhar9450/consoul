@@ -31,7 +31,6 @@ export const Navbar = () => {
     { label: "Careers", path: "/careers" },
     { label: "About", path: "/about" },
     { label: "Contact", path: "#contact" },
-    { label: "Admin", path: "/admin" },
   ];
 
 
@@ -57,13 +56,13 @@ export const Navbar = () => {
  
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white p-4">
+    <nav className="fixed -top-5 left-0 w-full z-50 bg-white p-4">
       <div className="flex justify-between items-center lg:justify-center lg:space-x-20">
-        <div className="flex items-center">
+        <div className="flex items-center ">
           <Image
-            src="/logos/logo.svg"
+            src="/logos/consoul.png"
             alt="logo"
-            width={120}
+            width={160}
             height={1000}
             className="cursor-pointer"
             onClick={() => router.push("/")}
@@ -86,7 +85,7 @@ export const Navbar = () => {
         </div>
         <SwipeButton
           className="hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg"
-          firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-sm py-2 px-4 "
+          firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-xl py-3 px-4 "
           firstText="Book a call"
           secondClass="bg-[#A47EF6] text-white py-2 px-4  text-sm"
           secondText="Book a call"></SwipeButton>
