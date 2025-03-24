@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useState, useEffect } from "react";
-import { signOut } from "firebase/auth";
+import { signOut, User } from "firebase/auth";
 import {
   collection,
   addDoc,
@@ -47,10 +47,10 @@ interface Career {
   customLocation?: string;
   type: string;
   link: string;
-  createdAt: any;
+  createdAt: Date;
 }
 
-export default function CareerDashboard({ user }: { user: any }) {
+export default function CareerDashboard({ user }: { user: User }) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [customCategory, setCustomCategory] = useState("");
@@ -91,7 +91,7 @@ export default function CareerDashboard({ user }: { user: any }) {
       });
 
       setCareers(careerList);
-    } catch (error: any) {
+    } catch (error) {
       setError("Failed to fetch career opportunities");
       console.error(error);
     } finally {
@@ -180,7 +180,8 @@ export default function CareerDashboard({ user }: { user: any }) {
     try {
       await deleteDoc(doc(db, "careers", careerId));
       setCareers(careers.filter((career) => career.id !== careerId));
-    } catch (error: any) {
+    } catch (error) {
+      console.log(error);
       setError("Failed to delete career opportunity");
     }
   };
@@ -190,6 +191,7 @@ export default function CareerDashboard({ user }: { user: any }) {
       await signOut(auth);
     } catch (error) {
       setError("Failed to log out");
+      console.log(error)
     }
   };
 
@@ -322,7 +324,7 @@ export default function CareerDashboard({ user }: { user: any }) {
           </div>
         ) : careers.length === 0 ? (
           <p className="text-center text-muted-foreground py-8">
-            You haven't created any career opportunities yet.
+            You haven&apos;t created any career opportunities yet.
           </p>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">

@@ -24,7 +24,7 @@ interface BlogPost {
   title: string;
   description: string;
   content: string;
-  createdAt: any;
+  createdAt: Date;
   userId: string;
   tags?: string[];
   author?: {
@@ -97,7 +97,7 @@ export default function BlogPostPage() {
     fetchBlog();
   }, [params.id]);
 
-  const fetchRelatedPosts = async (tags: string[]) => {
+  const fetchRelatedPosts = async () => {
     try {
       const q = query(
         collection(db, "blogs"),

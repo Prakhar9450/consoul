@@ -22,7 +22,7 @@ interface CareerCardProps {
     customLocation?: string;
     type: string;
     link: string;
-    createdAt: any;
+    createdAt: Date;
   };
   onDelete: () => void;
 }

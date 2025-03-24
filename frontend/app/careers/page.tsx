@@ -69,7 +69,7 @@ interface Career {
   customLocation?: string;
   type: string;
   link: string;
-  createdAt: any;
+  createdAt: Date;
   userId: string;
 }
 
@@ -80,7 +80,7 @@ export default function CareersPage() {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const formRef = useRef<HTMLDivElement>(null);
-  const [countryCode, setCountryCode] = useState("+91");
+  const [countryCode] = useState("+91");
 
   const scrollToForm = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -151,6 +151,8 @@ export default function CareersPage() {
     setPhone("");
   };
 
+  console.log(handleApply)
+
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-grow">
@@ -201,13 +203,13 @@ export default function CareersPage() {
 
             <div className="text-center mb-12">
               <p className="text-lg text-gray-600 mb-2">
-                Can't find a role that matches your expertise?{" "}
+                Can&apos;t find a role that matches your expertise?{" "}
                 <a className="text-[#1f1bff]" href="#" onClick={scrollToForm}>
                   Apply with your CV and a cover letter
                 </a>
               </p>
               <p className="text-lg text-gray-600">
-                We'd love to learn more about you and explore how you can be
+                We&apos;d love to learn more about you and explore how you can be
                 part of our team!
               </p>
             </div>

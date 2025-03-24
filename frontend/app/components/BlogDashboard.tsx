@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useState, useEffect } from "react";
-import { signOut } from "firebase/auth";
+import { signOut, User } from "firebase/auth";
 import {
   collection,
   addDoc,
@@ -37,12 +37,12 @@ interface Blog {
   title: string;
   description: string;
   content: string;
-  createdAt: any;
+  createdAt: Date;
   thumbnailUrl: string;
   imagesUrl: string;
 }
 
-export default function BlogDashboard({ user }: { user: any }) {
+export default function BlogDashboard({ user }: { user: User }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
@@ -79,7 +79,7 @@ export default function BlogDashboard({ user }: { user: any }) {
       });
 
       setBlogs(blogList);
-    } catch (error: any) {
+    } catch (error) {
       setError("Failed to fetch blogs");
       console.error(error);
     } finally {
@@ -127,7 +127,8 @@ export default function BlogDashboard({ user }: { user: any }) {
     try {
       await deleteDoc(doc(db, "blogs", blogId));
       setBlogs(blogs.filter((blog) => blog.id !== blogId));
-    } catch (error: any) {
+    } catch (error) {
+      console.log(error);
       setError("Failed to delete blog");
     }
   };
@@ -137,6 +138,7 @@ export default function BlogDashboard({ user }: { user: any }) {
       await signOut(auth);
     } catch (error) {
       setError("Failed to log out");
+      console.log(error);
     }
   };
 
@@ -232,7 +234,7 @@ export default function BlogDashboard({ user }: { user: any }) {
           </div>
         ) : blogs.length === 0 ? (
           <p className="text-center text-muted-foreground py-8">
-            You haven't created any blogs yet.
+            You haven&apos;t created any blogs yet.
           </p>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">

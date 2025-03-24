@@ -18,7 +18,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent} from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
 
@@ -35,8 +35,12 @@ export default function AdminLogin() {
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-    } catch (error: any) {
-      setError(error.message || "Failed to login");
+    } catch (error) {
+      // Use FirebaseError type or a more specific error type if available
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : "Failed to login";
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -46,11 +50,14 @@ export default function AdminLogin() {
     e.preventDefault();
     setError("");
     setIsLoading(true);
-
     try {
       await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error: any) {
-      setError(error.message || "Failed to create account");
+    } catch (error) {
+      // Use FirebaseError type or a more specific error type if available
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : "Failed to create account";
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

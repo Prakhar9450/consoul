@@ -34,40 +34,12 @@ export const Navbar = () => {
     { label: "Admin", path: "/admin" },
   ];
 
-  const services = [
-    {
-      name: "Media & OTT",
-      icon: "/icons/mediaott.svg",
-      route: "/services/media-ott",
-    },
-    {
-      name: "Food & Beverages",
-      icon: "/icons/food.svg",
-      route: "/services/food&beverages",
-    },
-    {
-      name: "E-Commerce & Retail",
-      icon: "/icons/ecommerce.svg",
-      route: "/services/ecommerce&retail",
-    },
-    {
-      name: "Travel & Hospitality",
-      icon: "/icons/travel.svg",
-      route: "/services/travel&hospitality",
-    },
-    { name: "EduTech", icon: "/icons/edutech.svg", route: "/services/edutech" },
-    {
-      name: "Banking & Financial Services",
-      icon: "/icons/banking.svg",
-      route: "/services/banking&financial",
-    },
-  ];
 
   const router = useRouter();
   const pathname = usePathname();
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isServicesOpen, setIsServicesOpen] = useState(false);
+
 
   useEffect(() => {
     const currentIndex = NavbarItems.findIndex(
@@ -82,10 +54,7 @@ export const Navbar = () => {
     setIsMenuOpen(false);
   };
 
-  const handleServiceClick = (route: string) => {
-    router.push(route);
-    setIsMenuOpen(false);
-  };
+ 
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-white p-4">

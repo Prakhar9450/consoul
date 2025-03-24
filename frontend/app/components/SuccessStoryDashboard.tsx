@@ -3,7 +3,7 @@
 import type React from "react";
 
 import { useState, useEffect } from "react";
-import { signOut } from "firebase/auth";
+import { signOut, User } from "firebase/auth";
 import {
   collection,
   addDoc,
@@ -51,10 +51,10 @@ interface SuccessStory {
   keyChallenges: string[];
   howWeHelped: HelpItem[];
   feedback: string;
-  createdAt: any;
+  createdAt: Date;
 }
 
-export default function SuccessStoryDashboard({ user }: { user: any }) {
+export default function SuccessStoryDashboard({ user }: { user: User }) {
   const [title, setTitle] = useState("");
   const [thumbnailURL, setThumbnailURL] = useState("");
   const [company, setCompany] = useState("");
@@ -97,7 +97,7 @@ export default function SuccessStoryDashboard({ user }: { user: any }) {
       });
 
       setSuccessStories(storyList);
-    } catch (error: any) {
+    } catch (error) {
       setError("Failed to fetch success stories");
       console.error(error);
     } finally {
@@ -185,8 +185,11 @@ export default function SuccessStoryDashboard({ user }: { user: any }) {
 
       // Refresh success stories
       fetchSuccessStories();
-    } catch (error: any) {
-      setError(error.message || "Failed to create success story");
+    } catch (error) {
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : "Failed to create success story";
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -196,7 +199,8 @@ export default function SuccessStoryDashboard({ user }: { user: any }) {
     try {
       await deleteDoc(doc(db, "successStories", storyId));
       setSuccessStories(successStories.filter((story) => story.id !== storyId));
-    } catch (error: any) {
+    } catch (e) {
+      console.log(e)
       setError("Failed to delete success story");
     }
   };
@@ -516,7 +520,7 @@ export default function SuccessStoryDashboard({ user }: { user: any }) {
           </div>
         ) : successStories.length === 0 ? (
           <p className="text-center text-muted-foreground py-8">
-            You haven't created any success stories yet.
+            You haven&apos;t created any success stories yet.
           </p>
         ) : (
           <div className="grid gap-4 md:grid-cols-2">

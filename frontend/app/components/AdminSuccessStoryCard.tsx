@@ -34,7 +34,7 @@ interface SuccessStoryCardProps {
     keyChallenges: string[];
     howWeHelped: HelpItem[];
     feedback: string;
-    createdAt: any;
+    createdAt: Date;
   };
   onDelete: () => void;
 }
@@ -131,7 +131,7 @@ export default function AdminSuccessStoryCard({
             {/* Feedback */}
             <div>
               <h4 className="font-medium mb-2">Client Feedback:</h4>
-              <p className="text-sm italic">"{story.feedback}"</p>
+              <p className="text-sm italic">&quot;{story.feedback}&quot;</p>
             </div>
           </>
         )}

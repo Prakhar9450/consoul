@@ -19,7 +19,7 @@ interface BlogCardProps {
     title: string;
     description: string;
     content: string;
-    createdAt: any;
+    createdAt: Date;
     thumbnailUrl: string;
     imagesUrl: string;
   };
