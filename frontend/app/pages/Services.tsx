@@ -355,7 +355,7 @@ export const Services = () => {
               <div className="flex justify-center md:justify-start">
                 <button
                   className="text-[#6438C3] flex items-center hover:underline text-xl"
-                  onClick={() => router.push("/services")}>
+                  onClick={() => router.push("/services/media-ott")}>
                   <ExternalLinkButton text="Go to services" />
                 </button>
               </div>
