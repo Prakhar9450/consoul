@@ -9,6 +9,7 @@ export const Navbar = () => {
   const NavbarItems = [
     {
       label: "Services",
+      path: "/services/media-ott",
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +25,6 @@ export const Navbar = () => {
           />
         </svg>
       ),
-      path: "/services/media-ott",
     },
     { label: "Success Stories", path: "/success-stories" },
     { label: "Blogs", path: "/blogs" },
@@ -88,7 +88,7 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="m-4 md:m-0 p-4 py-4">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white p-4">
       <div className="flex justify-between items-center lg:justify-center lg:space-x-20">
         <div className="flex items-center">
           <Image
@@ -105,21 +105,21 @@ export const Navbar = () => {
             {NavbarItems.map((item, index) => (
               <div
                 key={index}
-                className={`flex text-lg items-center gap-1 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
+                className={`flex text-lg text-[#555555] items-center gap-1 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
                   activeIndex === index ? "text-[#6438C3] font-bold" : ""
                 }`}
                 onClick={() => handleClick(item.path, index)}>
-                {item.icon}
                 <span>{item.label}</span>
+                {item.icon && <span>{item.icon}</span>}
               </div>
             ))}
           </div>
         </div>
         <SwipeButton
           className="hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg"
-          firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-lg py-3 px-6 "
+          firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-sm py-2 px-4 "
           firstText="Book a call"
-          secondClass="bg-[#A47EF6] text-white py-3 px-6  text-lg"
+          secondClass="bg-[#A47EF6] text-white py-2 px-4  text-sm"
           secondText="Book a call"></SwipeButton>
         <div className="lg:hidden">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -136,62 +136,6 @@ export const Navbar = () => {
           </button>
         </div>
       </div>
-      {isMenuOpen && (
-        <div className="space-y-3 lg:hidden mt-4">
-          {NavbarItems.map((item, index) => (
-            <div key={index}>
-              {item.label === "Services" ? (
-                <div>
-                  <div
-                    className={`flex text-lg items-center gap-1 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
-                      activeIndex === index ? "text-[#6438C3] font-bold" : ""
-                    }`}
-                    onClick={() => {
-                      setIsServicesOpen(!isServicesOpen);
-                    }}>
-                    <span>{item.label}</span>
-                    {item.icon}
-                  </div>
-                  {isServicesOpen && (
-                    <div className="pl-4 space-y-2">
-                      {services.map((service, serviceIndex) => (
-                        <div
-                          key={serviceIndex}
-                          className={`flex items-center gap-2 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
-                            pathname === service.route
-                              ? "text-[#6438C3] font-bold"
-                              : ""
-                          }`}
-                          onClick={() => handleServiceClick(service.route)}>
-                          <Image
-                            src={service.icon}
-                            alt={service.name}
-                            width={16}
-                            height={16}
-                          />
-                          <span>{service.name}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div
-                  className={`flex text-lg items-center gap-1 p-2 rounded-lg cursor-pointer transition duration-300 hover:text-[#6438C3] ${
-                    activeIndex === index ? "text-[#6438C3] font-bold" : ""
-                  }`}
-                  onClick={() => handleClick(item.path, index)}>
-                  <span>{item.label}</span>
-                  {item.icon}
-                </div>
-              )}
-            </div>
-          ))}
-          <button className="mt-4 w-full bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white py-4 px-6 rounded-lg">
-            Book a call
-          </button>
-        </div>
-      )}
     </nav>
   );
 };
