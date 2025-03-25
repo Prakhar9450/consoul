@@ -30,6 +30,13 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import BlogCard from "@/app/components/AdminBlogCard";
 
 interface Blog {
@@ -38,6 +45,17 @@ interface Blog {
   description: string;
   content: string;
   createdAt: Date;
+  authorName?: string;
+  authorImageURL?: string;
+  industry?: string;
+  customIndustry?: string;
+  topic?: string;
+  customTopic?: string;
+  service?: string;
+  customService?: string;
+  company?: string;
+  designation?: string;
+  linkedin?: string;
   thumbnailUrl: string;
   imagesUrl: string;
 }
@@ -46,6 +64,17 @@ export default function BlogDashboard({ user }: { user: User }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
+  const [authorName, setAuthorName] = useState("");
+  const [authorImageURL, setAuthorImageURL] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [customIndustry, setCustomIndustry] = useState("");
+  const [topic, setTopic] = useState("");
+  const [customTopic, setCustomTopic] = useState("");
+  const [service, setService] = useState("");
+  const [customService, setCustomService] = useState("");
+  const [company, setCompany] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [linkedin, setLinkedin] = useState("");
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [imagesUrl, setImagesUrl] = useState("");
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -73,6 +102,17 @@ export default function BlogDashboard({ user }: { user: User }) {
           description: data.description,
           content: data.content,
           createdAt: data.createdAt,
+          authorName: data.authorName,
+          authorImageURL: data.authorImageURL,
+          industry: data.industry,
+          customIndustry: data.customIndustry,
+          topic: data.topic,
+          customTopic: data.customTopic,
+          service: data.service,
+          customService: data.customService,
+          company: data.company,
+          designation: data.designation,
+          linkedin: data.linkedin,
           thumbnailUrl: data.thumbnailUrl,
           imagesUrl: data.imagesUrl,
         });
@@ -96,6 +136,85 @@ export default function BlogDashboard({ user }: { user: User }) {
     setError("");
     setIsSubmitting(true);
 
+    // Validate inputs
+    if (!title.trim()) {
+      setError("Title is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!description.trim()) {
+      setError("Description is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!content.trim()) {
+      setError("Content is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!authorName.trim()) {
+      setError("Author name is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!company.trim()) {
+      setError("Company is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!designation.trim()) {
+      setError("Designation is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!linkedin.trim()) {
+      setError("LinkedIn is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!industry) {
+      setError("Industry is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (industry === "Other" && !customIndustry.trim()) {
+      setError("Please specify the industry");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!topic) {
+      setError("Topic is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (topic === "Other" && !customTopic.trim()) {
+      setError("Please specify the topic");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!service) {
+      setError("Service is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (service === "Other" && !customService.trim()) {
+      setError("Please specify the service");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       await addDoc(collection(db, "blogs"), {
         userId: user.uid,
@@ -104,6 +223,17 @@ export default function BlogDashboard({ user }: { user: User }) {
         content,
         thumbnailUrl,
         imagesUrl,
+        authorName,
+        company,
+        designation,
+        linkedin,
+        authorImageURL: authorImageURL || "/placeholder.svg?height=80&width=80",
+        industry: industry === "Other" ? "Other" : industry,
+        customIndustry: industry === "Other" ? customIndustry : null,
+        topic: topic === "Other" ? "Other" : topic,
+        customTopic: topic === "Other" ? customTopic : null,
+        service: service === "Other" ? "Other" : service,
+        customService: service === "Other" ? customService : null,
         createdAt: serverTimestamp(),
       });
 
@@ -111,6 +241,17 @@ export default function BlogDashboard({ user }: { user: User }) {
       setTitle("");
       setDescription("");
       setContent("");
+      setAuthorName("");
+      setAuthorImageURL("");
+      setIndustry("");
+      setCustomIndustry("");
+      setTopic("");
+      setCustomTopic("");
+      setService("");
+      setCustomService("");
+      setCompany("");
+      setDesignation("");
+      setLinkedin("");
       setThumbnailUrl("");
       setImagesUrl("");
 
@@ -158,6 +299,64 @@ export default function BlogDashboard({ user }: { user: User }) {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
+            {/* Author Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="authorName">Author Name</Label>
+                <Input
+                  id="authorName"
+                  value={authorName}
+                  onChange={(e) => setAuthorName(e.target.value)}
+                  placeholder="Enter author name"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="authorImageURL">Author Image URL</Label>
+                <Input
+                  id="authorImageURL"
+                  value={authorImageURL}
+                  onChange={(e) => setAuthorImageURL(e.target.value)}
+                  placeholder="Enter author image URL"
+                />
+              </div>
+            </div>
+
+            {/* Author Company Information */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="company">Company</Label>
+                <Input
+                  id="company"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  placeholder="Enter company name"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="designation">Designation</Label>
+                <Input
+                  id="designation"
+                  value={designation}
+                  onChange={(e) => setDesignation(e.target.value)}
+                  placeholder="Enter designation"
+                  required
+                />
+              </div>
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="linkedin">LinkedIn</Label>
+                <Input
+                  id="linkedin"
+                  value={linkedin}
+                  onChange={(e) => setLinkedin(e.target.value)}
+                  placeholder="Enter LinkedIn URL"
+                  required
+                />
+              </div>
+            </div>
+
+            {/* Blog Title and Description */}
             <div className="flex space-x-4">
               <div className="flex-1 space-y-2">
                 <Label htmlFor="thumbnailUrl">Thumbnail URL</Label>
@@ -200,6 +399,113 @@ export default function BlogDashboard({ user }: { user: User }) {
                 required
               />
             </div>
+
+            {/* Industry, Topic, Service */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Industry */}
+              <div className="space-y-2">
+                <Label htmlFor="industry">Industry</Label>
+                <Select value={industry} onValueChange={setIndustry}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an industry" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Banking">Banking</SelectItem>
+                    <SelectItem value="E-commerce">E-commerce</SelectItem>
+                    <SelectItem value="Retail">Retail</SelectItem>
+                    <SelectItem value="Food & beverages">
+                      Food & beverages
+                    </SelectItem>
+                    <SelectItem value="Lifestyle">Lifestyle</SelectItem>
+                    <SelectItem value="Media & OTT">Media & OTT</SelectItem>
+                    <SelectItem value="Technology">Technology</SelectItem>
+                    <SelectItem value="Travel & hospitality">
+                      Travel & hospitality
+                    </SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                {industry === "Other" && (
+                  <div className="mt-2">
+                    <Input
+                      placeholder="Specify industry"
+                      value={customIndustry}
+                      onChange={(e) => setCustomIndustry(e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Topic */}
+              <div className="space-y-2">
+                <Label htmlFor="topic">Topic</Label>
+                <Select value={topic} onValueChange={setTopic}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a topic" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Customer lifetime value">
+                      Customer lifetime value
+                    </SelectItem>
+                    <SelectItem value="Product & tech">
+                      Product & tech
+                    </SelectItem>
+                    <SelectItem value="Omni-channel marketing">
+                      Omni-channel marketing
+                    </SelectItem>
+                    <SelectItem value="Hyper-personalisation">
+                      Hyper-personalisation
+                    </SelectItem>
+                    <SelectItem value="Customer advocacy">
+                      Customer advocacy
+                    </SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                {topic === "Other" && (
+                  <div className="mt-2">
+                    <Input
+                      placeholder="Specify topic"
+                      value={customTopic}
+                      onChange={(e) => setCustomTopic(e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Service */}
+              <div className="space-y-2">
+                <Label htmlFor="service">Service</Label>
+                <Select value={service} onValueChange={setService}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a service" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Program management">
+                      Program management
+                    </SelectItem>
+                    <SelectItem value="MarTech audit and setup">
+                      MarTech audit and setup
+                    </SelectItem>
+                    <SelectItem value="On-demand campaign management">
+                      On-demand campaign management
+                    </SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                {service === "Other" && (
+                  <div className="mt-2">
+                    <Input
+                      placeholder="Specify service"
+                      value={customService}
+                      onChange={(e) => setCustomService(e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Content */}
             <div className="space-y-2">
               <Label htmlFor="content">Content</Label>
               <Textarea
