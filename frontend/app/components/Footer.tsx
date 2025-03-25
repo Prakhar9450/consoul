@@ -75,7 +75,7 @@ export default function Footer() {
                 href="/admin"
                 className="text-muted-foreground hover:text-[#6438C3]"
               >
-                admin
+                Admin
               </Link>
 
             </nav>
