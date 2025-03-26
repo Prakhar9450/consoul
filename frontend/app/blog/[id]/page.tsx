@@ -24,7 +24,7 @@ interface BlogPost {
   title: string;
   description: string;
   content: string;
-  createdAt: Date;
+  createdAt: any;
   userId: string;
   tags?: string[];
   authorName?: string;

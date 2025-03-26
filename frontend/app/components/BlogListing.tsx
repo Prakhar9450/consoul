@@ -2,13 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "@/app/lib/firebaseConfig";
@@ -37,34 +30,6 @@ interface BlogPost {
 
 const POSTS_PER_PAGE = 6;
 
-// Industry options
-const INDUSTRY_OPTIONS = [
-  "Banking",
-  "E-commerce",
-  "Retail",
-  "Food & beverages",
-  "Lifestyle",
-  "Media & OTT",
-  "Technology",
-  "Travel & hospitality",
-];
-
-// Topic options
-const TOPIC_OPTIONS = [
-  "Customer lifetime value",
-  "Product & tech",
-  "Omni-channel marketing",
-  "Hyper-personalisation",
-  "Customer advocacy",
-];
-
-// Service options
-const SERVICE_OPTIONS = [
-  "Program management",
-  "MarTech audit and setup",
-  "On-demand campaign management",
-];
-
 export default function BlogListing() {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -72,6 +37,11 @@ export default function BlogListing() {
   const [loading, setLoading] = useState(true);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const filterRef = useRef<HTMLDivElement>(null);
+
+  // Dynamic filter options
+  const [industryOptions, setIndustryOptions] = useState<string[]>([]);
+  const [topicOptions, setTopicOptions] = useState<string[]>([]);
+  const [serviceOptions, setServiceOptions] = useState<string[]>([]);
 
   // Filter states
   const [selectedIndustries, setSelectedIndustries] = useState<string[]>([]);
@@ -84,9 +54,12 @@ export default function BlogListing() {
       setLoading(true);
       try {
         const q = query(collection(db, "blogs"), orderBy("createdAt", "desc"));
-
         const querySnapshot = await getDocs(q);
         const posts: BlogPost[] = [];
+
+        let industries = new Set<string>();
+        let topics = new Set<string>();
+        let services = new Set<string>();
 
         querySnapshot.forEach((doc) => {
           const data = doc.data();
@@ -105,6 +78,11 @@ export default function BlogListing() {
               ? data.customService
               : data.service;
 
+          // Add new values to the sets
+          if (displayIndustry) industries.add(displayIndustry);
+          if (displayTopic) topics.add(displayTopic);
+          if (displayService) services.add(displayService);
+
           posts.push({
             id: doc.id,
             title: data.title,
@@ -112,7 +90,7 @@ export default function BlogListing() {
             content: data.content,
             createdAt: data.createdAt,
             userId: data.userId,
-            tags: data.tags || generateRandomTags(), // Use tags if available or generate random ones
+            tags: data.tags || generateRandomTags(),
             authorName: data.authorName,
             authorImageURL: data.authorImageURL,
             industry: displayIndustry,
@@ -123,7 +101,11 @@ export default function BlogListing() {
           });
         });
 
+        // Update state with new blog posts and updated filter options
         setBlogPosts(posts);
+        setIndustryOptions([...industries]); // Convert Set to Array
+        setTopicOptions([...topics]);
+        setServiceOptions([...services]);
       } catch (error) {
         console.error("Error fetching blogs:", error);
       } finally {
@@ -144,77 +126,8 @@ export default function BlogListing() {
       "lead gen",
       "customer lifecycle",
     ];
-
-    // Randomly select 1-3 tags
-    const numTags = Math.floor(Math.random() * 3) + 1;
-    const shuffled = [...allTags].sort(() => 0.5 - Math.random());
-    return shuffled.slice(0, numTags);
+    return allTags.sort(() => 0.5 - Math.random()).slice(0, 3);
   };
-
-  // Handle click outside to close filter
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        filterRef.current &&
-        !filterRef.current.contains(event.target as Node)
-      ) {
-        setIsFilterOpen(false);
-      }
-    }
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  // Filter posts based on search and selected filters
-  const filterPosts = (posts: BlogPost[]) => {
-    return posts.filter((post) => {
-      // Search filter
-      const matchesSearch =
-        post.title.toLowerCase().includes(search.toLowerCase()) ||
-        post.description.toLowerCase().includes(search.toLowerCase()) ||
-        post.content.toLowerCase().includes(search.toLowerCase());
-
-      // If no filters are applied, just use search
-      if (!filtersApplied) return matchesSearch;
-
-      // Check if post matches any of the selected filters
-      const matchesIndustry =
-        selectedIndustries.length === 0 ||
-        (post.industry && selectedIndustries.includes(post.industry));
-
-      const matchesTopic =
-        selectedTopics.length === 0 ||
-        (post.topic && selectedTopics.includes(post.topic));
-
-      const matchesService =
-        selectedServices.length === 0 ||
-        (post.service && selectedServices.includes(post.service));
-
-      // If any filter category has selections, the post must match at least one selection in that category
-      return matchesSearch && matchesIndustry && matchesTopic && matchesService;
-    });
-  };
-
-  const filteredPosts = filterPosts(blogPosts);
-  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
-  const currentPosts = filteredPosts.slice(
-    (currentPage - 1) * POSTS_PER_PAGE,
-    currentPage * POSTS_PER_PAGE
-  );
-
-  // Reset to page 1 when search or filter changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [
-    search,
-    selectedIndustries,
-    selectedTopics,
-    selectedServices,
-    filtersApplied,
-  ]);
 
   // Handle industry checkbox change
   const handleIndustryChange = (industry: string) => {
@@ -261,6 +174,35 @@ export default function BlogListing() {
     selectedTopics.length > 0 ||
     selectedServices.length > 0;
 
+  // Filter posts based on search and selected filters
+  const filterPosts = (posts: BlogPost[]) => {
+    return posts.filter((post) => {
+      const matchesSearch =
+        post.title.toLowerCase().includes(search.toLowerCase()) ||
+        post.description.toLowerCase().includes(search.toLowerCase()) ||
+        post.content.toLowerCase().includes(search.toLowerCase());
+
+      if (!filtersApplied) return matchesSearch;
+
+      return (
+        matchesSearch &&
+        (selectedIndustries.length === 0 ||
+          selectedIndustries.includes(post.industry || "")) &&
+        (selectedTopics.length === 0 ||
+          selectedTopics.includes(post.topic || "")) &&
+        (selectedServices.length === 0 ||
+          selectedServices.includes(post.service || ""))
+      );
+    });
+  };
+
+  const filteredPosts = filterPosts(blogPosts);
+  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const currentPosts = filteredPosts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE
+  );
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8 flex flex-row items-center gap-4 relative">
@@ -294,17 +236,20 @@ export default function BlogListing() {
               <div>
                 <h3 className="font-medium mb-4">Industry</h3>
                 <div className="space-y-3">
-                  {INDUSTRY_OPTIONS.map((industry) => (
-                    <label key={industry} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedIndustries.includes(industry)}
-                        onChange={() => handleIndustryChange(industry)}
-                        className="h-4 w-4 rounded border-gray-300 text-[#6438C3] focus:ring-[#6438C3]"
-                      />
-                      <span>{industry}</span>
-                    </label>
-                  ))}
+                  {industryOptions
+                    .slice()
+                    .reverse()
+                    .map((industry) => (
+                      <label key={industry} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedIndustries.includes(industry)}
+                          onChange={() => handleIndustryChange(industry)}
+                          className="h-4 w-4 rounded border-gray-300 text-[#6438C3] focus:ring-[#6438C3]"
+                        />
+                        <span>{industry}</span>
+                      </label>
+                    ))}
                 </div>
               </div>
 
@@ -312,17 +257,20 @@ export default function BlogListing() {
               <div>
                 <h3 className="font-medium mb-4">Topic</h3>
                 <div className="space-y-3">
-                  {TOPIC_OPTIONS.map((topic) => (
-                    <label key={topic} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedTopics.includes(topic)}
-                        onChange={() => handleTopicChange(topic)}
-                        className="h-4 w-4 rounded border-gray-300 text-[#6438C3] focus:ring-[#6438C3]"
-                      />
-                      <span>{topic}</span>
-                    </label>
-                  ))}
+                  {topicOptions
+                    .slice()
+                    .reverse()
+                    .map((topic) => (
+                      <label key={topic} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedTopics.includes(topic)}
+                          onChange={() => handleTopicChange(topic)}
+                          className="h-4 w-4 rounded border-gray-300 text-[#6438C3] focus:ring-[#6438C3]"
+                        />
+                        <span>{topic}</span>
+                      </label>
+                    ))}
                 </div>
               </div>
 
@@ -330,17 +278,20 @@ export default function BlogListing() {
               <div>
                 <h3 className="font-medium mb-4">Services</h3>
                 <div className="space-y-3">
-                  {SERVICE_OPTIONS.map((service) => (
-                    <label key={service} className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        checked={selectedServices.includes(service)}
-                        onChange={() => handleServiceChange(service)}
-                        className="h-4 w-4 rounded border-gray-300 text-[#6438C3] focus:ring-[#6438C3]"
-                      />
-                      <span>{service}</span>
-                    </label>
-                  ))}
+                  {serviceOptions
+                    .slice()
+                    .reverse()
+                    .map((service) => (
+                      <label key={service} className="flex items-center gap-2">
+                        <input
+                          type="checkbox"
+                          checked={selectedServices.includes(service)}
+                          onChange={() => handleServiceChange(service)}
+                          className="h-4 w-4 rounded border-gray-300 text-[#6438C3] focus:ring-[#6438C3]"
+                        />
+                        <span>{service}</span>
+                      </label>
+                    ))}
                 </div>
               </div>
             </div>
