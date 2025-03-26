@@ -24,15 +24,20 @@ interface BlogPost {
   title: string;
   description: string;
   content: string;
-  createdAt: Date;
+  createdAt: any;
   userId: string;
   tags?: string[];
-  author?: {
-    name: string;
-    title: string;
-    bio?: string;
-    photoURL?: string;
-  };
+  authorName?: string;
+  authorImageURL?: string;
+  industry?: string;
+  customIndustry?: string;
+  topic?: string;
+  customTopic?: string;
+  service?: string;
+  customService?: string;
+  company?: string;
+  designation?: string;
+  linkedin?: string;
   thumbnailUrl?: string;
   imagesUrl?: string;
 }
@@ -62,18 +67,21 @@ export default function BlogPostPage() {
             content: data.content,
             createdAt: data.createdAt,
             userId: data.userId,
-            tags: data.tags || [],
-            author: data.author || {
-              name: "Vani Garg",
-              title: "Founder, ConSoul LLP",
-              bio: "Vani Garg is the visionary founder of ConSoul LLP, driving innovative retention marketing strategies to enhance customer loyalty and business growth. With a passion for delivering impactful solutions, she helps brands unlock their true potential through data-driven insights and personalized engagement.",
-              photoURL: "/logos/headstrat.svg",
-            },
-
+            tags: data.tags || generateRandomTags(),
+            authorName: data.authorName || "Anonymous",
+            company: data.company,
+            designation: data.designation,
+            linkedin: data.linkedin || "#",
+            authorImageURL:
+              data.authorImageURL || "/placeholder.svg?height=80&width=80",
+            industry: data.industry,
+            customIndustry: data.customIndustry,
+            topic: data.topic,
+            customTopic: data.customTopic,
+            service: data.service,
+            customService: data.customService,
             thumbnailUrl:
-              data.thumbnailUrl ||
-              data.thumbnailURL ||
-              "/placeholder.svg?height=600&width=800",
+              data.thumbnailUrl || "/placeholder.svg?height=600&width=800",
             imagesUrl:
               data.imagesUrl ||
               (data.imagesURL && data.imagesURL.length > 0
@@ -82,7 +90,7 @@ export default function BlogPostPage() {
           });
 
           // Fetch related posts
-          fetchRelatedPosts(data.tags || []);
+          fetchRelatedPosts(data.tags);
         } else {
           setError("Blog post not found");
         }
@@ -97,7 +105,24 @@ export default function BlogPostPage() {
     fetchBlog();
   }, [params.id]);
 
-  const fetchRelatedPosts = async () => {
+  // Helper function to generate random tags for demo purposes
+  const generateRandomTags = () => {
+    const allTags = [
+      "digital marketing",
+      "business intelligence",
+      "AI tools",
+      "data analytics",
+      "lead gen",
+      "customer lifecycle",
+    ];
+
+    // Randomly select 1-3 tags
+    const numTags = Math.floor(Math.random() * 3) + 1;
+    const shuffled = [...allTags].sort(() => 0.5 - Math.random());
+    return shuffled.slice(0, numTags);
+  };
+
+  const fetchRelatedPosts = async (tags: string[]) => {
     try {
       const q = query(
         collection(db, "blogs"),
@@ -111,6 +136,7 @@ export default function BlogPostPage() {
       querySnapshot.forEach((doc) => {
         if (doc.id !== params.id) {
           const data = doc.data();
+
           posts.push({
             id: doc.id,
             title: data.title,
@@ -118,10 +144,13 @@ export default function BlogPostPage() {
             content: data.content,
             createdAt: data.createdAt,
             userId: data.userId,
+            authorName: data.authorName,
+            authorImageURL: data.authorImageURL,
+            company: data.company,
+            designation: data.designation,
+            linkedin: data.linkedin,
             thumbnailUrl:
-              data.thumbnailUrl ||
-              data.thumbnailURL ||
-              "/placeholder.svg?height=400&width=600",
+              data.thumbnailUrl || "/placeholder.svg?height=400&width=600",
           });
         }
       });
@@ -184,11 +213,10 @@ export default function BlogPostPage() {
                 <div className="flex-shrink-0">
                   <Image
                     src={
-                      post.author?.photoURL ||
-                      "/placeholder.svg?height=80&width=80" ||
-                      "/placeholder.svg"
+                      post.authorImageURL ||
+                      "/placeholder.svg?height=50&width=50"
                     }
-                    alt={post.author?.name || "Author"}
+                    alt={post.authorName || "Author"}
                     width={50}
                     height={50}
                     className="rounded-full"
@@ -196,16 +224,20 @@ export default function BlogPostPage() {
                 </div>
                 <div>
                   <h3 className="font-medium">
-                    {post.author?.name || "Anonymous"}
+                    {post.authorName || "Anonymous"}
                   </h3>
                   <p className="text-sm text-gray-500">
-                    {post.author?.title || "Author"}
+                    {post.designation || "Founder"},{" "}
+                    {post.company || "ConSoul LLP"}
                   </p>
                 </div>
-                <div className="flex items-center gap-4 ml-auto text-sm text-gray-500">
+                <div className="flex items-center gap-2 ml-auto text-sm text-gray-500">
                   <div className="flex items-center gap-1">
                     <Clock className="h-4 w-4" />
                     <span>{readTime} minute read</span>
+                  </div>
+                  <div className="flex items-center text-xl opacity-70">
+                    <span>|</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <Calendar className="h-4 w-4" />
@@ -258,7 +290,6 @@ export default function BlogPostPage() {
                     height={400}
                     className="w-full h-auto rounded-lg"
                   />
-                
                 </div>
               )}
 
@@ -280,31 +311,34 @@ export default function BlogPostPage() {
               <div className="flex flex-col items-center mb-12">
                 <Image
                   src={
-                    post.author?.photoURL ||
-                    "/placeholder.svg?height=80&width=80" ||
-                    "/placeholder.svg"
+                    post.authorImageURL || "/placeholder.svg?height=80&width=80"
                   }
-                  alt={post.author?.name || "Author"}
+                  alt={post.authorName || "Author"}
                   width={80}
                   height={80}
                   className="rounded-full mb-4"
                 />
                 <h3 className="font-medium text-center">
-                  Written by {post.author?.name || "Anonymous"}
+                  Written by {post.authorName || "Anonymous"}
                 </h3>
                 <p className="text-sm text-gray-500 text-center mb-4">
-                  {post.author?.title || "Author"}
+                  {post.designation || "Founder"},{" "}
+                  {post.company || "ConSoul LLP"}
                 </p>
                 <p className="text-center text-gray-700 max-w-2xl mb-4">
-                  {post.author?.bio || ""}
+                  {post.authorName} is a content creator at{" "}
+                  {post.company || "ConSoul LLP"}, driving innovative retention
+                  marketing strategies to enhance customer loyalty and business
+                  growth. With a passion for delivering impactful solutions, she
+                  helps brands unlock their true potential through data-driven
+                  insights and personalised engagement.
                 </p>
                 <div className="flex items-center gap-2">
                   <span className="text-sm">
-                    Connect with {post.author?.name.split(" ")[0] || "Author"}{" "}
-                    on
+                    Connect with {post.authorName?.split(" ")[0] || "Author"} on
                   </span>
                   <a
-                    href="#"
+                    href={post.linkedin || "#"}
                     className="text-[#0077B5] flex items-center gap-1">
                     <Linkedin className="h-4 w-4" />
                     <span className="underline">LinkedIn</span>

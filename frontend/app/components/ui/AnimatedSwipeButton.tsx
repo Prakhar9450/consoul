@@ -40,13 +40,13 @@ export default function SwipeButton({
             common,
             secondClass
           )}>
-          <TextAnimate animation="fadeIn" by="line" as="span" delay={0.3}>
+          <TextAnimate animation="fadeIn" by="line" as="span">
             {secondText}
           </TextAnimate>
         </span>
         <span
           className={cn("group-hover:-translate-y-full", common, firstClass)}>
-          <TextAnimate animation="fadeIn" by="line" as="span" delay={0.5}>
+          <TextAnimate animation="fadeIn" by="line" as="span">
             {firstText}
           </TextAnimate>
         </span>

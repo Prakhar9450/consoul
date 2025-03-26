@@ -8,6 +8,14 @@ interface BlogPost {
   content: string;
   createdAt: any;
   userId: string;
+  authorName?: string;
+  authorImageURL?: string;
+  industry?: string;
+  customIndustry?: string;
+  topic?: string;
+  customTopic?: string;
+  service?: string;
+  customService?: string;
   tags?: string[];
   thumbnailUrl?: string;
   imagesUrl?: string;
@@ -50,9 +58,8 @@ export default function PublicBlogCard({ post }: PublicBlogCardProps) {
       </Link>
 
       <div className="mt-4 space-y-2">
-        <div className="flex items-center text-sm text-muted-foreground">
+        <div className="flex items-center justify-between text-sm text-muted-foreground w-full">
           <span>{formattedDate}</span>
-          <span className="mx-2">•</span>
           <span>{readTime} mins read</span>
         </div>
 

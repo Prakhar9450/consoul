@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
+import Image from "next/image";
 
 interface BlogCardProps {
   blog: {
@@ -19,9 +20,17 @@ interface BlogCardProps {
     title: string;
     description: string;
     content: string;
-    createdAt: Date;
+    createdAt: any;
     thumbnailUrl: string;
     imagesUrl: string;
+    authorName?: string;
+    authorImageURL?: string;
+    industry?: string;
+    customIndustry?: string;
+    topic?: string;
+    customTopic?: string;
+    service?: string;
+    customService?: string;
   };
   onDelete: () => void;
 }
@@ -38,6 +47,20 @@ export default function AdminBlogCard({ blog, onDelete }: BlogCardProps) {
     <Card>
       <CardHeader>
         <div className="flex items-start justify-between">
+          <div className="flex items-center gap-2 mb-2">
+            {blog.authorImageURL && (
+              <Image
+                src={blog.authorImageURL || "/placeholder.svg"}
+                alt={blog.authorName || "Author"}
+                width={32}
+                height={32}
+                className="rounded-full"
+              />
+            )}
+            <span className="text-sm font-medium">
+              {blog.authorName || "Anonymous"}
+            </span>
+          </div>
           <div>
             <CardTitle>{blog.title}</CardTitle>
             <CardDescription>{formattedDate}</CardDescription>
