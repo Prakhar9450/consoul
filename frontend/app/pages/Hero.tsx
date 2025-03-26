@@ -163,7 +163,7 @@ export const Hero = () => {
                   ease: "easeInOut",
                 }}>
                 <Image
-                  src="/components/hero1.png"
+                  src="https://raw.githubusercontent.com/rishabhknowss/imagesdb/refs/heads/main/hero1.png"
                   alt="Customer retention dashboard preview"
                   width={550}
                   height={1100}

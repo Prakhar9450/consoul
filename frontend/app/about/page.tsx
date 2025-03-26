@@ -51,7 +51,7 @@ export default function Page() {
 
       <div>
         <Image
-          src="/components/aboutus.png"
+          src="https://raw.githubusercontent.com/rishabhknowss/imagesdb/refs/heads/main/aboutus.png"
           alt="about"
           width={1920}
           height={1080}

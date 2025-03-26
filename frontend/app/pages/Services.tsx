@@ -27,15 +27,15 @@ export const Services = () => {
     points: [
       {
         text: "Hyper-personalised offerings through data segmentation",
-        image: "/components/data-driven-1.png",
+        image: "https://raw.githubusercontent.com/rishabhknowss/imagesdb/refs/heads/main/data-driven-1.png",
       },
       {
         text: "Targeted loyalty and gamification programs",
-        image: "/components/data-driven-2.png",
+        image: "https://raw.githubusercontent.com/rishabhknowss/imagesdb/refs/heads/main/data-driven-2.png",
       },
       {
         text: "Channel optimisation for timely, targeted messaging",
-        image: "/components/data-driven-3.png",
+        image: "https://raw.githubusercontent.com/rishabhknowss/imagesdb/refs/heads/main/data-driven-3.png",
       },
     ],
   };
