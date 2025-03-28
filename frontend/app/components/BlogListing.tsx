@@ -211,7 +211,7 @@ export default function BlogListing() {
             placeholder="Search article with keyword, industry, title"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="h-12 rounded-lg pl-6 pr-12 text-base w-full"
+            className="h-12 rounded-lg pl-6 pr-12 text-base w-full border-2 border-[#DAC8FF]"
           />
         </div>
 
@@ -229,12 +229,13 @@ export default function BlogListing() {
         {isFilterOpen && (
           <div
             ref={filterRef}
-            className="absolute right-0 top-full mt-2 w-full md:w-[800px] bg-white shadow-lg rounded-lg z-10 p-6 border"
-            style={{ maxWidth: "calc(100vw - 2rem)" }}>
+            className="absolute right-0 top-full mt-2 w-full md:w-[800px] bg-white shadow-lg rounded-lg z-10 p-6"
+            style={{ maxWidth: "calc(100vw - 2rem)" }}
+            onClick={(e) => e.stopPropagation()}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* Industry */}
               <div>
-                <h3 className="font-medium mb-4">Industry</h3>
+                <h3 className="font-medium mb-4 text-[#4f4f4f]">Industry</h3>
                 <div className="space-y-3">
                   {industryOptions
                     .slice()
@@ -245,9 +246,10 @@ export default function BlogListing() {
                           type="checkbox"
                           checked={selectedIndustries.includes(industry)}
                           onChange={() => handleIndustryChange(industry)}
-                          className="h-4 w-4 rounded border-gray-300 text-[#6438C3] focus:ring-[#6438C3]"
+                          className="h-4 w-4 rounded border-gray-300 text-[#DAC8FF] focus:ring-[#DAC8FF] checked:bg-[#B881FF] checked:border-[#B881FF]"
                         />
-                        <span>{industry}</span>
+
+                        <span className="text-[#555555]">{industry}</span>
                       </label>
                     ))}
                 </div>
@@ -255,7 +257,7 @@ export default function BlogListing() {
 
               {/* Topic */}
               <div>
-                <h3 className="font-medium mb-4">Topic</h3>
+                <h3 className="font-medium mb-4 text-[#4f4f4f]">Topic</h3>
                 <div className="space-y-3">
                   {topicOptions
                     .slice()
@@ -266,9 +268,9 @@ export default function BlogListing() {
                           type="checkbox"
                           checked={selectedTopics.includes(topic)}
                           onChange={() => handleTopicChange(topic)}
-                          className="h-4 w-4 rounded border-gray-300 text-[#6438C3] focus:ring-[#6438C3]"
+                          className="h-4 w-4 rounded border-gray-300 text-[#DAC8FF] focus:ring-[#DAC8FF] checked:bg-[#B881FF] checked:border-[#B881FF]"
                         />
-                        <span>{topic}</span>
+                        <span className="text-[#555555]">{topic}</span>
                       </label>
                     ))}
                 </div>
@@ -276,7 +278,7 @@ export default function BlogListing() {
 
               {/* Services */}
               <div>
-                <h3 className="font-medium mb-4">Services</h3>
+                <h3 className="font-medium mb-4 text-[#4f4f4f]">Services</h3>
                 <div className="space-y-3">
                   {serviceOptions
                     .slice()
@@ -287,9 +289,9 @@ export default function BlogListing() {
                           type="checkbox"
                           checked={selectedServices.includes(service)}
                           onChange={() => handleServiceChange(service)}
-                          className="h-4 w-4 rounded border-gray-300 text-[#6438C3] focus:ring-[#6438C3]"
+                          className="h-4 w-4 rounded border-gray-300 text-[#DAC8FF] focus:ring-[#DAC8FF] checked:bg-[#B881FF] checked:border-[#B881FF]"
                         />
-                        <span>{service}</span>
+                        <span className="text-[#555555]">{service}</span>
                       </label>
                     ))}
                 </div>
@@ -303,17 +305,24 @@ export default function BlogListing() {
                 disabled={!isAnyFilterSelected}>
                 Apply filter
               </Button>
-              <Button
+              <button
                 onClick={resetFilters}
-                variant="outline"
-                className="text-gray-600"
+                className="text-[#9a9a9a]"
                 disabled={!isAnyFilterSelected}>
                 Reset
-              </Button>
+              </button>
             </div>
           </div>
         )}
       </div>
+
+      {/* Close filter modal on outside click */}
+      {isFilterOpen && (
+        <div
+          className="fixed inset-0 z-0"
+          onClick={() => setIsFilterOpen(false)}
+        />
+      )}
 
       {/* Applied Filters */}
       {filtersApplied && isAnyFilterSelected && (

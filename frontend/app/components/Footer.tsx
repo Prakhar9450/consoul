@@ -24,62 +24,54 @@ export default function Footer() {
 
           {/* Product Links */}
           <div className="grid grid-cols-2">
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold text-[#555555]">Product</h3>
-            <nav className="flex flex-col space-y-2">
-              <Link
-                href="/services"
-                className="text-muted-foreground hover:text-[#6438C3]"
-              >
-                {" "}
-                Services
-              </Link>
-              <Link
-                href="/case-studies"
-                className="text-muted-foreground hover:text-[#6438C3]"
-              >
-                Case studies
-              </Link>
-            </nav>
-          </div>
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold text-[#555555]">Product</h3>
+              <nav className="flex flex-col space-y-2">
+                <Link
+                  href="/services"
+                  className="text-muted-foreground hover:text-[#6438C3]">
+                  {" "}
+                  Services
+                </Link>
+                <Link
+                  href="/success-stories"
+                  className="text-muted-foreground hover:text-[#6438C3]">
+                  Success Stories
+                </Link>
+              </nav>
+            </div>
 
-          {/* Company Links */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-bold text-[#555555]">Company</h3>
-            <nav className="flex flex-col space-y-2">
-              <Link
-                href="/about"
-                className="text-muted-foreground hover:text-[#6438C3]"
-              >
-                About us
-              </Link>
-              <Link
-                href="/contact"
-                className="text-muted-foreground hover:text-[#6438C3]"
-              >
-                Contact us
-              </Link>
-              <Link
-                href="/careers"
-                className="text-muted-foreground hover:text-[#6438C3]"
-              >
-                Careers
-              </Link>
-              <Link
-                href="/blog"
-                className="text-muted-foreground hover:text-[#6438C3]"
-              >
-                Blog
-              </Link>
-              <Link
-                href="/admin"
-                className="text-muted-foreground hover:text-[#6438C3]"
-              >
-                Admin
-              </Link>
-
-            </nav>
-          </div>
+            {/* Company Links */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-bold text-[#555555]">Company</h3>
+              <nav className="flex flex-col space-y-2">
+                <Link
+                  href="/about"
+                  className="text-muted-foreground hover:text-[#6438C3]">
+                  About us
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-muted-foreground hover:text-[#6438C3]">
+                  Contact us
+                </Link>
+                <Link
+                  href="/careers"
+                  className="text-muted-foreground hover:text-[#6438C3]">
+                  Careers
+                </Link>
+                <Link
+                  href="/blogs"
+                  className="text-muted-foreground hover:text-[#6438C3]">
+                  Blogs
+                </Link>
+                <Link
+                  href="/admin"
+                  className="text-muted-foreground hover:text-[#6438C3]">
+                  Admin
+                </Link>
+              </nav>
+            </div>
           </div>
 
           {/* Contact Information */}

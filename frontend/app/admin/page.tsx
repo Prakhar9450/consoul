@@ -9,6 +9,7 @@ import BlogDashboard from "@/app/components/BlogDashboard";
 import SuccessStoryDashboard from "@/app/components/SuccessStoryDashboard";
 import Footer from "@/app/components/Footer";
 import CareerDashboard from "@/app/components/CareerDashboard";
+import PdfDashboard from "@/app/components/PdfDashboard";
 
 export default function Home() {
   const [user, setUser] = useState<User | null>(null);
@@ -42,12 +43,15 @@ export default function Home() {
   return (
     <main className="container mx-auto px-4 py-8">
       <Tabs defaultValue="blogs" className="w-full">
-        <TabsList className="grid w-full grid-cols-3 mb-8">
+        <TabsList className="grid w-full grid-cols-4 mb-8">
           <TabsTrigger value="blogs">My Blog Dashboard</TabsTrigger>
           <TabsTrigger value="success-stories">
             My Success Stories Dashboard
           </TabsTrigger>
           <TabsTrigger value="careers">My Career Dashboard</TabsTrigger>
+          <TabsTrigger value="pdf-documents">
+            My PDF Download Dashboard
+          </TabsTrigger>
         </TabsList>
         <TabsContent value="blogs">
           <BlogDashboard user={user} />
@@ -57,6 +61,9 @@ export default function Home() {
         </TabsContent>
         <TabsContent value="careers">
           <CareerDashboard user={user} />
+        </TabsContent>
+        <TabsContent value="pdf-documents">
+          <PdfDashboard user={user} />
         </TabsContent>
       </Tabs>
 
