@@ -31,16 +31,23 @@ interface SuccessStory {
   id: string;
   title: string;
   thumbnailURL: string;
-  company: string;
+  clientName?: string;
+  clientImageURL?: string;
+  industry?: string;
+  customIndustry?: string;
+  topic?: string;
+  customTopic?: string;
+  service?: string;
+  customService?: string;
+  company?: string;
+  designation?: string;
   numbers: NumberItem[];
   keyChallenges: string[];
   howWeHelped: HelpItem[];
   feedback: string;
   createdAt: any;
   userId: string;
-  clientName?: string;
   clientTitle?: string;
-  clientPhotoURL?: string;
 }
 
 export default function SuccessStoryPage() {
@@ -64,19 +71,25 @@ export default function SuccessStoryPage() {
           const storyData: SuccessStory = {
             id: docSnap.id,
             title: data.title,
+            clientName: data.clientName || "Anonymous",
+            company: data.company || "",
+            designation: data.designation,
+            clientImageURL:
+              data.clientImageURL || "/placeholder.svg?height=40&width=40",
+            industry: data.industry,
+            customIndustry: data.customIndustry,
+            topic: data.topic,
+            customTopic: data.customTopic,
+            service: data.service,
+            customService: data.customService,
             thumbnailURL:
               data.thumbnailURL || "/placeholder.svg?height=600&width=800",
-            company: data.company || "",
             numbers: data.numbers || [],
             keyChallenges: data.keyChallenges || [],
             howWeHelped: data.howWeHelped || [],
             feedback: data.feedback || "",
             createdAt: data.createdAt,
             userId: data.userId,
-            clientName: data.clientName || "Swati Mandhana",
-            clientTitle: data.clientTitle || "Head of Marketing, WestTFC",
-            clientPhotoURL:
-              data.clientPhotoURL || "/placeholder.svg?height=40&width=40",
           };
 
           setStory(storyData);
@@ -118,6 +131,9 @@ export default function SuccessStoryPage() {
             thumbnailURL:
               data.thumbnailURL || "/placeholder.svg?height=400&width=600",
             company: data.company,
+            clientName: data.clientName,
+            clientImageURL: data.clientImageURL,
+            designation: data.designation,
             numbers: data.numbers || [],
             keyChallenges: data.keyChallenges || [],
             howWeHelped: data.howWeHelped || [],
@@ -275,20 +291,25 @@ export default function SuccessStoryPage() {
                     </blockquote>
 
                     {/* Client Info */}
-                    <div className="grid grid-cols-[40px_auto] gap-4 items-center">
+                    <div className="grid grid-cols-[60px_auto] gap-3 items-center">
                       <Image
-                        src={"/logos/headstrat.svg?height=40&width=40"}
+                        src={
+                          story.clientImageURL ||
+                          "/logos/headstrat.svg?height=60&width=60"
+                        }
                         alt={story.clientName || "Client"}
-                        width={40}
-                        height={40}
-                        className="rounded-full"
+                        width={60}
+                        height={60}
+                        className="w-14 h-14 rounded-full object-cover overflow-hidden"
                       />
                       <div>
                         <div className="font-medium">
                           {story.clientName || "Smriti Mandhana"}
                         </div>
                         <div className="text-sm opacity-80">
-                          {story.clientTitle || "Head of Marketing, iWantTFC"}
+                          {story.designation && story.company
+                            ? `${story.designation}, ${story.company}`
+                            : "Head of Marketing, iWantTFC"}
                         </div>
                       </div>
                     </div>

@@ -29,12 +29,12 @@ interface SuccessStoryCardProps {
     id: string;
     title: string;
     thumbnailURL: string;
-    company: string;
+    company?: string;
     numbers: NumberItem[];
     keyChallenges: string[];
     howWeHelped: HelpItem[];
     feedback: string;
-    createdAt: Date;
+    createdAt: any;
   };
   onDelete: () => void;
 }
@@ -79,8 +79,10 @@ export default function AdminSuccessStoryCard({
         </div>
 
         {/* Company */}
-        <h4 className="font-medium mb-2">Company Name:</h4>
-        <p className="text-muted-foreground mb-2">{story.company}</p>
+        <div className="flex items-center space-x-2">
+          <h4 className="font-medium mb-2">Company Name:</h4>
+          <p className="text-muted-foreground mb-2">{story.company}</p>
+        </div>
 
         {expanded && (
           <>

@@ -15,7 +15,15 @@ interface SuccessStory {
   id: string;
   title: string;
   thumbnailURL: string;
-  company: string;
+  clientName?: string;
+  clientImageURL?: string;
+  industry?: string;
+  customIndustry?: string;
+  topic?: string;
+  customTopic?: string;
+  service?: string;
+  customService?: string;
+  company?: string;
   numbers: NumberItem[];
   keyChallenges: string[];
   howWeHelped: HelpItem[];

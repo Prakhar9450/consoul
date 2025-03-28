@@ -30,6 +30,13 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle, Plus, X } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import SuccessStoryCard from "@/app/components/AdminSuccessStoryCard";
 
 interface NumberItem {
@@ -46,7 +53,16 @@ interface SuccessStory {
   id: string;
   title: string;
   thumbnailURL: string;
-  company: string;
+  clientName?: string;
+  clientImageURL?: string;
+  industry?: string;
+  customIndustry?: string;
+  topic?: string;
+  customTopic?: string;
+  service?: string;
+  customService?: string;
+  company?: string;
+  designation?: string;
   numbers: NumberItem[];
   keyChallenges: string[];
   howWeHelped: HelpItem[];
@@ -57,7 +73,16 @@ interface SuccessStory {
 export default function SuccessStoryDashboard({ user }: { user: User }) {
   const [title, setTitle] = useState("");
   const [thumbnailURL, setThumbnailURL] = useState("");
+  const [clientName, setClientName] = useState("");
+  const [clientImageURL, setClientImageURL] = useState("");
+  const [industry, setIndustry] = useState("");
+  const [customIndustry, setCustomIndustry] = useState("");
+  const [topic, setTopic] = useState("");
+  const [customTopic, setCustomTopic] = useState("");
+  const [service, setService] = useState("");
+  const [customService, setCustomService] = useState("");
   const [company, setCompany] = useState("");
+  const [designation, setDesignation] = useState("");
   const [numbers, setNumbers] = useState<NumberItem[]>([{ key: "", value: 0 }]);
   const [keyChallenges, setKeyChallenges] = useState<string[]>([""]);
   const [howWeHelped, setHowWeHelped] = useState<HelpItem[]>([
@@ -87,7 +112,16 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
           id: doc.id,
           title: data.title,
           thumbnailURL: data.thumbnailURL,
+          clientName: data.authorName,
+          clientImageURL: data.authorImageURL,
+          industry: data.industry,
+          customIndustry: data.customIndustry,
+          topic: data.topic,
+          customTopic: data.customTopic,
+          service: data.service,
+          customService: data.customService,
           company: data.company,
+          designation: data.designation,
           numbers: data.numbers,
           keyChallenges: data.keyChallenges,
           howWeHelped: data.howWeHelped,
@@ -112,6 +146,7 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setIsSubmitting(true);
 
     // Validate inputs
     if (!title.trim()) {
@@ -124,8 +159,57 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
       return;
     }
 
+    if (!clientName.trim()) {
+      setError("Client name is required");
+      setIsSubmitting(false);
+      return;
+    }
+
     if (!company.trim()) {
-      setError("Company Name is required");
+      setError("Company is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!designation.trim()) {
+      setError("Designation is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!industry) {
+      setError("Industry is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (industry === "Other" && !customIndustry.trim()) {
+      setError("Please specify the industry");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!topic) {
+      setError("Topic is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (topic === "Other" && !customTopic.trim()) {
+      setError("Please specify the topic");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (!service) {
+      setError("Service is required");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (service === "Other" && !customService.trim()) {
+      setError("Please specify the service");
+      setIsSubmitting(false);
       return;
     }
 
@@ -166,7 +250,16 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
         userId: user.uid,
         title,
         thumbnailURL,
+        clientName,
         company,
+        designation,
+        clientImageURL: clientImageURL || "/placeholder.svg?height=80&width=80",
+        industry: industry === "Other" ? "Other" : industry,
+        customIndustry: industry === "Other" ? customIndustry : null,
+        topic: topic === "Other" ? "Other" : topic,
+        customTopic: topic === "Other" ? customTopic : null,
+        service: service === "Other" ? "Other" : service,
+        customService: service === "Other" ? customService : null,
         numbers: validNumbers,
         keyChallenges: validChallenges,
         howWeHelped: validHelp,
@@ -177,7 +270,16 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
       // Clear form
       setTitle("");
       setThumbnailURL("");
+      setClientName("");
+      setClientImageURL("");
+      setIndustry("");
+      setCustomIndustry("");
+      setTopic("");
+      setCustomTopic("");
+      setService("");
+      setCustomService("");
       setCompany("");
+      setDesignation("");
       setNumbers([{ key: "", value: 0 }]);
       setKeyChallenges([""]);
       setHowWeHelped([{ key: "", value: "" }]);
@@ -186,9 +288,10 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
       // Refresh success stories
       fetchSuccessStories();
     } catch (error) {
-      const errorMessage = error instanceof Error 
-        ? error.message 
-        : "Failed to create success story";
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to create success story";
       setError(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -200,7 +303,7 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
       await deleteDoc(doc(db, "successStories", storyId));
       setSuccessStories(successStories.filter((story) => story.id !== storyId));
     } catch (e) {
-      console.log(e)
+      console.log(e);
       setError("Failed to delete success story");
     }
   };
@@ -283,6 +386,7 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
       await signOut(auth);
     } catch (error) {
       setError("Failed to log out");
+      console.log(error);
     }
   };
 
@@ -294,6 +398,7 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
           Logout
         </Button>
       </div>
+
       <Card>
         <CardHeader>
           <CardTitle>Create New Success Story Post</CardTitle>
@@ -303,6 +408,53 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-6">
+            {/* Client Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="clientName">Client Name</Label>
+                <Input
+                  id="clientName"
+                  value={clientName}
+                  onChange={(e) => setClientName(e.target.value)}
+                  placeholder="Enter client name"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="clientImageURL">Client Image URL</Label>
+                <Input
+                  id="clientImageURL"
+                  value={clientImageURL}
+                  onChange={(e) => setClientImageURL(e.target.value)}
+                  placeholder="Enter client image URL"
+                />
+              </div>
+            </div>
+
+            {/* Client Company Information */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="company">Company</Label>
+                <Input
+                  id="company"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                  placeholder="Enter company name"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="designation">Designation</Label>
+                <Input
+                  id="designation"
+                  value={designation}
+                  onChange={(e) => setDesignation(e.target.value)}
+                  placeholder="Enter designation"
+                  required
+                />
+              </div>
+            </div>
+
             {/* Title and Thumbnail URL */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -327,16 +479,109 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
               </div>
             </div>
 
-            {/* Company Name */}
-            <div className="space-y-2">
-              <Label htmlFor="company">Company Name</Label>
-              <Input
-                id="company"
-                value={company}
-                onChange={(e) => setCompany(e.target.value)}
-                placeholder="Enter company name"
-                required
-              />
+            {/* Industry, Topic, Service */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Industry */}
+              <div className="space-y-2">
+                <Label htmlFor="industry">Industry</Label>
+                <Select value={industry} onValueChange={setIndustry}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an industry" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Banking">Banking</SelectItem>
+                    <SelectItem value="E-commerce">E-commerce</SelectItem>
+                    <SelectItem value="Retail">Retail</SelectItem>
+                    <SelectItem value="Food & beverages">
+                      Food & beverages
+                    </SelectItem>
+                    <SelectItem value="Lifestyle">Lifestyle</SelectItem>
+                    <SelectItem value="Media & OTT">Media & OTT</SelectItem>
+                    <SelectItem value="Technology">Technology</SelectItem>
+                    <SelectItem value="Travel & hospitality">
+                      Travel & hospitality
+                    </SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                {industry === "Other" && (
+                  <div className="mt-2">
+                    <Input
+                      placeholder="Specify industry"
+                      value={customIndustry}
+                      onChange={(e) => setCustomIndustry(e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Topic */}
+              <div className="space-y-2">
+                <Label htmlFor="topic">Topic</Label>
+                <Select value={topic} onValueChange={setTopic}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a topic" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Customer lifetime value">
+                      Customer lifetime value
+                    </SelectItem>
+                    <SelectItem value="Product & tech">
+                      Product & tech
+                    </SelectItem>
+                    <SelectItem value="Omni-channel marketing">
+                      Omni-channel marketing
+                    </SelectItem>
+                    <SelectItem value="Hyper-personalisation">
+                      Hyper-personalisation
+                    </SelectItem>
+                    <SelectItem value="Customer advocacy">
+                      Customer advocacy
+                    </SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                {topic === "Other" && (
+                  <div className="mt-2">
+                    <Input
+                      placeholder="Specify topic"
+                      value={customTopic}
+                      onChange={(e) => setCustomTopic(e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
+
+              {/* Service */}
+              <div className="space-y-2">
+                <Label htmlFor="service">Service</Label>
+                <Select value={service} onValueChange={setService}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a service" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Program management">
+                      Program management
+                    </SelectItem>
+                    <SelectItem value="MarTech audit and setup">
+                      MarTech audit and setup
+                    </SelectItem>
+                    <SelectItem value="On-demand campaign management">
+                      On-demand campaign management
+                    </SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectContent>
+                </Select>
+                {service === "Other" && (
+                  <div className="mt-2">
+                    <Input
+                      placeholder="Specify service"
+                      value={customService}
+                      onChange={(e) => setCustomService(e.target.value)}
+                    />
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* Numbers */}

@@ -90,7 +90,7 @@ export default function BlogPostPage() {
           });
 
           // Fetch related posts
-          fetchRelatedPosts(data.tags);
+          fetchRelatedPosts();
         } else {
           setError("Blog post not found");
         }
@@ -122,7 +122,7 @@ export default function BlogPostPage() {
     return shuffled.slice(0, numTags);
   };
 
-  const fetchRelatedPosts = async (tags: string[]) => {
+  const fetchRelatedPosts = async () => {
     try {
       const q = query(
         collection(db, "blogs"),
