@@ -118,13 +118,13 @@ export const Hero = () => {
 
               {inView && (
                 <div>
-                  <AnimatedSwipeButton
+                    <a href=" https://cal.com/consoul-solutions"><AnimatedSwipeButton
                     className="hidden md:block rounded-lg "
                     firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-xl p-3 "
                     firstText="Book a free Consultation"
                     secondClass="bg-[#A47EF6] text-white text-xl p-3 "
                     secondText="Book a free Consultation"
-                  />
+                  /></a>
                 </div>
               )}
             </div>

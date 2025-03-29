@@ -195,7 +195,7 @@ export const DownloadGuide = () => {
           </div>
         </div>
       </div>
-      <div className="hidden md:block absolute right-28 bottom-[1px]">
+      <div className="hidden md:block absolute right-20 bottom-[1px]">
         <Image src="/icons/docs.svg" alt="guide" width={200} height={200} />
       </div>
 
