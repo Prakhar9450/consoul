@@ -1,5 +1,5 @@
 "use client"
-import { ToolsCloud } from "../components/ToolsCloud"
+import { OrbitingCirclesDemo } from "../components/ToolsCloud"
 import { Ready } from "../components/Ready"
 
 
@@ -13,7 +13,7 @@ export const SuccessStories = () => {
           Tools worked on
         </div>
         <div className="w-full max-w-2xl flex justify-center">
-          <ToolsCloud />
+          <OrbitingCirclesDemo />
         </div>
       </div>
       <div>

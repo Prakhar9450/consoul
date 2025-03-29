@@ -24,9 +24,9 @@ export default function RootLayout({
         <Navbar />
         {children}
         <div className="text-center w-full block md:hidden">
-          <button className="bg-gradient-to-b from-[#6438C3] to-[#4B21A6] w-full text-white px-6 py-3 text-lg font-medium">
+        <a href="https://cal.com/consoul-solutions"><button  className="bg-gradient-to-b from-[#6438C3] to-[#4B21A6] w-full text-white px-6 py-3 text-lg font-medium">
             Book a Free Consultation
-          </button>
+          </button></a>
         </div>
       </body>
     </html>

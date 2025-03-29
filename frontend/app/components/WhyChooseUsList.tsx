@@ -5,7 +5,7 @@ import { ContactForm } from "./ContactForm";
 import Image from "next/image";
 import { useInView } from "react-intersection-observer";
 
-const items = [
+let items = [
   { name: "Pay-as-you-go", icon: "/icons/fingerprints.svg" },
   { name: "Quicker go-to-market strategies", icon: "/icons/fingerprints.svg" },
   {
@@ -18,6 +18,7 @@ const items = [
   },
   { name: "No capital investment", icon: "/icons/fingerprints.svg" },
 ];
+items = Array.from({ length: 10 }, () => items).flat();
 
 const ListItem = ({ name, icon }: { name: string; icon: string }) => {
   return (

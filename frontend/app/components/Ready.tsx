@@ -15,13 +15,13 @@ export const Ready = () => {
         </div>
       </div>
       <div className="flex justify-center">
-        <SwipeButton
+        <a href="https://cal.com/consoul-solutions"><SwipeButton
           className="w-fit hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg md:text-lg font-semibold"
           firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-lg py-2 md:py-3 px-4 md:px-6 "
           firstText="Yes, I am ready. Let’s talk"
           secondClass="bg-[#A47EF6] text-white py-2 md:py-3 px-4 md:px-6  text-lg"
           secondText="Yes, I am ready. Let’s talk"
-        ></SwipeButton>
+        ></SwipeButton></a>
       </div>
     </div>
   );

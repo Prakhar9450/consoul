@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import SwipeButton from "./ui/SwipeButton";
 import ReadAllSuccessStoriesButton from "./ui/ReadAllSuccessStoriesButton";
+import { useRouter } from "next/navigation";
 export const SuccessStoriesComp = () => {
   const stories = [
     {
@@ -53,6 +54,8 @@ export const SuccessStoriesComp = () => {
     setIndex((prevIndex) => (prevIndex - 1 + stories.length) % stories.length);
   };
 
+  const router = useRouter()
+
   return (
     <div className="flex justify-center">
       <div className="p-4 md:p-10 flex flex-col items-center  relative overflow-hidden">
@@ -101,14 +104,14 @@ export const SuccessStoriesComp = () => {
                 
               </button>
 
-                    <SwipeButton
+              <a href="https://cal.com/consoul-solutions"><SwipeButton
                       className="w-full hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg md:text-lg font-semibold"
                       firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-lg py-2 md:py-3 px-4 md:px-6 "
                       firstText="Yes, let’s talk"
                       secondClass="bg-[#A47EF6] text-white py-2 md:py-3 px-4 md:px-6  text-lg"
                       secondText="Yes, let’s talk"
-                    ></SwipeButton>
-                     <ReadAllSuccessStoriesButton text="Read all success stories" ></ReadAllSuccessStoriesButton>
+                    ></SwipeButton></a>
+                     <div onClick={()=>router.push('/success-stories')}><ReadAllSuccessStoriesButton text="Read all success stories" ></ReadAllSuccessStoriesButton></div>
             </div>
 
            

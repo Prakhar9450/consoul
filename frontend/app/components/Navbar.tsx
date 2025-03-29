@@ -81,7 +81,7 @@ export const Navbar = () => {
         </div>
         <a href=" https://cal.com/consoul-solutions"><SwipeButton
           className="hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg"
-          firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-sm py-2 px-4 "
+          firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-sm py-3 px-4 "
           firstText="Book a call"
           secondClass="bg-[#A47EF6] text-white py-2 px-4 text-sm"
           secondText="Book a call"></SwipeButton></a>

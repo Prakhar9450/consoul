@@ -10,9 +10,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <ServicesNav />
         {children}
         <div className="text-center my-10 hidden md:block" >
-          <button className="bg-[#6438C3] text-white px-6 py-3 rounded-lg text-lg font-medium">
+        <a href="https://cal.com/consoul-solutions"><button className="bg-[#6438C3] text-white px-6 py-3 rounded-lg text-lg font-medium">
             Book a Free Consultation
-          </button>
+          </button></a>
         </div>
         <div className="my-10  md:my-20 flex justify-center">
           <DownloadGuide />
