@@ -517,6 +517,7 @@ export default function BlogDashboard({ user }: { user: User }) {
                 required
               />
             </div>
+
             {error && (
               <Alert variant="destructive">
                 <AlertCircle className="h-4 w-4" />

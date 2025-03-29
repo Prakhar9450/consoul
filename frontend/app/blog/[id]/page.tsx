@@ -90,7 +90,7 @@ export default function BlogPostPage() {
           });
 
           // Fetch related posts
-          fetchRelatedPosts(data.tags);
+          fetchRelatedPosts();
         } else {
           setError("Blog post not found");
         }
@@ -122,7 +122,7 @@ export default function BlogPostPage() {
     return shuffled.slice(0, numTags);
   };
 
-  const fetchRelatedPosts = async (tags: string[]) => {
+  const fetchRelatedPosts = async () => {
     try {
       const q = query(
         collection(db, "blogs"),
@@ -219,7 +219,7 @@ export default function BlogPostPage() {
                     alt={post.authorName || "Author"}
                     width={50}
                     height={50}
-                    className="rounded-full"
+                    className="w-14 h-14 rounded-full object-cover overflow-hidden"
                   />
                 </div>
                 <div>
@@ -316,8 +316,9 @@ export default function BlogPostPage() {
                   alt={post.authorName || "Author"}
                   width={80}
                   height={80}
-                  className="rounded-full mb-4"
+                  className="w-20 h-20 rounded-full object-cover overflow-hidden mb-4"
                 />
+
                 <h3 className="font-medium text-center">
                   Written by {post.authorName || "Anonymous"}
                 </h3>
