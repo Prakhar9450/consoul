@@ -2,16 +2,46 @@
 import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, ChevronDown, ChevronRight } from "lucide-react";
 import SwipeButton from "./ui/SwipeButton";
 
 const services = [
-  { name: "Media & OTT", icon: "/icons/mediaott.svg", route: "/services/media-ott", desc: "Retain & upsell subscribers" },
-  { name: "E-Commerce & Retail", icon: "/icons/ecommerce.svg", route: "/services/ecommerce&retail", desc: "Boost sales conversion" },
-  { name: "Edu-Tech", icon: "/icons/edutech.svg", route: "/services/edutech", desc: "Turn leads into enrolments" },
-  { name: "Food & Beverages", icon: "/icons/food.svg", route: "/services/food&beverages", desc: "Increase repeat purchases" },
-  { name: "Travel & Hospitality", icon: "/icons/travel.svg", route: "/services/travel&hospitality", desc: "Enhance booking experiences" },
-  { name: "Banking & Financial Services", icon: "/icons/banking.svg", route: "/services/banking&financial", desc: "Strengthen trust and relationship" },
+  {
+    name: "Media & OTT",
+    icon: "/icons/mediaott.svg",
+    route: "/services/media-ott",
+    desc: "Retain & upsell subscribers",
+  },
+  {
+    name: "E-Commerce & Retail",
+    icon: "/icons/ecommerce.svg",
+    route: "/services/ecommerce&retail",
+    desc: "Boost sales conversion",
+  },
+  {
+    name: "Edu-Tech",
+    icon: "/icons/edutech.svg",
+    route: "/services/edutech",
+    desc: "Turn leads into enrolments",
+  },
+  {
+    name: "Food & Beverages",
+    icon: "/icons/food.svg",
+    route: "/services/food&beverages",
+    desc: "Increase repeat purchases",
+  },
+  {
+    name: "Travel & Hospitality",
+    icon: "/icons/travel.svg",
+    route: "/services/travel&hospitality",
+    desc: "Enhance booking experiences",
+  },
+  {
+    name: "Banking & Financial Services",
+    icon: "/icons/banking.svg",
+    route: "/services/banking&financial",
+    desc: "Strengthen trust and relationship",
+  },
 ];
 
 export const Navbar = () => {
@@ -28,16 +58,25 @@ export const Navbar = () => {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
+  const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
 
   useEffect(() => {
-    const currentIndex = NavbarItems.findIndex((item) => item.path === pathname);
+    const currentIndex = NavbarItems.findIndex(
+      (item) => item.path === pathname
+    );
     setActiveIndex(currentIndex);
   }, [pathname]);
 
-  const handleClick = (path: string, index: number) => {
+  const handleClick = (path: string, index: number): void => {
     setActiveIndex(index);
     router.push(path);
     setIsMenuOpen(false);
+  };
+
+  const handleServiceClick = (route: string): void => {
+    router.push(route);
+    setIsMenuOpen(false);
+    setIsMobileServicesOpen(false);
   };
 
   return (
@@ -47,15 +86,16 @@ export const Navbar = () => {
         <div className="fixed inset-0 bg-black bg-opacity-20 transition-opacity duration-300"></div>
       )}
 
-      <div className="flex justify-between items-center lg:justify-center lg:space-x-20">
-        {/* Logo */}
-        <div className="flex items-center">
+      {/* Main Navbar Container - Fixed Height */}
+      <div className="flex justify-between items-center lg:justify-center lg:space-x-20 h-16 px-4">
+        {/* Logo Container with Constraints */}
+        <div className="relative h-10 w-40 flex items-center overflow-visible">
           <Image
             src="/logos/consoul.png"
             alt="logo"
-            width={120}
-            height={1000}
-            className="cursor-pointer"
+            width={150}
+            height={50}
+            className="cursor-pointer object-contain"
             onClick={() => router.push("/")}
           />
         </div>
@@ -78,7 +118,11 @@ export const Navbar = () => {
                 stroke="currentColor"
                 className="w-4 h-4"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                />
               </svg>
             </div>
 
@@ -92,9 +136,16 @@ export const Navbar = () => {
                       className="flex items-start gap-3 p-2 py-4 hover:bg-[#F1EAFF] rounded-lg cursor-pointer transition duration-300"
                       onClick={() => router.push(service.route)}
                     >
-                      <Image src={service.icon} alt={service.name} width={24} height={24} />
+                      <Image
+                        src={service.icon}
+                        alt={service.name}
+                        width={24}
+                        height={24}
+                      />
                       <div>
-                        <h3 className="font-semibold text-gray-800">{service.name}</h3>
+                        <h3 className="font-semibold text-gray-800">
+                          {service.name}
+                        </h3>
                         <p className="text-sm text-gray-500">{service.desc}</p>
                       </div>
                     </div>
@@ -122,9 +173,9 @@ export const Navbar = () => {
         <a href="https://cal.com/consoul-solutions">
           <SwipeButton
             className="hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg"
-            firstClass="bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-sm py-3 px-4"
+            firstClass="bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-lg py-2 px-4"
             firstText="Book a call"
-            secondClass="bg-[#A47EF6] text-white py-2 px-4 text-sm"
+            secondClass="bg-[#A47EF6] text-white py-2 px-4 text-lg"
             secondText="Book a call"
           />
         </a>
@@ -135,7 +186,12 @@ export const Navbar = () => {
             {isMenuOpen ? (
               <X color="#6438C3" size={24} />
             ) : (
-              <Image src="/icons/hamburger.svg" alt="menu" width={24} height={24} />
+              <Image
+                src="/icons/hamburger.svg"
+                alt="menu"
+                width={24}
+                height={24}
+              />
             )}
           </button>
         </div>
@@ -143,7 +199,44 @@ export const Navbar = () => {
 
       {/* Mobile Menu Drawer */}
       {isMenuOpen && (
-        <div className="absolute top-14 left-0 w-full bg-white shadow-md p-6 lg:hidden">
+        <div className="absolute top-16 left-0 w-full bg-white shadow-md p-6 lg:hidden">
+          {/* Services Dropdown for Mobile */}
+          <div className="p-3 text-lg text-[#555555]">
+            <div
+              className="flex items-center space-x-3 cursor-pointer hover:text-[#6438C3]"
+              onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+            >
+              <span>Services</span>
+              {isMobileServicesOpen ? (
+                <ChevronDown className="w-5 h-5" />
+              ) : (
+                <ChevronRight className="w-5 h-5" />
+              )}
+            </div>
+
+            {/* Mobile Services Submenu */}
+            {isMobileServicesOpen && (
+              <div className="mt-2 ml-4 space-y-3">
+                {services.map((service) => (
+                  <div
+                    key={service.name}
+                    className="flex items-center gap-2 p-2 cursor-pointer hover:text-[#6438C3]"
+                    onClick={() => handleServiceClick(service.route)}
+                  >
+                    <Image
+                      src={service.icon}
+                      alt={service.name}
+                      width={20}
+                      height={20}
+                    />
+                    <span>{service.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Other Navigation Items */}
           {NavbarItems.map((item, index) => (
             <div
               key={index}
