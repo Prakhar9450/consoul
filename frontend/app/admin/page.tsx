@@ -11,7 +11,7 @@ import Footer from "@/app/components/Footer";
 import CareerDashboard from "@/app/components/CareerDashboard";
 import PdfDashboard from "@/app/components/PdfDashboard";
 
-export default function Home() {
+export default function Admin() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 

@@ -101,7 +101,18 @@ export default function Footer() {
           <p className="text-muted-foreground">
             Copyright © 2024 Lorem Ipsum Templates
           </p>
-          <Link href="/privacy" className="text-muted-foreground ">
+          <Link
+            href="/privacy"
+            target="_blank"
+            className="text-muted-foreground hidden md:inline-block">
+            All Rights Reserved |{" "}
+            <span className="underline text-[#6438C3]">Privacy Policy</span>
+          </Link>
+
+          <Link
+            href="/privacy"
+            target="_parent"
+            className="text-muted-foreground md:hidden">
             All Rights Reserved |{" "}
             <span className="underline text-[#6438C3]">Privacy Policy</span>
           </Link>
