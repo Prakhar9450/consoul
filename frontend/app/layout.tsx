@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Mulish } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "./components/Navbar";
+import GoogleAnalytics from "./components/GoogleAnalytics";
 
 const mulishSans = Mulish({
   variable: "--font-mulish-sans",
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${mulishSans.variable} antialiased pt-20`}>
+        <GoogleAnalytics />
         <Navbar />
         {children}
         <div className="text-center w-full block md:hidden">
