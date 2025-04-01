@@ -1,113 +1,129 @@
-"use client"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import Image from "next/image"
+"use client";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface Feature {
-  title: string
-  description: string
-  image: string
+  title: string;
+  description: string;
+  image: string;
 }
 
 interface Section {
-  id: number
-  title: string
-  subtitle: string
-  features: Feature[]
+  id: number;
+  title: string;
+  subtitle: string;
+  features: Feature[];
 }
 
 export default function Page() {
-  const [activeSection, setActiveSection] = useState(0)
-  const [activeFeaturesMap, setActiveFeaturesMap] = useState<Record<number, number>>({})
+  const [activeSection, setActiveSection] = useState(0);
+  const [activeFeaturesMap, setActiveFeaturesMap] = useState<
+    Record<number, number>
+  >({});
 
   const sections: Section[] = [
     {
       id: 0,
       title: "Strategic Marketing Programs",
-      subtitle: "We help E-Commerce platforms scale with data-driven strategies",
+      subtitle:
+        "We help E-Commerce platforms scale with data-driven strategies",
       features: [
         {
           title: "Map and optimise the customer life-cycle",
-          description: "to build loyalty and drive repeat purchases in e-commerce.",
-          image: "/components/fnb1.1.png",
+          description:
+            "to build loyalty and drive repeat purchases in e-commerce",
+          image: "/components/ecommerce/ecommerce1.1.webp",
         },
         {
           title: "Segment and personalise customer data",
-          description: "by tailoring messaging to context, season, preferences, and channels.",
-          image: "/components/fnb1.2.png",
+          description:
+            "by tailoring messaging to context, season, preferences, and channels",
+          image: "/components/ecommerce/ecommerce1.2.webp",
         },
         {
           title: "Boost AOV & encourage repeat purchases",
-          description: "by monitoring KPIs in real-time and continually refining campaigns.",
-          image: "/components/fnb1.3.png",
+          description:
+            "by monitoring KPIs in real-time and continually refining campaigns",
+          image: "/components/ecommerce/ecommerce1.3.webp",
         },
         {
           title: "Optimise user's click-to-checkout journey",
-          description: "by implementing full-funnel customer life cycle strategies and maximising conversions.",
-          image: "/components/fnb1.4.png",
+          description:
+            "by implementing full-funnel customer life cycle strategies and maximising conversions",
+          image: "/components/ecommerce/ecommerce1.4.webp",
         },
       ],
     },
     {
       id: 1,
       title: "MarTech audits and optimisation",
-      subtitle: "We streamline tech to enhance customer engagement and boost conversions",
+      subtitle:
+        "We streamline tech to enhance customer engagement and boost conversions",
       features: [
         {
           title: "Get MarTech audit",
-          description: "to identify gaps and inefficiencies in e-commerce marketing tools and maximise ROI.",
-          image: "/components/media&ott2.1.png",
+          description:
+            "to identify gaps and inefficiencies in e-commerce marketing tools and maximise ROI",
+          image: "/components/ecommerce/ecommerce2.1.webp",
         },
         {
           title: "Get best-fit tool recommendations",
-          description: "to achieve your customer journeys, optimise shopping experiences, and streamline operations.",
-          image: "/components/media&ott2.2.png",
+          description:
+            "to achieve your customer journeys, optimise shopping experiences, and streamline operations",
+          image: "/components/ecommerce/ecommerce2.2.webp",
         },
         {
           title: "Migrate to advanced tools hassle-free",
-          description: "with phased implementation plans that maintain uninterrupted operations and boost precision marketing.",
-          image: "/components/media&ott2.3.png",
+          description:
+            "with phased implementation plans that maintain uninterrupted operations and checkout processes",
+          image: "/components/ecommerce/ecommerce2.3.webp",
         },
         {
           title: "Get a unified dashboard",
-          description: "that integrates data from various sources to make informed decisions driving repeat sales.",
-          image: "/components/media&ott2.4.png",
+          description:
+            "that integrates data from various sources to make informed decisions driving repeat sales.",
+          image: "/components/ecommerce/ecommerce2.4.webp",
         },
       ],
     },
     {
       id: 2,
       title: "End-to-end campaign management",
-      subtitle: "We help you optimise campaigns to drive sales and retain loyal customers",
+      subtitle:
+        "We help you optimise campaigns to drive sales and retain loyal customers",
       features: [
         {
           title: "Launch, enhance e-commerce campaigns",
-          description: "by leveraging real-time analytics to boost checkouts and drive better results.",
-          image: "/components/media&ott3.0.png",
+          description:
+            "by leveraging real-time analytics to boost checkouts and drive better results",
+          image: "/components/ecommerce/ecommerce3.1.webp",
         },
         {
           title: "Improve ad relevance and increase clicks",
-          description: "with advanced testing like multi-variate testing, channel optimisation & user flow A/B testing.",
-          image: "/components/media&ott3.1.png",
+          description:
+            "with advanced testing like multi-variate testing, channel optimisation & user flow A/B testing",
+          image: "/components/ecommerce/ecommerce3.2.webp",
         },
         {
           title: "Maximise engagement for your online store",
-          description: "by running and optimising dynamic, user behaviour-based campaigns.",
-          image: "/components/media&ott3.2.png",
+          description:
+            "by running and optimising dynamic, user behaviour-based campaigns",
+          image: "/components/ecommerce/ecommerce3.3.webp",
         },
         {
           title: "Establish functional systems and SOPs",
-          description: "to ensure scalable, consistent e-commerce campaign execution and team coordination.",
-          image: "/components/media&ott3.4.png",
+          description:
+            "to ensure scalable, consistent e-commerce campaign execution and team coordination",
+          image: "/components/ecommerce/ecommerce3.4.webp",
         },
       ],
     },
   ];
 
-
   useEffect(() => {
     const initialMap: Record<number, number> = {};
-    sections.forEach(section => {
+    sections.forEach((section) => {
       initialMap[section.id] = 0; // Set all sections to first feature
     });
     setActiveFeaturesMap(initialMap);
@@ -115,15 +131,15 @@ export default function Page() {
   }, []);
 
   const handleSubtitleClick = (sectionId: number) => {
-    setActiveSection(sectionId)
+    setActiveSection(sectionId);
     setActiveFeaturesMap((prev) => ({
       ...prev,
       [sectionId]: (prev[sectionId] + 1) % sections[sectionId].features.length,
-    }))
-  }
+    }));
+  };
 
   const renderSectionContent = (section: Section) => {
-    const isMiddleSection = section.id === 1
+    const isMiddleSection = section.id === 1;
     const activeFeatureIndex = activeFeaturesMap[section.id] ?? 0; // Default to 0 if undefined
 
     const imageComponent = (
@@ -132,8 +148,7 @@ export default function Page() {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="relative h-[300px] rounded-lg order-last md:order-none"
-      >
+        className="relative h-[300px] rounded-lg order-last md:order-none">
         <Image
           src={section.features[activeFeatureIndex].image || "/placeholder.svg"}
           alt={section.features[activeFeatureIndex].title}
@@ -143,7 +158,7 @@ export default function Page() {
           width={500}
         />
       </motion.div>
-    )
+    );
 
     const featuresComponent = (
       <div className="relative">
@@ -151,28 +166,32 @@ export default function Page() {
         <div className="space-y-8">
           {section.features.map((feature, index) => {
             // Show first feature as active by default when section loads
-            const isActive = (activeSection === section.id && activeFeatureIndex === index) ||
-                           (index === 0 && activeFeaturesMap[section.id] === 0);
+            const isActive =
+              (activeSection === section.id && activeFeatureIndex === index) ||
+              (index === 0 && activeFeaturesMap[section.id] === 0);
 
             return (
-              <motion.div 
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.1, ease: "easeInOut" }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.1,
+                  ease: "easeInOut",
+                }}
                 className={`relative pl-6 cursor-pointer group ${
                   isActive
                     ? "bg-[#E2E9FF] rounded-lg p-3 md:py-3 md:bg-white"
                     : "bg-white md:bg-white"
                 }`}
                 onClick={() => {
-                  setActiveSection(section.id)
+                  setActiveSection(section.id);
                   setActiveFeaturesMap((prev) => ({
                     ...prev,
                     [section.id]: index,
-                  }))
-                }}
-              >
+                  }));
+                }}>
                 <div
                   className={`hidden md:block absolute left-0 top-0 w-1 h-full transition-all duration-300 rounded-t-full rounded-b-full ${
                     isActive ? "bg-[#6438C3]" : "bg-purple-100"
@@ -184,15 +203,13 @@ export default function Page() {
                       isActive
                         ? "text-[#555555] md:text-[#6438C3]"
                         : "text-[#555555] md:text-gray-800 group-hover:text-[#6438C3]"
-                    }`}
-                  >
+                    }`}>
                     {feature.title}
                   </h3>
-                  <p 
+                  <p
                     className={`text-[#8C8C8C] ${
                       isActive ? "block" : "hidden md:block"
-                    }`}
-                  >
+                    }`}>
                     {feature.description}
                   </p>
                 </div>
@@ -201,7 +218,7 @@ export default function Page() {
           })}
         </div>
       </div>
-    )
+    );
 
     return (
       <div className="grid md:grid-cols-2 gap-12 items-start">
@@ -217,8 +234,8 @@ export default function Page() {
           </>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -228,16 +245,16 @@ export default function Page() {
             <div className="mb-12 text-center">
               <h2
                 className={`text-3xl font-bold mb-4 transition-colors duration-300 cursor-pointer ${
-                  activeSection === section.id ? "md:text-[#6438C3]" : "text-gray-800 hover:text-[#6438C3]"
+                  activeSection === section.id
+                    ? "md:text-[#6438C3]"
+                    : "text-gray-800 hover:text-[#6438C3]"
                 }`}
-                onClick={() => setActiveSection(section.id)}
-              >
+                onClick={() => setActiveSection(section.id)}>
                 {section.title}
               </h2>
               <p
                 className="text-gray-600 max-w-2xl mx-auto cursor-pointer hover:text-[#6438C3]"
-                onClick={() => handleSubtitleClick(section.id)}
-              >
+                onClick={() => handleSubtitleClick(section.id)}>
                 {section.subtitle}
               </p>
             </div>
@@ -246,5 +263,5 @@ export default function Page() {
         </section>
       ))}
     </div>
-  )
+  );
 }

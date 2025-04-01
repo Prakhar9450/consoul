@@ -1,50 +1,57 @@
-"use client"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import Image from "next/image"
+"use client";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface Feature {
-  title: string
-  description: string
-  image: string
+  title: string;
+  description: string;
+  image: string;
 }
 
 interface Section {
-  id: number
-  title: string
-  subtitle: string
-  features: Feature[]
+  id: number;
+  title: string;
+  subtitle: string;
+  features: Feature[];
 }
 
 export default function Page() {
-  const [activeSection, setActiveSection] = useState(0)
-  const [activeFeaturesMap, setActiveFeaturesMap] = useState<Record<number, number>>({})
+  const [activeSection, setActiveSection] = useState(0);
+  const [activeFeaturesMap, setActiveFeaturesMap] = useState<
+    Record<number, number>
+  >({});
 
   const sections: Section[] = [
     {
       id: 0,
       title: "Strategic Marketing Programs",
-      subtitle: "We help OTT platforms achieve growth through targeted strategies",
+      subtitle:
+        "We help OTT platforms achieve growth through targeted strategies",
       features: [
         {
           title: "Map user journey on OTT",
-          description: "to enhance engagement across discovery, subscription, and retention stages",
-          image: "/components/media&ott1.1.png",
+          description:
+            "to enhance engagement across discovery, subscription, and retention stages",
+          image: "/components/media&ott/media&ott1.1.webp",
         },
         {
           title: "Advanced data segmentation",
-          description: "for hyper-personalized messages based on individual preferences and other data",
-          image: "/components/media&ott1.2.png",
+          description:
+            "for hyper-personalized messages based on individual preferences and other data",
+          image: "/components/media&ott/media&ott1.2.webp",
         },
         {
           title: "Strategic benchmarking of competitors",
-          description: "and insights into their content strategies, driving conversions",
-          image: "/components/media&ott1.3.png",
+          description:
+            "and insights into their content strategies, driving conversions",
+          image: "/components/media&ott/media&ott1.3.webp",
         },
         {
           title: "Monitor real-time OTT KPIs",
-          description: "to continuously optimize user experiences and retention strategies",
-          image: "/components/media&ott1.4.png",
+          description:
+            "to continuously optimize user experiences and retention strategies",
+          image: "/components/media&ott/media&ott1.4.webp",
         },
       ],
     },
@@ -55,23 +62,26 @@ export default function Page() {
       features: [
         {
           title: "Identify inefficiencies in the tech stack",
-          description: "to enhance your OTT performance and boost ROI for content delivery",
-          image: "/components/media&ott2.1.png",
+          description:
+            "to enhance your OTT performance and boost ROI for content delivery",
+          image: "/components/media&ott/media&ott2.1.webp",
         },
         {
           title: "Get tailored tool suggestions",
           description: "for advanced analytics and marketing operations",
-          image: "/components/media&ott2.2.png",
+          image: "/components/media&ott/media&ott2.2.webp",
         },
         {
           title: "Seamless shift to advanced MarTech tools",
-          description: "with social migration and configurations to handle complex custom logic",
-          image: "/components/media&ott2.3.png",
+          description:
+            "with social migration and configurations to handle complex custom logic",
+          image: "/components/media&ott/media&ott2.3.webp",
         },
         {
           title: "Ensure consistent audience interaction",
-          description: "by setting up all communication channels like email, push notifications",
-          image: "/components/media&ott2.4.png",
+          description:
+            "by setting up all communication channels like email, push notifications",
+          image: "/components/media&ott/media&ott2.4.webp",
         },
       ],
     },
@@ -81,32 +91,36 @@ export default function Page() {
       subtitle: "We help you optimize campaigns to grow and retain subscribers",
       features: [
         {
-          title: "Monthly content planning execution",
-          description: "and channel coordination for end-to-end campaign management",
-          image: "/components/media&ott3.0.png",
+          title: "End-to-end campaign management",
+          description:
+            "ensuring seamless planning, execution, and multi-channel coordination",
+          image: "/components/media&ott/media&ott3.1.webp",
         },
         {
           title: "Continuously refine OTT campaigns",
-          description: "with optimization, user flow testing, and other advanced testing methods",
-          image: "/components/media&ott3.1.png",
+          description:
+            "with optimization, user flow testing, and other advanced testing methods",
+          image: "/components/media&ott/media&ott3.2.webp",
         },
         {
           title: "Improve your campaign metrics",
-          description: "with accessibility metrics and CTR improvement triggers",
-          image: "/components/media&ott3.2.png",
+          description:
+            "like deliverability, opens, CTR and generate higher conversions",
+          image: "/components/media&ott/media&ott3.3.webp",
         },
         {
           title: "Campaign reporting",
-          description: "with real-time analytics, campaign tracking, and actionable insights",
-          image: "/components/media&ott3.4.png",
+          description:
+            "with real-time analytics, campaign tracking, and actionable insights to boost engagement and ROI",
+          image: "/components/media&ott/media&ott3.4.webp",
         },
       ],
     },
-  ]
+  ];
 
   useEffect(() => {
     const initialMap: Record<number, number> = {};
-    sections.forEach(section => {
+    sections.forEach((section) => {
       initialMap[section.id] = 0; // Set all sections to first feature
     });
     setActiveFeaturesMap(initialMap);
@@ -114,15 +128,15 @@ export default function Page() {
   }, []);
 
   const handleSubtitleClick = (sectionId: number) => {
-    setActiveSection(sectionId)
+    setActiveSection(sectionId);
     setActiveFeaturesMap((prev) => ({
       ...prev,
       [sectionId]: (prev[sectionId] + 1) % sections[sectionId].features.length,
-    }))
-  }
+    }));
+  };
 
   const renderSectionContent = (section: Section) => {
-    const isMiddleSection = section.id === 1
+    const isMiddleSection = section.id === 1;
     const activeFeatureIndex = activeFeaturesMap[section.id] ?? 0; // Default to 0 if undefined
 
     const imageComponent = (
@@ -131,8 +145,7 @@ export default function Page() {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="relative h-[300px] rounded-lg order-last md:order-none"
-      >
+        className="relative h-[300px] rounded-lg order-last md:order-none">
         <Image
           src={section.features[activeFeatureIndex].image || "/placeholder.svg"}
           alt={section.features[activeFeatureIndex].title}
@@ -142,7 +155,7 @@ export default function Page() {
           width={500}
         />
       </motion.div>
-    )
+    );
 
     const featuresComponent = (
       <div className="relative">
@@ -150,28 +163,32 @@ export default function Page() {
         <div className="space-y-8">
           {section.features.map((feature, index) => {
             // Show first feature as active by default when section loads
-            const isActive = (activeSection === section.id && activeFeatureIndex === index) ||
-                           (index === 0 && activeFeaturesMap[section.id] === 0);
+            const isActive =
+              (activeSection === section.id && activeFeatureIndex === index) ||
+              (index === 0 && activeFeaturesMap[section.id] === 0);
 
             return (
-              <motion.div 
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.1, ease: "easeInOut" }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.1,
+                  ease: "easeInOut",
+                }}
                 className={`relative pl-6 cursor-pointer group ${
                   isActive
                     ? "bg-[#E2E9FF] rounded-lg p-3 md:py-3 md:bg-white"
                     : "bg-white md:bg-white"
                 }`}
                 onClick={() => {
-                  setActiveSection(section.id)
+                  setActiveSection(section.id);
                   setActiveFeaturesMap((prev) => ({
                     ...prev,
                     [section.id]: index,
-                  }))
-                }}
-              >
+                  }));
+                }}>
                 <div
                   className={`hidden md:block absolute left-0 top-0 w-1 h-full transition-all duration-300 rounded-t-full rounded-b-full ${
                     isActive ? "bg-[#6438C3]" : "bg-purple-100"
@@ -183,15 +200,13 @@ export default function Page() {
                       isActive
                         ? "text-[#555555] md:text-[#6438C3]"
                         : "text-[#555555] md:text-gray-800 group-hover:text-[#6438C3]"
-                    }`}
-                  >
+                    }`}>
                     {feature.title}
                   </h3>
-                  <p 
+                  <p
                     className={`text-[#8C8C8C] ${
                       isActive ? "block" : "hidden md:block"
-                    }`}
-                  >
+                    }`}>
                     {feature.description}
                   </p>
                 </div>
@@ -200,7 +215,7 @@ export default function Page() {
           })}
         </div>
       </div>
-    )
+    );
 
     return (
       <div className="grid md:grid-cols-2 gap-12 items-start">
@@ -216,8 +231,8 @@ export default function Page() {
           </>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -227,16 +242,16 @@ export default function Page() {
             <div className="mb-12 text-center">
               <h2
                 className={`text-3xl font-bold mb-4 transition-colors duration-300 cursor-pointer ${
-                  activeSection === section.id ? "md:text-[#6438C3]" : "text-gray-800 hover:text-[#6438C3]"
+                  activeSection === section.id
+                    ? "md:text-[#6438C3]"
+                    : "text-gray-800 hover:text-[#6438C3]"
                 }`}
-                onClick={() => setActiveSection(section.id)}
-              >
+                onClick={() => setActiveSection(section.id)}>
                 {section.title}
               </h2>
               <p
                 className="text-gray-600 max-w-2xl mx-auto cursor-pointer hover:text-[#6438C3]"
-                onClick={() => handleSubtitleClick(section.id)}
-              >
+                onClick={() => handleSubtitleClick(section.id)}>
                 {section.subtitle}
               </p>
             </div>
@@ -245,5 +260,5 @@ export default function Page() {
         </section>
       ))}
     </div>
-  )
+  );
 }

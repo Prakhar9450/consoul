@@ -1,110 +1,122 @@
-"use client"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import Image from "next/image"
+"use client";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface Feature {
-  title: string
-  description: string
-  image: string
+  title: string;
+  description: string;
+  image: string;
 }
 
 interface Section {
-  id: number
-  title: string
-  subtitle: string
-  features: Feature[]
+  id: number;
+  title: string;
+  subtitle: string;
+  features: Feature[];
 }
 
 export default function Page() {
-  const [activeSection, setActiveSection] = useState(0)
-  const [activeFeaturesMap, setActiveFeaturesMap] = useState<Record<number, number>>({})
+  const [activeSection, setActiveSection] = useState(0);
+  const [activeFeaturesMap, setActiveFeaturesMap] = useState<
+    Record<number, number>
+  >({});
 
   const sections: Section[] = [
     {
       id: 0,
       title: "Strategic Marketing Programs",
-      subtitle: "We create strategies to drive enrollment and engagement for EdTech platforms",
+      subtitle:
+        "We create strategies to drive enrollment and engagement for EdTech platforms",
       features: [
         {
           title: "Map and optimise the student’s journey",
-          description: "to ensure smooth transitions and engagement across enrollment, learning, and retention stages.",
-          image: "/components/fnb1.1.png",
+          description:
+            "to ensure smooth transitions and engagement across enrollment, learning, and retention stages",
+          image: "/components/edtech/edtech1.1.webp",
         },
         {
           title: "Leverage advanced data segmentation",
-          description: "to deliver tailored course recommendations based on learner behavior, preferences, and career goals.",
-          image: "/components/fnb1.2.png",
+          description:
+            "to deliver tailored course recommendations based on learner behavior, preferences, and career goals",
+          image: "/components/edtech/edtech1.2.webp",
         },
         {
           title: "Monitor real-time KPIs",
-          description: "like enrollment rate, completion, and engagement frequency to refine strategies.",
-          image: "/components/fnb1.3.png",
+          description:
+            "like enrollment rate, completion, and engagement frequency to refine strategies",
+          image: "/components/edtech/edtech1.3.webp",
         },
         {
           title: "Boost conversions with funnel optimisation",
-          description: "by enhancing touchpoints like sign-ups, demo classes, and course checkout.",
-          image: "/components/fnb1.4.png",
+          description:
+            "by enhancing touchpoints like sign-ups, demo classes, and course checkout",
+          image: "/components/edtech/edtech1.4.webp",
         },
       ],
     },
     {
       id: 1,
       title: "MarTech audits and optimisation",
-      subtitle: "We optimise technology to enhance learning experiences & user retention",
+      subtitle:
+        "We optimise technology to enhance learning experiences & user retention",
       features: [
         {
           title: "Eliminate MarTech inefficiencies",
-          description: "with meticulous audit of existing tech stack and maximise campaign ROI.",
-          image: "/components/media&ott2.1.png",
+          description:
+            "with meticulous audit of existing tech stack and maximise campaign ROI",
+          image: "/components/edtech/edtech2.1.webp",
         },
         {
           title: "Simplify students’ journeys with right tools",
-          description: "to streamline enrollment, personalise course pathways, and optimise account management.",
-          image: "/components/media&ott2.2.png",
+          description:
+            "to streamline enrollment, personalise course pathways, and optimise account management",
+          image: "/components/edtech/edtech2.2.webp",
         },
         {
           title: "Seamlessly upgrade to advanced MarTech",
-          description: "that support scalable campaigns, detailed learner behaviour analytics, and precise targeting of courses.",
-          image: "/components/media&ott2.3.png",
+          description:
+            "that support scalable campaigns, detailed learner behaviour analytics, and precise targeting of courses",
+          image: "/components/edtech/edtech2.3.webp",
         },
         {
           title: "Leverage an integrated dashboard",
-          description: "to consolidate tracking, insights, and performance metrics for smarter decision-making.",
-          image: "/components/media&ott2.4.png",
+          description:
+            "to consolidate tracking, insights, and performance metrics for smarter decision-making",
+          image: "/components/edtech/edtech2.4.webp",
         },
       ],
     },
     {
       id: 2,
       title: "End-to-end campaign management",
-      subtitle: "We manage campaigns to attract students and boost course enrollments",
+      subtitle:
+        "We manage campaigns to attract students and boost course enrollments",
       features: [
         {
           title: "Execute and optimise campaigns",
-          description: "using real-time data to promote popular courses and certifications, and drive enrollments.",
-          image: "/components/media&ott3.0.png",
+          description:
+            "using real-time data to promote popular courses and certifications, and drive enrollments",
+          image: "/components/edtech/edtech3.1.webp",
         },
         {
           title: "Boost course relevance and conversions",
-          description: "with multivariate testing, channel optimisation, and personalised messaging to increase sign-ups.",
-          image: "/components/media&ott3.1.png",
+          description:
+            "with multivariate testing, channel optimisation, and personalised messaging to increase enrolments",
+          image: "/components/edtech/edtech3.2.webp",
         },
         {
           title: "Maximise ROI with behaviour-based campaigns",
-          description: "through dynamic up-selling and cross-selling.",
-          image: "/components/media&ott3.2.png",
+          description: "through dynamic up-selling and cross-selling",
+          image: "/components/edtech/edtech3.3.webp",
         },
       ],
     },
   ];
 
-
-
-
   useEffect(() => {
     const initialMap: Record<number, number> = {};
-    sections.forEach(section => {
+    sections.forEach((section) => {
       initialMap[section.id] = 0; // Set all sections to first feature
     });
     setActiveFeaturesMap(initialMap);
@@ -112,15 +124,15 @@ export default function Page() {
   }, []);
 
   const handleSubtitleClick = (sectionId: number) => {
-    setActiveSection(sectionId)
+    setActiveSection(sectionId);
     setActiveFeaturesMap((prev) => ({
       ...prev,
       [sectionId]: (prev[sectionId] + 1) % sections[sectionId].features.length,
-    }))
-  }
+    }));
+  };
 
   const renderSectionContent = (section: Section) => {
-    const isMiddleSection = section.id === 1
+    const isMiddleSection = section.id === 1;
     const activeFeatureIndex = activeFeaturesMap[section.id] ?? 0; // Default to 0 if undefined
 
     const imageComponent = (
@@ -129,8 +141,7 @@ export default function Page() {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="relative h-[300px] rounded-lg order-last md:order-none"
-      >
+        className="relative h-[300px] rounded-lg order-last md:order-none">
         <Image
           src={section.features[activeFeatureIndex].image || "/placeholder.svg"}
           alt={section.features[activeFeatureIndex].title}
@@ -140,7 +151,7 @@ export default function Page() {
           width={500}
         />
       </motion.div>
-    )
+    );
 
     const featuresComponent = (
       <div className="relative">
@@ -148,28 +159,32 @@ export default function Page() {
         <div className="space-y-8">
           {section.features.map((feature, index) => {
             // Show first feature as active by default when section loads
-            const isActive = (activeSection === section.id && activeFeatureIndex === index) ||
-                           (index === 0 && activeFeaturesMap[section.id] === 0);
+            const isActive =
+              (activeSection === section.id && activeFeatureIndex === index) ||
+              (index === 0 && activeFeaturesMap[section.id] === 0);
 
             return (
-              <motion.div 
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.1, ease: "easeInOut" }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.1,
+                  ease: "easeInOut",
+                }}
                 className={`relative pl-6 cursor-pointer group ${
                   isActive
                     ? "bg-[#E2E9FF] rounded-lg p-3 md:py-3 md:bg-white"
                     : "bg-white md:bg-white"
                 }`}
                 onClick={() => {
-                  setActiveSection(section.id)
+                  setActiveSection(section.id);
                   setActiveFeaturesMap((prev) => ({
                     ...prev,
                     [section.id]: index,
-                  }))
-                }}
-              >
+                  }));
+                }}>
                 <div
                   className={`hidden md:block absolute left-0 top-0 w-1 h-full transition-all duration-300 rounded-t-full rounded-b-full ${
                     isActive ? "bg-[#6438C3]" : "bg-purple-100"
@@ -181,15 +196,13 @@ export default function Page() {
                       isActive
                         ? "text-[#555555] md:text-[#6438C3]"
                         : "text-[#555555] md:text-gray-800 group-hover:text-[#6438C3]"
-                    }`}
-                  >
+                    }`}>
                     {feature.title}
                   </h3>
-                  <p 
+                  <p
                     className={`text-[#8C8C8C] ${
                       isActive ? "block" : "hidden md:block"
-                    }`}
-                  >
+                    }`}>
                     {feature.description}
                   </p>
                 </div>
@@ -198,7 +211,7 @@ export default function Page() {
           })}
         </div>
       </div>
-    )
+    );
 
     return (
       <div className="grid md:grid-cols-2 gap-12 items-start">
@@ -214,8 +227,8 @@ export default function Page() {
           </>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -225,16 +238,16 @@ export default function Page() {
             <div className="mb-12 text-center">
               <h2
                 className={`text-3xl font-bold mb-4 transition-colors duration-300 cursor-pointer ${
-                  activeSection === section.id ? "md:text-[#6438C3]" : "text-gray-800 hover:text-[#6438C3]"
+                  activeSection === section.id
+                    ? "md:text-[#6438C3]"
+                    : "text-gray-800 hover:text-[#6438C3]"
                 }`}
-                onClick={() => setActiveSection(section.id)}
-              >
+                onClick={() => setActiveSection(section.id)}>
                 {section.title}
               </h2>
               <p
                 className="text-gray-600 max-w-2xl mx-auto cursor-pointer hover:text-[#6438C3]"
-                onClick={() => handleSubtitleClick(section.id)}
-              >
+                onClick={() => handleSubtitleClick(section.id)}>
                 {section.subtitle}
               </p>
             </div>
@@ -243,5 +256,5 @@ export default function Page() {
         </section>
       ))}
     </div>
-  )
+  );
 }
