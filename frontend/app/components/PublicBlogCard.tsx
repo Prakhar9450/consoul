@@ -72,14 +72,19 @@ export default function PublicBlogCard({ post }: PublicBlogCardProps) {
         <p className="text-muted-foreground line-clamp-2">{post.description}</p>
 
         {post.tags && post.tags.length > 0 && (
-          <div className="flex flex-wrap gap-2 pt-2">
-            {post.tags.map((tag, index) => (
+          <div className="flex flex-wrap gap-4 pt-2 items-center">
+            {post.tags.slice(0, 3).map((tag, index) => (
               <span
                 key={index}
-                className="inline-block rounded-full px-3 py-1 text-xs bg-slate-100 text-slate-700">
+                className="inline-block rounded-full px-3 py-1 text-sm bg-slate-100 text-slate-700">
                 {tag}
               </span>
             ))}
+            {post.tags.length > 3 && (
+              <span className="text-sm text-slate-500">
+                + {post.tags.length - 3} more
+              </span>
+            )}
           </div>
         )}
       </div>

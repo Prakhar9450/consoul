@@ -29,6 +29,7 @@ interface BlogPost {
   tags?: string[];
   authorName?: string;
   authorImageURL?: string;
+  authorDescription?: string;
   industry?: string;
   customIndustry?: string;
   topic?: string;
@@ -69,6 +70,7 @@ export default function BlogPostPage() {
             userId: data.userId,
             tags: data.tags || generateRandomTags(),
             authorName: data.authorName || "Anonymous",
+            authorDescription: data.authorDescription || "",
             company: data.company,
             designation: data.designation,
             linkedin: data.linkedin || "#",
@@ -146,6 +148,7 @@ export default function BlogPostPage() {
             userId: data.userId,
             authorName: data.authorName,
             authorImageURL: data.authorImageURL,
+            authorDescription: data.authorDescription,
             company: data.company,
             designation: data.designation,
             linkedin: data.linkedin,
@@ -327,12 +330,7 @@ export default function BlogPostPage() {
                   {post.company || "ConSoul LLP"}
                 </p>
                 <p className="text-center text-gray-700 max-w-2xl mb-4">
-                  {post.authorName} is a content creator at{" "}
-                  {post.company || "ConSoul LLP"}, driving innovative retention
-                  marketing strategies to enhance customer loyalty and business
-                  growth. With a passion for delivering impactful solutions, she
-                  helps brands unlock their true potential through data-driven
-                  insights and personalised engagement.
+                  {post.authorDescription}
                 </p>
                 <div className="flex items-center gap-2">
                   <span className="text-sm">

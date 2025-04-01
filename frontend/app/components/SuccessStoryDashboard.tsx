@@ -66,6 +66,7 @@ interface SuccessStory {
   numbers: NumberItem[];
   keyChallenges: string[];
   howWeHelped: HelpItem[];
+  tags?: string[];
   feedback: string;
   createdAt: Date;
 }
@@ -88,6 +89,7 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
   const [howWeHelped, setHowWeHelped] = useState<HelpItem[]>([
     { key: "", value: "" },
   ]);
+  const [tags, setTags] = useState<string[]>([""]);
   const [feedback, setFeedback] = useState("");
   const [successStories, setSuccessStories] = useState<SuccessStory[]>([]);
   const [error, setError] = useState("");
@@ -125,6 +127,7 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
           numbers: data.numbers,
           keyChallenges: data.keyChallenges,
           howWeHelped: data.howWeHelped,
+          tags: data.tags,
           feedback: data.feedback,
           createdAt: data.createdAt,
         });
@@ -243,6 +246,13 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
       return;
     }
 
+    // Validate tags
+    const validTags = tags.filter((item) => item.trim() !== "");
+    if (tags.length === 0) {
+      setError("At least one tag is required");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -263,6 +273,7 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
         numbers: validNumbers,
         keyChallenges: validChallenges,
         howWeHelped: validHelp,
+        tags: validTags,
         feedback,
         createdAt: serverTimestamp(),
       });
@@ -283,6 +294,7 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
       setNumbers([{ key: "", value: 0 }]);
       setKeyChallenges([""]);
       setHowWeHelped([{ key: "", value: "" }]);
+      setTags([""]);
       setFeedback("");
 
       // Refresh success stories
@@ -378,6 +390,25 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
       const newHelp = [...howWeHelped];
       newHelp.splice(index, 1);
       setHowWeHelped(newHelp);
+    }
+  };
+
+  // Handle Tag array
+  const handleTagChange = (index: number, value: string) => {
+    const newTags = [...tags];
+    newTags[index] = value;
+    setTags(newTags);
+  };
+
+  const addTag = () => {
+    setTags([...tags, ""]);
+  };
+
+  const removeTag = (index: number) => {
+    if (tags.length > 1) {
+      const newTags = [...tags];
+      newTags.splice(index, 1);
+      setTags(newTags);
     }
   };
 
@@ -720,6 +751,44 @@ export default function SuccessStoryDashboard({ user }: { user: User }) {
                       size="icon"
                       onClick={() => removeHelp(index)}
                       disabled={howWeHelped.length <= 1}
+                      className="flex-shrink-0">
+                      <X className="h-4 w-4" />
+                      <span className="sr-only">Remove</span>
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tags */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label>Tags</Label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={addTag}
+                  className="flex items-center gap-1">
+                  <Plus className="h-4 w-4" /> Add More
+                </Button>
+              </div>
+              <div className="space-y-3">
+                {tags.map((tag, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="flex-1">
+                      <Input
+                        placeholder="Add tag"
+                        value={tag}
+                        onChange={(e) => handleTagChange(index, e.target.value)}
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeTag(index)}
+                      disabled={tags.length <= 1}
                       className="flex-shrink-0">
                       <X className="h-4 w-4" />
                       <span className="sr-only">Remove</span>

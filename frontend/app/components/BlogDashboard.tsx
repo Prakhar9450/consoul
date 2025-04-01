@@ -29,7 +29,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Plus, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -47,6 +47,7 @@ interface Blog {
   createdAt: Date;
   authorName?: string;
   authorImageURL?: string;
+  authorDescription?: string;
   industry?: string;
   customIndustry?: string;
   topic?: string;
@@ -56,6 +57,7 @@ interface Blog {
   company?: string;
   designation?: string;
   linkedin?: string;
+  tags?: string[];
   thumbnailUrl: string;
   imagesUrl: string;
 }
@@ -66,6 +68,7 @@ export default function BlogDashboard({ user }: { user: User }) {
   const [content, setContent] = useState("");
   const [authorName, setAuthorName] = useState("");
   const [authorImageURL, setAuthorImageURL] = useState("");
+  const [authorDescription, setAuthorDescription] = useState("");
   const [industry, setIndustry] = useState("");
   const [customIndustry, setCustomIndustry] = useState("");
   const [topic, setTopic] = useState("");
@@ -75,6 +78,7 @@ export default function BlogDashboard({ user }: { user: User }) {
   const [company, setCompany] = useState("");
   const [designation, setDesignation] = useState("");
   const [linkedin, setLinkedin] = useState("");
+  const [tags, setTags] = useState<string[]>([""]);
   const [thumbnailUrl, setThumbnailUrl] = useState("");
   const [imagesUrl, setImagesUrl] = useState("");
   const [blogs, setBlogs] = useState<Blog[]>([]);
@@ -104,6 +108,7 @@ export default function BlogDashboard({ user }: { user: User }) {
           createdAt: data.createdAt,
           authorName: data.authorName,
           authorImageURL: data.authorImageURL,
+          authorDescription: data.authorDescription,
           industry: data.industry,
           customIndustry: data.customIndustry,
           topic: data.topic,
@@ -113,6 +118,7 @@ export default function BlogDashboard({ user }: { user: User }) {
           company: data.company,
           designation: data.designation,
           linkedin: data.linkedin,
+          tags: data.tags,
           thumbnailUrl: data.thumbnailUrl,
           imagesUrl: data.imagesUrl,
         });
@@ -161,6 +167,12 @@ export default function BlogDashboard({ user }: { user: User }) {
       return;
     }
 
+    if (!authorDescription.trim()) {
+      setError("Author Description is required");
+      setIsSubmitting(false);
+      return;
+    }
+
     if (!company.trim()) {
       setError("Company is required");
       setIsSubmitting(false);
@@ -176,6 +188,13 @@ export default function BlogDashboard({ user }: { user: User }) {
     if (!linkedin.trim()) {
       setError("LinkedIn is required");
       setIsSubmitting(false);
+      return;
+    }
+
+    // Validate tags
+    const validTags = tags.filter((item) => item.trim() !== "");
+    if (tags.length === 0) {
+      setError("At least one tag is required");
       return;
     }
 
@@ -224,9 +243,11 @@ export default function BlogDashboard({ user }: { user: User }) {
         thumbnailUrl,
         imagesUrl,
         authorName,
+        authorDescription,
         company,
         designation,
         linkedin,
+        tags: validTags,
         authorImageURL: authorImageURL || "/placeholder.svg?height=80&width=80",
         industry: industry === "Other" ? "Other" : industry,
         customIndustry: industry === "Other" ? customIndustry : null,
@@ -243,6 +264,7 @@ export default function BlogDashboard({ user }: { user: User }) {
       setContent("");
       setAuthorName("");
       setAuthorImageURL("");
+      setAuthorDescription("");
       setIndustry("");
       setCustomIndustry("");
       setTopic("");
@@ -252,6 +274,7 @@ export default function BlogDashboard({ user }: { user: User }) {
       setCompany("");
       setDesignation("");
       setLinkedin("");
+      setTags([""]);
       setThumbnailUrl("");
       setImagesUrl("");
 
@@ -280,6 +303,25 @@ export default function BlogDashboard({ user }: { user: User }) {
     } catch (error) {
       setError("Failed to log out");
       console.log(error);
+    }
+  };
+
+  // Handle Tag array
+  const handleTagChange = (index: number, value: string) => {
+    const newTags = [...tags];
+    newTags[index] = value;
+    setTags(newTags);
+  };
+
+  const addTag = () => {
+    setTags([...tags, ""]);
+  };
+
+  const removeTag = (index: number) => {
+    if (tags.length > 1) {
+      const newTags = [...tags];
+      newTags.splice(index, 1);
+      setTags(newTags);
     }
   };
 
@@ -320,6 +362,16 @@ export default function BlogDashboard({ user }: { user: User }) {
                   placeholder="Enter author image URL"
                 />
               </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="authorDescription">Author Description</Label>
+              <Input
+                id="authorDescription"
+                value={authorDescription}
+                onChange={(e) => setAuthorDescription(e.target.value)}
+                placeholder="Brief description of Author"
+                required
+              />
             </div>
 
             {/* Author Company Information */}
@@ -375,7 +427,6 @@ export default function BlogDashboard({ user }: { user: User }) {
                   value={imagesUrl}
                   onChange={(e) => setImagesUrl(e.target.value)}
                   placeholder="Enter images URL"
-                  required
                 />
               </div>
             </div>
@@ -502,6 +553,44 @@ export default function BlogDashboard({ user }: { user: User }) {
                     />
                   </div>
                 )}
+              </div>
+            </div>
+
+            {/* Tags */}
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label>Tags</Label>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={addTag}
+                  className="flex items-center gap-1">
+                  <Plus className="h-4 w-4" /> Add More
+                </Button>
+              </div>
+              <div className="space-y-3">
+                {tags.map((tag, index) => (
+                  <div key={index} className="flex items-center gap-2">
+                    <div className="flex-1">
+                      <Input
+                        placeholder="Add tag"
+                        value={tag}
+                        onChange={(e) => handleTagChange(index, e.target.value)}
+                      />
+                    </div>
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => removeTag(index)}
+                      disabled={tags.length <= 1}
+                      className="flex-shrink-0">
+                      <X className="h-4 w-4" />
+                      <span className="sr-only">Remove</span>
+                    </Button>
+                  </div>
+                ))}
               </div>
             </div>
 
