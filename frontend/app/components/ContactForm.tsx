@@ -5,7 +5,7 @@ import Image from "next/image";
 
 export const ContactForm = () => {
   return (
-    <div className="md:grid grid-cols-2 w-full shadow-xl border rounded-xl">
+    <div className="md:grid grid-cols-2 w-full shadow-xl border rounded-xl md:max-w-8xl">
       <div className="hidden md:block bg-[#6438C3] p-12 rounded-l-xl text-white">
         <div className="grid gap-6">
           <div className="space-y-4">
@@ -20,7 +20,7 @@ export const ContactForm = () => {
           </div>
 
           <div className="mt-28">
-            <div className="grid grid-cols-2 items-center">
+            <div className="grid grid-cols-2 items-center gap-0">
               <div className="w-60 h-w-56 rounded-lg overflow-hidden">
                 <Image
                   src="/logos/founder.svg"
@@ -41,9 +41,9 @@ export const ContactForm = () => {
                   </p>
                 </div>
                 <div className="space-y-1">
-                  <h3 className="font-bold text-2xl">Vani Garg</h3>
-                  <p className="text-lg opacity-90">Founder & CEO</p>
-                  <p className="flex gap-2 text-lg opacity-90">
+                  <h3 className="font-bold text-lg">Vani Garg</h3>
+                  <p className="text-sm opacity-90">Founder & CEO</p>
+                  <p className="flex gap-2 text-sm opacity-90">
                     Connect with Vani on{" "}
                     <span className="underline flex flex-col justify-center cursor-pointer">
                       <a
@@ -51,8 +51,8 @@ export const ContactForm = () => {
                         target="_blank">
                         <Image
                           src="/icons/linkedin.svg"
-                          height={80}
-                          width={80}
+                          height={60}
+                          width={60}
                           alt="
                       LinkedIn"
                         />

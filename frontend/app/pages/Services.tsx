@@ -8,11 +8,13 @@ import ExternalLinkButton from "../components/ui/ExternalLinkButton";
 import SwipeButton from "../components/ui/SwipeButton";
 import { useRouter } from "next/navigation";
 import { useInView } from "react-intersection-observer";
+import React from "react";
 
 export const Services = () => {
-  // Define explicit types for our data structure
+  // Define explicit types for our data structure with rawText for line breaks
   type ServicePoint = {
     text: string;
+    rawText?: string; // Optional property for text with line breaks
     image: string;
   };
 
@@ -26,15 +28,18 @@ export const Services = () => {
     title: "Data-driven strategies that drive results",
     points: [
       {
-        text: "Hyper-personalised offerings through data segmentation",
+        text: "Hyper-personalised offeringsthrough data segmentation",
+        rawText: "Hyper-personalised offerings\nthrough data segmentation",
         image: "https://raw.githubusercontent.com/rishabhknowss/imagesdb/refs/heads/main/data-driven-1.png",
       },
       {
-        text: "Targeted loyalty and gamification programs",
+        text: "Targeted loyalty and gamification programs", 
+        rawText: "Targeted loyalty and\ngamification programs", // Line break here
         image: "https://raw.githubusercontent.com/rishabhknowss/imagesdb/refs/heads/main/data-driven-2.png",
       },
       {
         text: "Channel optimisation for timely, targeted messaging",
+        rawText: "Channel optimisation for\ntimely, targeted messaging", // Line break here
         image: "https://raw.githubusercontent.com/rishabhknowss/imagesdb/refs/heads/main/data-driven-3.png",
       },
     ],
@@ -45,14 +50,17 @@ export const Services = () => {
     points: [
       {
         text: "Get mar-tech audit and implementation",
+        rawText: "Get mar-tech audit and\nimplementation",
         image: "/components/martech-1.png",
       },
       {
         text: "Identify mar-tech gaps and get tool recommendations",
+        rawText: "Identify mar-tech gaps and\nget tool recommendations",
         image: "/components/martech-2.png",
       },
       {
         text: "Migrate and align tools for smoother operations",
+        rawText: "Migrate and align tools for\nsmoother operations",
         image: "/components/martech-3.png",
       },
     ],
@@ -63,14 +71,17 @@ export const Services = () => {
     points: [
       {
         text: "Create SOPs for efficient, consistent operations",
+        rawText: "Create SOPs for efficient,\nconsistent operations",
         image: "/components/optimize-ops-1.png",
       },
       {
         text: "Get on-demand campaign execution",
+        rawText: "Get on-demand campaign\nexecution",
         image: "/components/optimize-ops-2.png",
       },
       {
         text: "Experiment and real-time data to boost performance",
+        rawText: "Experiment and real-time\ndata to boost performance",
         image: "/components/optimize-ops-3.png",
       },
     ],
@@ -105,17 +116,17 @@ export const Services = () => {
 
   // Create refs for section visibility detection
   const [dataDrivenRef, dataDrivenInView] = useInView({
-    triggerOnce: true,
+    triggerOnce: false, // Changed to false to enable auto-cycling when back in view
     threshold: 0.1,
   });
 
   const [marTechRef, marTechInView] = useInView({
-    triggerOnce: true,
+    triggerOnce: false, // Changed to false to enable auto-cycling when back in view
     threshold: 0.1,
   });
 
   const [optimizeRef, optimizeInView] = useInView({
-    triggerOnce: true,
+    triggerOnce: false, // Changed to false to enable auto-cycling when back in view
     threshold: 0.1,
   });
 
@@ -123,6 +134,49 @@ export const Services = () => {
     triggerOnce: true,
     threshold: 0.1,
   });
+
+  // Auto-cycling of service points when in view
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (dataDrivenInView) {
+      interval = setInterval(() => {
+        setActiveDataDrivenPoint((prev) => 
+          prev === dataDrivenStrategies.points.length - 1 ? 0 : prev + 1
+        );
+      }, 2000); 
+    }
+    
+    return () => clearInterval(interval);
+  }, [dataDrivenInView, dataDrivenStrategies.points.length]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (marTechInView) {
+      interval = setInterval(() => {
+        setActiveMarTechPoint((prev) => 
+          prev === marTechTools.points.length - 1 ? 0 : prev + 1
+        );
+      }, 2000); 
+    }
+    
+    return () => clearInterval(interval);
+  }, [marTechInView, marTechTools.points.length]);
+
+  useEffect(() => {
+    let interval: NodeJS.Timeout;
+    
+    if (optimizeInView) {
+      interval = setInterval(() => {
+        setActiveOptimizePoint((prev) => 
+          prev === optimizeOperations.points.length - 1 ? 0 : prev + 1
+        );
+      }, 2000); 
+    }
+    
+    return () => clearInterval(interval);
+  }, [optimizeInView, optimizeOperations.points.length]);
 
   // Preload images for each section when they come into view
   useEffect(() => {
@@ -188,6 +242,19 @@ export const Services = () => {
     }
   }, [optimizeInView, imagesPreloaded.optimize]);
 
+  // Helper function to render text with line breaks
+  const renderTextWithLineBreaks = (point: ServicePoint) => {
+    if (point.rawText) {
+      return point.rawText.split('\n').map((line, i) => (
+        <React.Fragment key={i}>
+          {line}
+          {i < (point.rawText?.split('\n').length ?? 0) - 1 && <br />}
+        </React.Fragment>
+      ));
+    }
+    return point.text;
+  };
+
   // Create reusable section component to reduce code duplication
   // Define ServiceSectionProps type
   type ServiceSectionProps = {
@@ -226,6 +293,11 @@ export const Services = () => {
         return "bg-gray-200";
       };
 
+      // Function to temporarily pause auto-cycling when hovering
+      const handleMouseEnter = (pointIndex: number) => {
+        setActivePoint(pointIndex);
+      };
+
       return (
         <div className="p-10 md:p-0" ref={inViewRef}>
           <div
@@ -236,8 +308,8 @@ export const Services = () => {
               </div>
             </div>
 
-            {/* Points Navigation */}
-            <div className="flex justify-center md:my-10 text-base md:text-lg px-4 md:px-6">
+            {/* Points Navigation - UPDATED with line breaks and auto-cycling */}
+            <div className="flex justify-center md:mt-8 mb-6 text-base md:text-xl px-4 md:px-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-10 text-center px-4 md:px-24">
                 {data.points.map((point, pointIndex) => (
                   <div
@@ -246,15 +318,15 @@ export const Services = () => {
                       activePoint === pointIndex
                         ? `text-[#2A2A2A] md:text-[#6438C3] md:font-bold ${getActiveBgClass()} md:bg-white p-3 md:p-0 rounded-lg`
                         : "md:hover:text-[#6438C3] text-[#555555] p-3 md:p-0"
-                    }`}
-                    onMouseEnter={() => setActivePoint(pointIndex)}>
-                    {point.text}
+                    } transition-all duration-300`} // Added transition for smoother effect
+                    onMouseEnter={() => handleMouseEnter(pointIndex)}>
+                    {renderTextWithLineBreaks(point)}
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Image Display */}
+            {/* Image Display with auto-cycling */}
             <div className="flex justify-center">
               <div
                 className={`flex justify-center ${getBgClass()} w-full md:w-[1058px] h-[200px] md:h-[480px] rounded-xl`}>
@@ -264,7 +336,7 @@ export const Services = () => {
                       key={index}
                       initial={{ opacity: 0 }}
                       animate={{ opacity: activePoint === index ? 1 : 0 }}
-                      transition={{ duration: 0.5, ease: "easeInOut" }}
+                      transition={{ duration: 0.8, ease: "easeInOut" }} // Smoother transition
                       className="absolute inset-0 flex justify-center">
                       {(isInView || imagesLoaded) && (
                         <Image
@@ -346,7 +418,7 @@ export const Services = () => {
                 onClick={() => router.push("/about")}>
                 <SwipeButton
                   className="hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg"
-                  firstClass="p-2 md:p-3 px-4 md:px-6 bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-lg"
+                  firstClass="p-2 md:p-3 px-4 md:px-8 bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-lg"
                   firstText="Get in touch"
                   secondClass="p-2 md:p-3 px-4 md:px-6 bg-[#A47EF6] text-white text-lg"
                   secondText="Get in touch"
@@ -354,7 +426,7 @@ export const Services = () => {
               </div>
               <div className="flex justify-center md:justify-start">
                 <button
-                  className="text-[#6438C3] flex items-center hover:underline text-xl"
+                  className="text-[#6438C3] flex items-center text-xl"
                   onClick={() => router.push("/services/media-ott")}>
                   <ExternalLinkButton text="Go to services" />
                 </button>
@@ -366,7 +438,7 @@ export const Services = () => {
 
       {/* Download Guide Component */}
       <div className="download-guide-section">
-        <div className="flex w-full md:justify-center my-8 md:my-14">
+        <div className="flex w-full md:justify-center my-8 md:my-14 ">
           <DownloadGuide />
         </div>
       </div>

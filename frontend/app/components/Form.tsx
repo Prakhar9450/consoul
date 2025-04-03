@@ -11,6 +11,8 @@ export const Form = () => {
         countryCode: '+91',
     });
 
+    const [selectedFlag, setSelectedFlag] = useState("🇮🇳");
+
     const countries = [
         { code: "AT", name: "Austria", dialCode: "+43", flag: "🇦🇹" },
         { code: "BE", name: "Belgium", dialCode: "+32", flag: "🇧🇪" },
@@ -76,85 +78,118 @@ export const Form = () => {
             ...prev,
             [name]: value
         }));
+        
+        // Update the selected flag when country code changes
+        if (name === "countryCode") {
+            const selectedCountry = countries.find(country => country.dialCode === value);
+            if (selectedCountry) {
+                setSelectedFlag(selectedCountry.flag);
+            }
+        }
     };
 
     return (
         <div>
             <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="space-y-4 text-white md:text-black">
+                <div className="space-y-4 text-white md:text-[#4F4F4F]">
                     <div>
-                        <label className="block text-sm mb-1">Full name*</label>
+                        <label className="block text-lg font-light mb-1">Full name*</label>
                         <input 
                             type="text" 
                             name="fullName"
                             value={formData.fullName}
                             onChange={handleInputChange}
-                            className="w-full p-2 border border-[#DAC8FF] rounded-md"
+                            className="w-full p-2  border-2 border-[#DAC8FF] rounded-md"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-sm mb-1">Email*</label>
+                        <label className="block text-lg font-light mb-1">Email*</label>
                         <input 
                             type="email" 
                             name="email"
                             value={formData.email}
                             onChange={handleInputChange}
-                            className="w-full p-2 border border-[#DAC8FF] rounded-md"
+                            className="w-full p-2 border-2 border-[#DAC8FF] rounded-md"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-sm mb-1">Company website*</label>
+                        <label className="block text-lg font-light mb-1">Company website*</label>
                         <input 
                             type="url" 
                             name="website"
                             value={formData.website}
                             onChange={handleInputChange}
-                            className="w-full p-2 border border-[#DAC8FF] rounded-md"
+                            className="w-full p-2 border-2 border-[#DAC8FF] rounded-md"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-sm mb-1">Designation*</label>
+                        <label className="block text-lg font-light mb-1">Designation*</label>
                         <input 
                             type="text" 
                             name="designation"
                             value={formData.designation}
                             onChange={handleInputChange}
-                            className="w-full p-2 border border-[#DAC8FF] rounded-md"
+                            className="w-full p-2 border-2 border-[#DAC8FF] rounded-md"
                             required
                         />
                     </div>
                     <div>
-                        <label className="block text-sm mb-1">Phone number*</label>
-                        <div className="flex md:gap-2 text-black">
-                            <select 
-                                className="w-20 p-2 border rounded-l-md md:rounded-md"
-                                name="countryCode"
-                                value={formData.countryCode}
-                                onChange={handleInputChange}
-                            >
-                                {countries.map(country => (
-                                    <option  key={country.code} value={country.dialCode}>
-                                        {country.flag} {country.name} ({country.dialCode})
-                                    </option>
-                                ))}
-                            </select>
-                            <input 
-                                type="tel" 
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleInputChange}
-                                className="flex-1 p-2 border border-[#DAC8FF] rounded-r-md md:rounded-md"
-                                required
-                            />
+                        <label className="block text-lg font-light mb-1">Phone number*</label>
+                        <div className=" text-black">
+
+                                <div className="border-2 border-[#DAC8FF] flex bg-white w-full rounded-md">
+                                    <div className="flex items-center relative">
+                                        <div className="px-2 h-10 flex items-center justify-start gap-1">
+                                            <span className="text-xl">{selectedFlag}</span>
+                                            <svg 
+                                                xmlns="http://www.w3.org/2000/svg" 
+                                                width="12" 
+                                                height="12" 
+                                                viewBox="0 0 24 24" 
+                                                fill="none" 
+                                                stroke="currentColor" 
+                                                strokeWidth="2" 
+                                                strokeLinecap="round" 
+                                                strokeLinejoin="round" 
+                                                className="ml-1"
+                                            >
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                            <span className="text-sm text-[#4F4F4F]">{formData.countryCode}</span>
+                                           
+                                        </div>
+                                        <select 
+                                            className="absolute inset-0 opacity-0 cursor-pointer w-24"
+                                            name="countryCode"
+                                            value={formData.countryCode}
+                                            onChange={handleInputChange}
+                                        >
+                                            {countries.map(country => (
+                                                <option key={country.code} value={country.dialCode}>
+                                                    {country.flag} {country.name} ({country.dialCode})
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <input 
+                                        type="tel" 
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleInputChange}
+                                        className=" p-2 w-[199px] md:w-full rounded-r-md outline-none "
+                                        required
+                                    />
+                                </div>
+                            
                         </div>
                     </div>
                 </div>
 
-                <div className="hidden md:block">
-                    <label className="block text-sm mb-3">What do you need help with?</label>
+                <div className="hidden md:block font-light text-[#4F4F4F]">
+                    <label className="block text-lg mb-3">What do you need help with?</label>
                     <div className="grid grid-cols-2 gap-4">
                         {checkboxItems.map((item) => (
                             <label key={item.id} className="flex items-center gap-2">

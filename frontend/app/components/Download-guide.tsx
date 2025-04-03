@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import SwipeButton from "./ui/SwipeButton";
 
 interface PdfDocument {
   id: string;
@@ -152,18 +153,18 @@ export const DownloadGuide = () => {
   if (isLoading || !pdfDocument) return null;
 
   return (
-    <div className="relative">
-      <div className="border p-6 md:p-12 bg-[#6438C3] text-white md:rounded-3xl font-semibold">
-        <div className="grid md:grid-cols-6 gap-4">
+    <div className="relative md:max-w-4xl  ">
+      <div className=" p-6 md:p-12 bg-[#6438C3] text-white md:rounded-3xl font-semibold">
+        <div className="grid md:grid-cols-6 gap-5">
           <div className="col-span-4 grid gap-5 ">
-            <div className="text-lg md:text-3xl">
+            <div className="text-lg md:text-[27px] md:whitespace-nowrap">
               Read our latest step-by-step guide
               <br />
               to increasing {pdfDocument.title}
             </div>
             <div>
               <button
-                className="p-2 px-5 bg-white text-[#6438c3] flex text-xl rounded-xl"
+                className="p-2 px-5 bg-white hover:bg-[#F1EAFF] text-[#6438c3] flex text-xl rounded-xl"
                 onClick={() => setIsDialogOpen(true)}>
                 <span className="mx-2">Download</span>
                 <span>
@@ -195,7 +196,7 @@ export const DownloadGuide = () => {
           </div>
         </div>
       </div>
-      <div className="hidden md:block absolute right-20 bottom-[1px]">
+      <div className="hidden md:block absolute right-14 bottom-0">
         <Image src="/icons/docs.svg" alt="guide" width={200} height={200} />
       </div>
 

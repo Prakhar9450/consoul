@@ -1,16 +1,17 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import SwipeButton from "./ui/SwipeButton";
 import ReadAllSuccessStoriesButton from "./ui/ReadAllSuccessStoriesButton";
 import { useRouter } from "next/navigation";
+
 export const SuccessStoriesComp = () => {
   const stories = [
     {
       title: "iWantTFC",
       description:
-        "Here’s what targeted content and personalised communication can do.",
+        "Here's what targeted content and personalised communication can do.",
       metrics: [
         { text: "Increased conversions by", value: "3x" },
         { text: "Reduced churn by", value: "2x" },
@@ -45,6 +46,17 @@ export const SuccessStoriesComp = () => {
   ];
 
   const [index, setIndex] = useState(0);
+  const autoPlayInterval = 4000; //
+
+  // Auto-play functionality
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setIndex((prevIndex) => (prevIndex + 1) % stories.length);
+    }, autoPlayInterval);
+    
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+  }, []); // Empty dependency array means this effect runs once on mount
 
   const nextStory = () => {
     setIndex((prevIndex) => (prevIndex + 1) % stories.length);
@@ -54,23 +66,25 @@ export const SuccessStoriesComp = () => {
     setIndex((prevIndex) => (prevIndex - 1 + stories.length) % stories.length);
   };
 
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <div className="flex justify-center">
-      <div className="p-4 md:p-10 flex flex-col items-center  relative overflow-hidden">
+      <div className="p-4 md:p-10 flex flex-col items-center relative overflow-hidden">
         <div className="font-extrabold text-[#555555] text-2xl md:text-4xl my-4 md:my-6">
           Proven Success Stories
         </div>
-        <div className=" text-2xl md:text-4xl font-extrabold text-[#555555]">
+        <div className="text-2xl md:text-4xl font-extrabold text-[#555555]">
           <div>
-            Here’s what
+            Here's what
             <span className="text-[#6438C3]"> targeted content </span> and
             <span className="text-[#6438C3]"> personalised </span>
           </div>
-          <div className="flex justify-center"><span className="text-[#6438C3] mr-2">communication </span>  can do. Story
-          of {stories[index].title}:
-        </div></div>
+          <div className="flex justify-center">
+            <span className="text-[#6438C3] mr-2">communication </span> can do. Story
+            of {stories[index].title}:
+          </div>
+        </div>
 
         <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 my-4 md:mt-8">
           <div className="flex flex-col items-start lg:w-1/2 space-y-6">
@@ -88,7 +102,9 @@ export const SuccessStoriesComp = () => {
                     key={idx}
                     className="flex items-center text-base md:text-lg text-[#555555] font-medium"
                   >
-                    <span className="mr-2"><Image src='/icons/rocket.png' alt="point" width={20} height={20} ></Image></span> {metric.text}{" "}
+                    <span className="mr-2">
+                      <Image src='/icons/rocket.png' alt="point" width={20} height={20} />
+                    </span> {metric.text}{" "}
                     <span className="font-bold ml-1">{metric.value}</span>
                   </li>
                 ))}
@@ -100,23 +116,23 @@ export const SuccessStoriesComp = () => {
               <p className="text-[#555555] mb-2">
                 Want targeted communication for your brand?
               </p>
-              <button className="bg-[#6438C3] text-white  rounded-lg text-base  w-full">
+              <button className="bg-[#6438C3] text-white rounded-lg text-base w-full">
                 
               </button>
 
-              <a href="https://cal.com/consoul-solutions"><SwipeButton
-                      className="w-full hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg md:text-lg font-semibold"
-                      firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white  text-lg py-2 md:py-3 px-4 md:px-6 "
-                      firstText="Yes, let’s talk"
-                      secondClass="bg-[#A47EF6] text-white py-2 md:py-3 px-4 md:px-6  text-lg"
-                      secondText="Yes, let’s talk"
-                    ></SwipeButton></a>
-                     <div onClick={()=>router.push('/success-stories')}><ReadAllSuccessStoriesButton text="Read all success stories" ></ReadAllSuccessStoriesButton></div>
+              <a href="https://cal.com/consoul-solutions">
+                <SwipeButton
+                  className="w-full hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg md:text-lg font-semibold"
+                  firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-lg py-2 md:py-3 px-4 md:px-6 "
+                  firstText="Yes, let's talk"
+                  secondClass="bg-[#A47EF6] text-white py-2 md:py-3 px-4 md:px-6 text-lg"
+                  secondText="Yes, let's talk"
+                />
+              </a>
+              <div onClick={() => router.push('/success-stories')}>
+                <ReadAllSuccessStoriesButton text="Read all success stories" />
+              </div>
             </div>
-
-           
-                
-           
           </div>
 
           {/* Right Side - Image */}
@@ -140,7 +156,7 @@ export const SuccessStoriesComp = () => {
           </div>
         </div>
 
-        <div className="absolute bottom-4 md:bottom-0  flex space-x-4 md:space-x-6">
+        <div className="absolute bottom-4 md:bottom-0 flex space-x-4 md:space-x-6">
           <button onClick={prevStory} className="flex-shrink-0">
             <svg
               width="51"

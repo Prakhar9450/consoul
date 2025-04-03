@@ -59,6 +59,7 @@ export const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
+  const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     const currentIndex = NavbarItems.findIndex(
@@ -66,6 +67,15 @@ export const Navbar = () => {
     );
     setActiveIndex(currentIndex);
   }, [pathname]);
+  
+  // Cleanup timeout on unmount
+  useEffect(() => {
+    return () => {
+      if (closeTimeout) {
+        clearTimeout(closeTimeout);
+      }
+    };
+  }, [closeTimeout]);
 
   const handleClick = (path: string, index: number): void => {
     setActiveIndex(index);
@@ -80,20 +90,24 @@ export const Navbar = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white p-4">
-      {/* Overlay when Services Dropdown is Open */}
-      {isServicesOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-20 transition-opacity duration-300"></div>
-      )}
-
+    <nav className="fixed top-0 left-0 w-full z-50 bg-white p-4 text-[#555555] ">
+      {/* Overlay when Services Dropdown is Open - positioned below navbar */}
+      <div 
+        className={`fixed inset-0 top-24 bg-black transition-opacity duration-300 ${
+          isServicesOpen 
+            ? "opacity-20" 
+            : "opacity-0 pointer-events-none"
+        }`}
+      ></div>
+      
       {/* Main Navbar Container - Fixed Height */}
-      <div className="flex justify-between items-center lg:justify-center lg:space-x-20 h-16 px-4">
+      <div className="flex justify-between items-center lg:justify-center lg:space-x-24 h-16 ">
         {/* Logo Container with Constraints */}
         <div className="relative h-10 w-40 flex items-center overflow-visible">
           <Image
-            src="/logos/consoul.png"
+            src="/logos/consoul.svg"
             alt="logo"
-            width={150}
+            width={140}
             height={50}
             className="cursor-pointer object-contain"
             onClick={() => router.push("/")}
@@ -105,8 +119,19 @@ export const Navbar = () => {
           {/* Services Dropdown */}
           <div
             className="relative"
-            onMouseEnter={() => setIsServicesOpen(true)}
-            onMouseLeave={() => setIsServicesOpen(false)}
+            onMouseEnter={() => {
+              if (closeTimeout) {
+                clearTimeout(closeTimeout);
+                setCloseTimeout(null);
+              }
+              setIsServicesOpen(true);
+            }}
+            onMouseLeave={() => {
+              const timeout = setTimeout(() => {
+                setIsServicesOpen(false);
+              }, 200); // 300ms delay before closing
+              setCloseTimeout(timeout);
+            }}
           >
             <div className="flex text-lg text-[#555555] items-center gap-1 p-2 cursor-pointer hover:text-[#6438C3]">
               <span>Services</span>
@@ -127,13 +152,18 @@ export const Navbar = () => {
             </div>
 
             {/* Services Dropdown Component */}
-            {isServicesOpen && (
-              <div className="absolute left-0 top-full bg-white shadow-lg rounded-xl p-6 w-[900px]">
-                <div className="grid grid-cols-3 gap-6">
+            <div 
+              className={`absolute -left-28 top-16 bg-white shadow-lg rounded-xl p-6 w-[1000px] z-50 transition-all duration-300 ${
+                isServicesOpen 
+                  ? "opacity-100 scale-100" 
+                  : "opacity-0 scale-95 pointer-events-none"
+              }`}
+            >
+              <div className="grid grid-cols-3 gap-6">
                   {services.map((service) => (
                     <div
                       key={service.name}
-                      className="flex items-start gap-3 p-2 py-4 hover:bg-[#F1EAFF] rounded-lg cursor-pointer transition duration-300"
+                      className="flex items-start gap-3 p-2 px-4 py-4 hover:bg-[#F1EAFF] rounded-lg cursor-pointer transition duration-300"
                       onClick={() => router.push(service.route)}
                     >
                       <Image
@@ -143,16 +173,16 @@ export const Navbar = () => {
                         height={24}
                       />
                       <div>
-                        <h3 className="font-semibold text-gray-800">
+                        <h3 className="font-semibold text-black ">
                           {service.name}
                         </h3>
-                        <p className="text-sm text-gray-500">{service.desc}</p>
+                        <p className="text-sm">{service.desc}</p>
                       </div>
                     </div>
                   ))}
                 </div>
               </div>
-            )}
+          
           </div>
 
           {/* Other Navigation Items */}
@@ -173,9 +203,9 @@ export const Navbar = () => {
         <a href="https://cal.com/consoul-solutions">
           <SwipeButton
             className="hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg"
-            firstClass="bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-lg py-2 px-4"
+            firstClass="bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-md py-3 px-6"
             firstText="Book a call"
-            secondClass="bg-[#A47EF6] text-white py-2 px-4 text-lg"
+            secondClass="bg-[#A47EF6] text-white  text-md py-3 px-6"
             secondText="Book a call"
           />
         </a>
@@ -199,7 +229,7 @@ export const Navbar = () => {
 
       {/* Mobile Menu Drawer */}
       {isMenuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white shadow-md p-6 lg:hidden">
+        <div className="absolute top-20 left-0 w-full h-screen bg-white shadow-md p-6 lg:hidden">
           {/* Services Dropdown for Mobile */}
           <div className="p-3 text-lg text-[#555555]">
             <div

@@ -10,11 +10,11 @@ export default function Footer() {
         <div className="container grid grid-cols-1 gap-8 px-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-16 border-b pb-8">
           <div className="space-y-4">
             <Image
-              src="/logos/logo.svg"
+              src="/logos/consoul.svg"
               alt="Consoul Logo"
-              width={145}
-              height={50}
-              className="h-auto"
+              width={200}
+              height={80}
+              className=""
             />
             <p className="text-muted-foreground">
               We optimise your marketing efforts, backing them with real-time
@@ -99,7 +99,7 @@ export default function Footer() {
 
         <div className="container my-4 flex flex-col items-center justify-between gap-4 px-4 text-center sm:flex-row sm:text-left text-md">
           <p className="text-muted-foreground">
-            Copyright © 2024 Lorem Ipsum Templates
+          Copyright © 2025 Consoul Solution LLP
           </p>
           <Link
             href="/privacy"

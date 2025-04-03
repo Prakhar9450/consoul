@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import SwipeButton from "../components/ui/SwipeButton";
 import { TextAnimate } from "@/components/magicui/text-animate";
 import AnimatedSwipeButton from "../components/ui/AnimatedSwipeButton";
 
@@ -26,18 +25,18 @@ export const Hero = () => {
 
   return (
     <div ref={ref}>
-      <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:p-0">
+      <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:p-0 md:mt-20">
         <div className="col-span-1">
-          <div className="flex justify-end">
+          <div className="flex md:justify-end">
             <div className="p-4 grid text-[#555555] md:pt-20 gap-6">
-              <div className="font-extrabold text-xl md:text-4xl">
+              <div className="font-extrabold text-xl md:text-[42px] ">
                 {inView && (
                   <>
                     <TextAnimate animation="blurInUp" by="text" delay={0}>
                       Your go-to partner to
                     </TextAnimate>
 
-                    <div className="flex">
+                    <div className="flex md:mt-4">
                       <TextAnimate animation="blurInUp" by="text" delay={0.1}>
                         increase
                       </TextAnimate>
@@ -54,7 +53,7 @@ export const Hero = () => {
 
               {/* For mobile */}
               {inView && (
-                <div className="md:hidden">
+                <div className="md:hidden text-[#6B6B6B] text-md">
                   <TextAnimate animation="blurInUp" by="text" delay={0.4}>
                     We help you understand customers like never
                   </TextAnimate>
@@ -69,7 +68,7 @@ export const Hero = () => {
 
               {/* For desktop */}
               {inView && (
-                <div className="hidden md:block">
+                <div className="hidden md:block text-[#6B6B6B] text-xl mt-2 font-light ">
                   <TextAnimate animation="blurInUp" by="text" delay={0.4}>
                     We help you understand customers like never before,
                   </TextAnimate>
@@ -80,7 +79,7 @@ export const Hero = () => {
               )}
 
               {inView && (
-                <div className="grid gap-2 text-[15px] md:text-lg">
+                <div className="grid gap-2 text-[15px] md:text-xl">
                   {[
                     "Keep customers loyal",
                     "Achieve KPIs faster",
@@ -120,9 +119,9 @@ export const Hero = () => {
                 <div>
                     <a href=" https://cal.com/consoul-solutions"><AnimatedSwipeButton
                     className="hidden md:block rounded-lg "
-                    firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-xl p-3 "
+                    firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-lg p-3 px-7"
                     firstText="Book a free Consultation"
-                    secondClass="bg-[#A47EF6] text-white text-xl p-3 "
+                    secondClass="bg-[#A47EF6] text-white text-lg p-3 px-7 "
                     secondText="Book a free Consultation"
                   /></a>
                 </div>
@@ -153,10 +152,11 @@ export const Hero = () => {
         )}
 
         <div className="hidden md:block col-span-1">
-          <div className="p-4 flex justify-start overflow-hidden h-[550px]">
+          {/* Modified this div to position the image higher */}
+          <div className="p-2 flex justify-start overflow-hidden h-[800px] -mt-16">
             {inView && (
               <motion.div
-                animate={{ y: [0, -1300, 0] }}
+                animate={{ y: [0, -1000, 0] }}
                 transition={{
                   duration: 30,
                   repeat: Infinity,

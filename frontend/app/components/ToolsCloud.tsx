@@ -4,7 +4,7 @@ const images = [
   "/icons/appier.svg",
   "/icons/appsflyer.svg",
   "/icons/clevertap.svg",
-  "/icons/jira.svg",
+  
   "/icons/moengage.svg",
   "/icons/netcore.svg",
   "/icons/optimove.svg",
@@ -12,6 +12,7 @@ const images = [
   "/icons/servicenow.svg",
   "/icons/smartsheet.svg",
   "/icons/unica.svg",
+  "/icons/jira.svg",
   "/icons/vtiger.svg",
   "/icons/zoho.svg",
 ];
@@ -26,14 +27,14 @@ export function OrbitingCirclesDemo() {
       {/* Outer orbit - larger icons */}
       <OrbitingCircles iconSize={200} radius={200} reverse speed={1.2}>
         {outerOrbitImages.map((src, index) => (
-          <img key={index} src={src} alt={`icon-${index}`} className="w-200 h-200" />
+          <div className="h-20 w-20 bg-white rounded-full flex justify-center drop-shadow-xl"><img key={index} src={src} alt={`icon-${index}`} className="w-full h-full" /></div>
         ))}
       </OrbitingCircles>
 
       {/* Inner orbit - smaller icons, faster speed */}
       <OrbitingCircles iconSize={120} radius={100} speed={2}>
         {innerOrbitImages.map((src, index) => (
-          <img key={index} src={src} alt={`icon-${index}`} className="w-120 h-120" />
+         <div className="h-16 w-16 bg-white rounded-full flex justify-center shadow-xl"> <img key={index} src={src} alt={`icon-${index}`} className="w-50 h-50" /></div>
         ))}
       </OrbitingCircles>
     </div>
