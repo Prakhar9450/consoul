@@ -1,75 +1,29 @@
-import { useState, useEffect } from "react";
-import { TextAnimate } from "../components/magicui/text-animate";
-import { motion, AnimatePresence } from "framer-motion";
+import { WordRotate } from "@/components/magicui/word-rotate";
 
-export function TextAnimateDemo() {
+export function WordRotateDemo() {
+  // Array of text objects with line1 and line2 properties
   const texts = [
-    {
-      line1: "Turn online traffic",
-      line2: "into loyal customers"
-    },
-    {
-      line1: "Get all your data",
-      line2: "silos in one place?"
-    },
-    {
-      line1: "Deliver hyper-personalized",
-      line2: "campaigns?"
-    },
-    {
-      line1: "Optimize workflows to",
-      line2: "drive business impact?"
-    },
-    {
-      line1: "Enhance real-time reporting",
-      line2: "and decision making?"
-    }
+    "Turn online traffic into loyal customers?",
+    "Get all your data silos in one place?",
+    "Deliver hyper-personalized campaigns?",
+    "Optimize workflows to drive business impact?",
+    "Enhance real-time reporting and decision making?"
   ];
 
-  const [currentTextIndex, setCurrentTextIndex] = useState(0);
-  const [key, setKey] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
-      setKey((prevKey) => prevKey + 1);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, []);
-
+  // Extract just the first lines for WordRotate component
+  const line = texts.map(text => text);
+  
   return (
-    <div>
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={key}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          className="flex flex-col"
-        >
-          <TextAnimate
-            animation="blurInUp"
-            by="character"
-            startOnView={false}
-            once={false}
-          >
-            {texts[currentTextIndex].line1}
-          </TextAnimate>
-          
-          {texts[currentTextIndex].line2 && (
-            <TextAnimate
-              animation="blurInUp"
-              by="character"
-              startOnView={false}
-              once={false}
-              delay={0.1} // Slight delay for the second line
-            >
-              {texts[currentTextIndex].line2}
-            </TextAnimate>
-          )}
-        </motion.div>
-      </AnimatePresence>
+    <div className="flex flex-col space-y-2">
+      <div className="flex items-center">
+        <WordRotate
+          className="text-2xl md:text-4xl lg:text-5xl font-extrabold text-[#6438C3]"
+          words={line}
+         
+        />
+      </div>
+    
+    
     </div>
   );
 }

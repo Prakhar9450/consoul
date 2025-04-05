@@ -60,12 +60,16 @@ export const Navbar = () => {
   const [isServicesOpen, setIsServicesOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [isServicesActive, setIsServicesActive] = useState(false);
 
   useEffect(() => {
     const currentIndex = NavbarItems.findIndex(
       (item) => item.path === pathname
     );
     setActiveIndex(currentIndex);
+    
+    // Check if current path starts with "/services"
+    setIsServicesActive(pathname.startsWith("/services"));
   }, [pathname]);
   
   // Cleanup timeout on unmount
@@ -133,7 +137,12 @@ export const Navbar = () => {
               setCloseTimeout(timeout);
             }}
           >
-            <div className="flex text-lg text-[#555555] items-center gap-1 p-2 cursor-pointer hover:text-[#6438C3]">
+            <div 
+              className={`flex text-lg text-[#555555] items-center gap-1 p-2 cursor-pointer hover:text-[#6438C3] ${
+                isServicesActive ? "text-[#6438C3] font-bold" : ""
+              }`}
+              onClick={() => router.push("/services/media-ott")}
+            >
               <span>Services</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -141,7 +150,9 @@ export const Navbar = () => {
                 viewBox="0 0 24 24"
                 strokeWidth={1.5}
                 stroke="currentColor"
-                className="w-4 h-4"
+                className={`w-4 h-4 transition-transform duration-300 ${
+                  isServicesOpen ? "transform rotate-180" : ""
+                }`}
               >
                 <path
                   strokeLinecap="round"
@@ -233,14 +244,19 @@ export const Navbar = () => {
           {/* Services Dropdown for Mobile */}
           <div className="p-3 text-lg text-[#555555]">
             <div
-              className="flex items-center space-x-3 cursor-pointer hover:text-[#6438C3]"
-              onClick={() => setIsMobileServicesOpen(!isMobileServicesOpen)}
+              className={`flex items-center space-x-3 cursor-pointer hover:text-[#6438C3] ${
+                isServicesActive ? "text-[#6438C3] font-bold" : ""
+              }`}
+              onClick={() => {
+                // Toggle dropdown on mobile
+                setIsMobileServicesOpen(!isMobileServicesOpen);
+              }}
             >
               <span>Services</span>
               {isMobileServicesOpen ? (
-                <ChevronDown className="w-5 h-5" />
+                <ChevronRight className={`w-5 h-5 transition-transform duration-300 transform rotate-90`} />
               ) : (
-                <ChevronRight className="w-5 h-5" />
+                <ChevronRight className={`w-5 h-5 transition-transform duration-300`} />
               )}
             </div>
 
@@ -270,7 +286,9 @@ export const Navbar = () => {
           {NavbarItems.map((item, index) => (
             <div
               key={index}
-              className="p-3 text-lg text-[#555555] cursor-pointer hover:text-[#6438C3]"
+              className={`p-3 text-lg text-[#555555] cursor-pointer hover:text-[#6438C3] ${
+                activeIndex === index ? "text-[#6438C3] font-bold" : ""
+              }`}
               onClick={() => handleClick(item.path, index)}
             >
               {item.label}

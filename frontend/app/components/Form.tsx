@@ -9,9 +9,17 @@ export const Form = () => {
         designation: '',
         phone: '',
         countryCode: '+91',
+        otherHelp: '',
     });
 
     const [selectedFlag, setSelectedFlag] = useState("🇮🇳");
+    const [checkboxes, setCheckboxes] = useState({
+        segmentation: false,
+        roi: false,
+        analysis: false,
+        martech: false,
+        other: false
+    });
 
     const countries = [
         { code: "AT", name: "Austria", dialCode: "+43", flag: "🇦🇹" },
@@ -63,12 +71,12 @@ export const Form = () => {
         { id: 'roi', label: 'Return on Investment' },
         { id: 'analysis', label: 'Data analysis' },
         { id: 'martech', label: 'MarTech stack' },
-        { id: 'other', label: 'Other?' }
     ];
 
     useEffect(() => {
         // Check if all required fields are filled
-        const isValid = Object.values(formData).every(value => value.trim() !== '');
+        const requiredFields: (keyof typeof formData)[] = ['fullName', 'email', 'website', 'designation', 'phone'];
+        const isValid = requiredFields.every(field => formData[field].trim() !== '');
         setIsFormValid(isValid);
     }, [formData]);
 
@@ -86,6 +94,14 @@ export const Form = () => {
                 setSelectedFlag(selectedCountry.flag);
             }
         }
+    };
+
+    const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = e.target;
+        setCheckboxes(prev => ({
+            ...prev,
+            [name]: checked
+        }));
     };
 
     return (
@@ -192,14 +208,44 @@ export const Form = () => {
                     <label className="block text-lg mb-3">What do you need help with?</label>
                     <div className="grid grid-cols-2 gap-4">
                         {checkboxItems.map((item) => (
-                            <label key={item.id} className="flex items-center gap-2">
-                                <input 
-                                    type="checkbox" 
-                                    className="w-4 h-4 accent-[#6438C3] border-[#DAC8FF] rounded-md"    
-                                />
-                                <span className="text-sm">{item.label}</span>
-                            </label>
+                            <div key={item.id} className="flex items-center gap-2">
+                                <label className="flex items-center gap-2">
+                                    <input 
+                                        type="checkbox" 
+                                        name={item.id}
+                                        checked={checkboxes[item.id as keyof typeof checkboxes]}
+                                        onChange={handleCheckboxChange}
+                                        className="w-4 h-4 accent-[#6438C3] border-[#DAC8FF] rounded-md"
+                                    />
+                                    <span className="text-sm">{item.label}</span>
+                                </label>
+                            </div>
                         ))}
+                        
+                        {/* Custom Other field with underline and checkbox on left */}
+                        <div className="flex items-end w-full col-span-2 md:col-span-1">
+                            <div className="w-full flex items-center">
+                                <div className="mr-2">
+                                    <input 
+                                        type="checkbox" 
+                                        name="other"
+                                        checked={checkboxes.other}
+                                        onChange={handleCheckboxChange}
+                                        className="w-4 h-4 accent-[#6438C3] border-[#DAC8FF] rounded-md"
+                                    />
+                                </div>
+                                <div className="w-full border-b-2 border-[#DAC8FF] pb-1">
+                                    <input
+                                        type="text"
+                                        name="otherHelp"
+                                        value={formData.otherHelp}
+                                        onChange={handleInputChange}
+                                        placeholder="Other?"
+                                        className="w-full outline-none text-sm p-1 bg-transparent"
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -1,7 +1,5 @@
 "use client";
 
-import type React from "react";
-
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -10,15 +8,282 @@ import { db } from "@/app/lib/firebaseConfig";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import SwipeButton from "./ui/SwipeButton";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
+interface FormData {
+  fullName: string;
+  email: string;
+  companyWebsite: string;
+  jobTitle: string;
+  phoneNumber: string;
+}
+
+interface Country {
+  code: string;
+  name: string;
+  dialCode: string;
+  flag: string;
+}
+
+interface DownloadFormProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: (data: FormData) => void;
+  documentTitle?: string;
+}
+
+// Internal Download Form Component
+const DownloadForm: React.FC<DownloadFormProps> = ({ isOpen, onClose, onSubmit, documentTitle }) => {
+  const [formData, setFormData] = useState<FormData>({
+    fullName: "",
+    email: "",
+    companyWebsite: "",
+    jobTitle: "",
+    phoneNumber: "",
+  });
+  
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedFlag, setSelectedFlag] = useState("🇮🇳");
+
+  const countries: Country[] = [
+    { code: "AT", name: "Austria", dialCode: "+43", flag: "🇦🇹" },
+    { code: "BE", name: "Belgium", dialCode: "+32", flag: "🇧🇪" },
+    { code: "BG", name: "Bulgaria", dialCode: "+359", flag: "🇧🇬" },
+    { code: "CA", name: "Canada", dialCode: "+1", flag: "🇨🇦" },
+    { code: "CN", name: "China", dialCode: "+86", flag: "🇨🇳" },
+    { code: "CY", name: "Cyprus", dialCode: "+357", flag: "🇨🇾" },
+    { code: "CZ", name: "Czech Republic", dialCode: "+420", flag: "🇨🇿" },
+    { code: "DE", name: "Germany", dialCode: "+49", flag: "🇩🇪" },
+    { code: "DK", name: "Denmark", dialCode: "+45", flag: "🇩🇰" },
+    { code: "EE", name: "Estonia", dialCode: "+372", flag: "🇪🇪" },
+    { code: "ES", name: "Spain", dialCode: "+34", flag: "🇪🇸" },
+    { code: "FI", name: "Finland", dialCode: "+358", flag: "🇫🇮" },
+    { code: "FR", name: "France", dialCode: "+33", flag: "🇫🇷" },
+    { code: "GR", name: "Greece", dialCode: "+30", flag: "🇬🇷" },
+    { code: "HR", name: "Croatia", dialCode: "+385", flag: "🇭🇷" },
+    { code: "HU", name: "Hungary", dialCode: "+36", flag: "🇭🇺" },
+    { code: "IE", name: "Ireland", dialCode: "+353", flag: "🇮🇪" },
+    { code: "IN", name: "India", dialCode: "+91", flag: "🇮🇳" },
+    { code: "IT", name: "Italy", dialCode: "+39", flag: "🇮🇹" },
+    { code: "JP", name: "Japan", dialCode: "+81", flag: "🇯🇵" },
+    { code: "KR", name: "South Korea", dialCode: "+82", flag: "🇰🇷" },
+    { code: "LT", name: "Lithuania", dialCode: "+370", flag: "🇱🇹" },
+    { code: "LV", name: "Latvia", dialCode: "+371", flag: "🇱🇻" },
+    { code: "MT", name: "Malta", dialCode: "+356", flag: "🇲🇹" },
+    { code: "MY", name: "Malaysia", dialCode: "+60", flag: "🇲🇾" },
+    { code: "NL", name: "Netherlands", dialCode: "+31", flag: "🇳🇱" },
+    { code: "NO", name: "Norway", dialCode: "+47", flag: "🇳🇴" },
+    { code: "PH", name: "Philippines", dialCode: "+63", flag: "🇵🇭" },
+    { code: "PK", name: "Pakistan", dialCode: "+92", flag: "🇵🇰" },
+    { code: "PL", name: "Poland", dialCode: "+48", flag: "🇵🇱" },
+    { code: "PT", name: "Portugal", dialCode: "+351", flag: "🇵🇹" },
+    { code: "RO", name: "Romania", dialCode: "+40", flag: "🇷🇴" },
+    { code: "SE", name: "Sweden", dialCode: "+46", flag: "🇸🇪" },
+    { code: "SG", name: "Singapore", dialCode: "+65", flag: "🇸🇬" },
+    { code: "SI", name: "Slovenia", dialCode: "+386", flag: "🇸🇮" },
+    { code: "SK", name: "Slovakia", dialCode: "+421", flag: "🇸🇰" },
+    { code: "TH", name: "Thailand", dialCode: "+66", flag: "🇹🇭" },
+    { code: "UK", name: "United Kingdom", dialCode: "+44", flag: "🇬🇧" },
+    { code: "US", name: "United States", dialCode: "+1", flag: "🇺🇸" },
+    { code: "VN", name: "Vietnam", dialCode: "+84", flag: "🇻🇳" },
+  ];
+  
+  // Check if all required fields are filled
+  useEffect(() => {
+    const { fullName, email, companyWebsite, jobTitle, phoneNumber } = formData;
+    setIsFormValid(
+      fullName.trim() !== "" && 
+      email.trim() !== "" && 
+      companyWebsite.trim() !== "" && 
+      jobTitle.trim() !== "" && 
+      phoneNumber.trim() !== ""
+    );
+  }, [formData]);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!isFormValid) return;
+    
+    setIsSubmitting(true);
+    
+    // Call the parent's onSubmit function with the form data
+    onSubmit(formData);
+    
+    // Reset form after submission
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setFormData({
+        fullName: "",
+        email: "",
+        companyWebsite: "",
+        jobTitle: "",
+        phoneNumber: "",
+      });
+      onClose();
+    }, 1000);
+  };
+
+  const selectCountry = (flag: string) => {
+    setSelectedFlag(flag);
+  };
+
+  const getDialCodeByFlag = (flag: string) => {
+    const country = countries.find(c => c.flag === flag);
+    return country ? country.dialCode : "+91"; // Default to India's code
+  };
+
+  return (
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="max-w-md p-0 overflow-hidden bg-white rounded-lg">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="fullName" className="text-gray-700">
+              Full name<span className="text-purple-600">*</span>
+            </Label>
+            <Input
+              id="fullName"
+              name="fullName"
+              className="w-full border border-[#DAC8FF] rounded-md focus:border-[#DAC8FF] focus:outline-none focus:ring-0"
+              value={formData.fullName}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="email" className="text-gray-700">
+              Email<span className="text-purple-600">*</span>
+            </Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              className="w-full border border-[#DAC8FF] rounded-md focus:border-[#DAC8FF] focus:ring focus:ring-[#DAC8FF] focus:ring-opacity-50"
+              value={formData.email}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="companyWebsite" className="text-gray-700">
+              Company name/ website<span className="text-purple-600">*</span>
+            </Label>
+            <Input
+              id="companyWebsite"
+              name="companyWebsite"
+              className="w-full border border-[#DAC8FF] rounded-md focus:border-[#DAC8FF] focus:ring focus:ring-[#DAC8FF] focus:ring-opacity-50"
+              value={formData.companyWebsite}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="jobTitle" className="text-gray-700">
+              Job title<span className="text-purple-600">*</span>
+            </Label>
+            <Input
+              id="jobTitle"
+              name="jobTitle"
+              className="w-full border border-[#DAC8FF] rounded-md focus:border-[#DAC8FF] focus:ring focus:ring-[#DAC8FF] focus:ring-opacity-50"
+              value={formData.jobTitle}
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          
+          <div className="space-y-2">
+            <Label htmlFor="phoneNumber" className="text-gray-700">
+              Phone number<span className="text-purple-600">*</span>
+            </Label>
+            <div className="flex border border-[#DAC8FF] rounded-md overflow-hidden">
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex items-center px-2 bg-white border-r border-[#DAC8FF]">
+                  <span className="mr-1 text-lg">{selectedFlag}</span>
+                  <span className="text-xs text-gray-600 mr-1">{getDialCodeByFlag(selectedFlag)}</span>
+                  <svg 
+                    width="10" 
+                    height="6" 
+                    viewBox="0 0 10 6" 
+                    fill="none" 
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="ml-1"
+                  >
+                    <path d="M1 1L5 5L9 1" stroke="#666" strokeWidth="1.5" strokeLinecap="round" />
+                  </svg>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent 
+                  className="max-h-56 overflow-y-auto"
+                  onWheel={(e) => {
+                    e.stopPropagation();
+                  }}
+                  style={{ maxHeight: "300px", overflowY: "auto" }}
+                >
+                  <div className="py-1 px-1">
+                   
+                    {countries.map((country) => (
+                      <DropdownMenuItem 
+                        key={country.code}
+                        onClick={() => selectCountry(country.flag)}
+                        className="cursor-pointer flex items-center gap-2 hover:bg-purple-50"
+                      >
+                        <span className="text-lg">{country.flag}</span>
+                        <span>{country.name}</span>
+                        <span className="text-gray-500 ml-1">{country.dialCode}</span>
+                      </DropdownMenuItem>
+                    ))}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <Input
+                id="phoneNumber"
+                name="phoneNumber"
+                type="tel"
+                className="flex-1 border-none outline-none focus:ring-0 focus:outline-none"
+                value={formData.phoneNumber}
+                onChange={handleInputChange}
+                required
+              />
+            </div>
+          </div>
+          
+          <Button
+            type="submit"
+            className={`w-full py-3 rounded-md transition-colors ${
+              isFormValid 
+                ? "bg-[#DAC8FF] hover:bg-[#C8B8EE] text-[#6438C3]" 
+                : "bg-[#DAC8FF] opacity-50 text-[#6438C3] cursor-not-allowed"
+            }`}
+            disabled={!isFormValid || isSubmitting}
+          >
+            {isSubmitting ? "Processing..." : "Download"}
+          </Button>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+// Main DownloadGuide Component
 interface PdfDocument {
   id: string;
   type: string;
@@ -26,27 +291,11 @@ interface PdfDocument {
   link: string;
 }
 
-interface DownloadFormData {
-  fullName: string;
-  email: string;
-  contactNumber: string;
-  designation: string;
-  companyWebsite: string;
-}
-
 export const DownloadGuide = () => {
   const pathname = usePathname();
   const [pdfDocument, setPdfDocument] = useState<PdfDocument | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [formData, setFormData] = useState<DownloadFormData>({
-    fullName: "",
-    email: "",
-    contactNumber: "",
-    designation: "",
-    companyWebsite: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Determine the document type based on the current path
   const getDocumentType = () => {
@@ -117,46 +366,22 @@ export const DownloadGuide = () => {
     fetchPdfDocument();
   }, [pathname]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setIsDialogOpen(false);
-
-      // Redirect to the PDF link
-      if (pdfDocument?.link) {
-        window.open(pdfDocument.link, "_blank");
-      }
-
-      // Reset form
-      setFormData({
-        fullName: "",
-        email: "",
-        contactNumber: "",
-        designation: "",
-        companyWebsite: "",
-      });
-    }, 1000);
+  const handleFormSubmit = (formData: FormData) => {
+    console.log("Form submitted:", formData);
+    
+    // Redirect to the PDF link after submission
+    if (pdfDocument?.link) {
+      window.open(pdfDocument.link, "_blank");
+    }
   };
 
   if (isLoading || !pdfDocument) return null;
 
   return (
-    <div className="relative md:max-w-4xl  ">
-      <div className=" p-6 md:p-12 bg-[#6438C3] text-white md:rounded-3xl font-semibold">
+    <div className="relative md:max-w-full">
+      <div className="p-6 md:p-12 bg-[#6438C3] text-white md:rounded-3xl font-semibold">
         <div className="grid md:grid-cols-6 gap-5">
-          <div className="col-span-4 grid gap-5 ">
+          <div className="col-span-4 grid gap-5">
             <div className="text-lg md:text-[27px] md:whitespace-nowrap">
               Read our latest step-by-step guide
               <br />
@@ -200,74 +425,13 @@ export const DownloadGuide = () => {
         <Image src="/icons/docs.svg" alt="guide" width={200} height={200} />
       </div>
 
-      {/* Download Form Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Download {pdfDocument.title}</DialogTitle>
-            <DialogDescription>
-              Please fill in your details to download the guide
-            </DialogDescription>
-          </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="fullName">Full name</Label>
-              <Input
-                id="fullName"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="email">Email address</Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="contactNumber">Contact number</Label>
-              <Input
-                id="contactNumber"
-                name="contactNumber"
-                value={formData.contactNumber}
-                onChange={handleInputChange}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="designation">Designation</Label>
-              <Input
-                id="designation"
-                name="designation"
-                value={formData.designation}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="companyWebsite">Company website/ URL</Label>
-              <Input
-                id="companyWebsite"
-                name="companyWebsite"
-                value={formData.companyWebsite}
-                onChange={handleInputChange}
-              />
-            </div>
-            <Button
-              type="submit"
-              className="w-full bg-[#6438C3] hover:bg-[#5429B3]"
-              disabled={isSubmitting}>
-              {isSubmitting ? "Processing..." : "Download"}
-            </Button>
-          </form>
-        </DialogContent>
-      </Dialog>
+      {/* Download Form Component */}
+      <DownloadForm
+        isOpen={isDialogOpen}
+        onClose={() => setIsDialogOpen(false)}
+        onSubmit={handleFormSubmit}
+        documentTitle={pdfDocument.title}
+      />
     </div>
   );
 };

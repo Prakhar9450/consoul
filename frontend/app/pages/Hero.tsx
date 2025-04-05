@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
-import { TextAnimate } from "@/components/magicui/text-animate";
+import FadeAnimation from "../components/Animations/fade"; // Import FadeAnimation instead of TextAnimate
 import AnimatedSwipeButton from "../components/ui/AnimatedSwipeButton";
 
 export const Hero = () => {
@@ -24,7 +24,7 @@ export const Hero = () => {
   const logos = [...logoBaseList, ...logoBaseList];
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className="overflow-hidden max-h-screen"> {/* Limit to screen height */}
       <div className="grid grid-cols-1 md:grid-cols-2 p-4 md:p-0 md:mt-20">
         <div className="col-span-1">
           <div className="flex md:justify-end">
@@ -32,19 +32,19 @@ export const Hero = () => {
               <div className="font-extrabold text-xl md:text-[42px] ">
                 {inView && (
                   <>
-                    <TextAnimate animation="blurInUp" by="text" delay={0}>
+                    <FadeAnimation direction="fadeUp" delay={0}>
                       Your go-to partner to
-                    </TextAnimate>
+                    </FadeAnimation>
 
                     <div className="flex md:mt-4">
-                      <TextAnimate animation="blurInUp" by="text" delay={0.1}>
+                      <FadeAnimation direction="fadeUp" delay={0.1}>
                         increase
-                      </TextAnimate>
+                      </FadeAnimation>
                       <div className="w-2"></div>
                       <span className="text-[#6438C3]">
-                        <TextAnimate animation="blurInUp" by="text" delay={0.2}>
+                        <FadeAnimation direction="fadeUp" delay={0.2}>
                           Customer Retention
-                        </TextAnimate>
+                        </FadeAnimation>
                       </span>
                     </div>
                   </>
@@ -54,27 +54,27 @@ export const Hero = () => {
               {/* For mobile */}
               {inView && (
                 <div className="md:hidden text-[#6B6B6B] text-md">
-                  <TextAnimate animation="blurInUp" by="text" delay={0.4}>
+                  <FadeAnimation direction="fadeUp" delay={0.4}>
                     We help you understand customers like never
-                  </TextAnimate>
-                  <TextAnimate animation="blurInUp" by="text" delay={0.5}>
+                  </FadeAnimation>
+                  <FadeAnimation direction="fadeUp" delay={0.5}>
                     before, and build strategies that make them
-                  </TextAnimate>
-                  <TextAnimate animation="blurInUp" by="text" delay={0.6}>
+                  </FadeAnimation>
+                  <FadeAnimation direction="fadeUp" delay={0.6}>
                     stay long.
-                  </TextAnimate>
+                  </FadeAnimation>
                 </div>
               )}
 
               {/* For desktop */}
               {inView && (
                 <div className="hidden md:block text-[#6B6B6B] text-xl mt-2 font-light ">
-                  <TextAnimate animation="blurInUp" by="text" delay={0.4}>
+                  <FadeAnimation direction="fadeUp" delay={0.4}>
                     We help you understand customers like never before,
-                  </TextAnimate>
-                  <TextAnimate animation="blurInUp" by="text" delay={0.5}>
+                  </FadeAnimation>
+                  <FadeAnimation direction="fadeUp" delay={0.5}>
                     and build strategies that make them stay long.
-                  </TextAnimate>
+                  </FadeAnimation>
                 </div>
               )}
 
@@ -87,13 +87,10 @@ export const Hero = () => {
                   ].map((text, index) => (
                     <div key={index} className="flex">
                       <span className="flex flex-col justify-center mx-2">
-                        <motion.div
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{
-                            delay: 1,
-                            duration: 0.7 + index * 0.3,
-                          }}>
+                        <FadeAnimation 
+                          direction="fadeIn"
+                          delay={0.7 + index * 0.3}
+                        >
                           <Image
                             src="/icons/key-points.svg"
                             alt="bullet point"
@@ -101,15 +98,13 @@ export const Hero = () => {
                             width={20}
                             loading="lazy"
                           />
-                        </motion.div>
+                        </FadeAnimation>
                       </span>
-                      <TextAnimate
-                        animation="fadeIn"
-                        by="line"
-                        as="p"
+                      <FadeAnimation
+                        direction="fadeIn"
                         delay={0.7 + index * 0.3}>
                         {text}
-                      </TextAnimate>
+                      </FadeAnimation>
                     </div>
                   ))}
                 </div>
@@ -117,13 +112,17 @@ export const Hero = () => {
 
               {inView && (
                 <div>
-                    <a href=" https://cal.com/consoul-solutions"><AnimatedSwipeButton
-                    className="hidden md:block rounded-lg "
-                    firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-lg p-3 px-7"
-                    firstText="Book a free Consultation"
-                    secondClass="bg-[#A47EF6] text-white text-lg p-3 px-7 "
-                    secondText="Book a free Consultation"
-                  /></a>
+                  <FadeAnimation direction="fadeUp" delay={1.3}>
+                    <a href="https://cal.com/consoul-solutions">
+                      <AnimatedSwipeButton
+                        className="hidden md:block rounded-lg "
+                        firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-lg p-3 px-7"
+                        firstText="Book a free Consultation"
+                        secondClass="bg-[#A47EF6] text-white text-lg p-3 px-7 "
+                        secondText="Book a free Consultation"
+                      />
+                    </a>
+                  </FadeAnimation>
                 </div>
               )}
             </div>
@@ -152,15 +151,17 @@ export const Hero = () => {
         )}
 
         <div className="hidden md:block col-span-1">
-          {/* Modified this div to position the image higher */}
-          <div className="p-2 flex justify-start overflow-hidden h-[800px] -mt-16">
+          {/* Container with fixed height and position */}
+          <div className="p-2 flex justify-start overflow-hidden h-[700px] -mt-16 relative">
             {inView && (
               <motion.div
-                animate={{ y: [0, -1000, 0] }}
+                className="absolute"
+                animate={{ y: ["0%", "-60%", "0%"] }}
                 transition={{
-                  duration: 30,
+                  duration: 50,
                   repeat: Infinity,
-                  ease: "easeInOut",
+                  ease: "linear",
+                  times: [0, 0.5, 1]
                 }}>
                 <Image
                   src="https://raw.githubusercontent.com/rishabhknowss/imagesdb/refs/heads/main/hero1.png"
@@ -168,7 +169,7 @@ export const Hero = () => {
                   width={550}
                   height={1100}
                   priority={true}
-                  quality={85}
+                  quality={100}
                   placeholder="blur"
                   blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 550 1100'%3E%3Crect width='100%25' height='100%25' fill='%23f0f0f0'/%3E%3C/svg%3E"
                 />

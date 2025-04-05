@@ -412,9 +412,9 @@ export const Services = () => {
             <div className="text-center hidden md:block text-[#2a2a2a]">
               One-stop solution to keep your customers loyal and increase LTV
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 text-base md:text-xl font-medium gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 text-base md:text-xl font-medium gap-4 ">
               <div
-                className="justify-center hidden md:flex"
+                className="justify-end hidden md:flex"
                 onClick={() => router.push("/about")}>
                 <SwipeButton
                   className="hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg"

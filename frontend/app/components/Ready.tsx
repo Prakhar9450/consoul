@@ -1,17 +1,18 @@
 "use client";
-
-import { TextAnimateDemo } from "@/components/AreYouReadyText";
+import { WordRotateDemo } from "@/components/AreYouReadyText";
 import SwipeButton from "./ui/SwipeButton";
+import { WordRotate } from "@/components/magicui/word-rotate";
 
 export const Ready = () => {
   return (
     <div className="bg-gradient-to-l from-[#F1EAFF] to-[#FFEBE8] p-10 py-20 grid gap-10 ">
-      <div className="grid grid-cols-2 text-5xl font-extrabold gap-5">
-        <div className=" text-[#555555] flex justify-end">
+      <div className="grid  text-5xl font-extrabold gap-5">
+      <div className=" text-[#555555] flex justify-center">
           Are your ready to
+        
         </div>
-        <div className="text-[#6438C3]">
-          <TextAnimateDemo />
+        <div className="text-[#6438C3] flex justify-center">
+          <WordRotateDemo />
         </div>
       </div>
       <div className="flex justify-center">

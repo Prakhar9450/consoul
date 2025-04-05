@@ -6,20 +6,21 @@ import Image from "next/image";
 export const ContactForm = () => {
   return (
     <div className="md:grid grid-cols-2 w-full shadow-xl border rounded-xl md:max-w-8xl">
-      <div className="hidden md:block bg-[#6438C3] p-12 rounded-l-xl text-white">
+      <div className="hidden md:block bg-[#6438C3] rounded-l-xl text-white">
         <div className="grid gap-6">
-          <div className="space-y-4">
-            <h1 className="text-4xl font-bold leading-tight">
+          <div className="space-y-4 p-10">
+            <h1 className="text-3xl font-bold leading-tight">
               Need help with your customer <br />
               life-cycle management?
             </h1>
-            <p className=" text-2xl opacity-90">
+            <p className=" text-xl opacity-90">
               Drop in your details and our Strategy expert <br />
               will call you.
             </p>
           </div>
 
-          <div className="mt-28">
+
+          <div className="mt-40 p-6">
             <div className="grid grid-cols-2 items-center gap-0">
               <div className="w-60 h-w-56 rounded-lg overflow-hidden">
                 <Image
@@ -63,6 +64,7 @@ export const ContactForm = () => {
               </div>
             </div>
           </div>
+    
         </div>
       </div>
 
