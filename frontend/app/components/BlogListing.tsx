@@ -246,7 +246,7 @@ export default function BlogListing() {
                           type="checkbox"
                           checked={selectedIndustries.includes(industry)}
                           onChange={() => handleIndustryChange(industry)}
-                          className="h-4 w-4 rounded border-gray-300 text-[#DAC8FF] focus:ring-[#DAC8FF] checked:bg-[#B881FF] checked:border-[#B881FF]"
+                           className="w-4 h-4 accent-[#6438C3] border-[#DAC8FF] rounded-md"
                         />
 
                         <span className="text-[#555555]">{industry}</span>
@@ -268,7 +268,7 @@ export default function BlogListing() {
                           type="checkbox"
                           checked={selectedTopics.includes(topic)}
                           onChange={() => handleTopicChange(topic)}
-                          className="h-4 w-4 rounded border-gray-300 text-[#DAC8FF] focus:ring-[#DAC8FF] checked:bg-[#B881FF] checked:border-[#B881FF]"
+                           className="w-4 h-4 accent-[#6438C3] border-[#DAC8FF] rounded-md"
                         />
                         <span className="text-[#555555]">{topic}</span>
                       </label>
@@ -289,7 +289,7 @@ export default function BlogListing() {
                           type="checkbox"
                           checked={selectedServices.includes(service)}
                           onChange={() => handleServiceChange(service)}
-                          className="h-4 w-4 rounded border-gray-300 text-[#DAC8FF] focus:ring-[#DAC8FF] checked:bg-[#B881FF] checked:border-[#B881FF]"
+                           className="w-4 h-4 accent-[#6438C3] border-[#DAC8FF] rounded-md"
                         />
                         <span className="text-[#555555]">{service}</span>
                       </label>

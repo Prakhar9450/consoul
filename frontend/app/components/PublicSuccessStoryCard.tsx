@@ -88,6 +88,7 @@ export default function PublicSuccessStoryCard({
   }, []);
   
   // Use the mouse position hook
+  //@ts-ignore
   useMousePosition(divRef, update);
 
   return (

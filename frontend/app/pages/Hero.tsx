@@ -68,7 +68,7 @@ export const Hero = () => {
 
               {/* For desktop */}
               {inView && (
-                <div className="hidden md:block text-[#6B6B6B] text-xl mt-2 font-light ">
+                <div className="hidden md:block text-[#6B6B6B] text-[24px] mt-2 font-light ">
                   <FadeAnimation direction="fadeUp" delay={0.4}>
                     We help you understand customers like never before,
                   </FadeAnimation>
@@ -79,7 +79,7 @@ export const Hero = () => {
               )}
 
               {inView && (
-                <div className="grid gap-2 text-[15px] md:text-xl">
+                <div className="grid gap-2 text-[15px] md:text-[24px]">
                   {[
                     "Keep customers loyal",
                     "Achieve KPIs faster",
@@ -152,7 +152,7 @@ export const Hero = () => {
 
         <div className="hidden md:block col-span-1">
           {/* Container with fixed height and position */}
-          <div className="p-2 flex justify-start overflow-hidden h-[700px] -mt-16 relative">
+          <div className="p-2 flex justify-start overflow-hidden h-[700px] -mt-10 relative">
             {inView && (
               <motion.div
                 className="absolute"
