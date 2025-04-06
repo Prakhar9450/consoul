@@ -1,166 +1,177 @@
 "use client";
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import SwipeButton from "./ui/SwipeButton";
-import ReadAllSuccessStoriesButton from "./ui/ReadAllSuccessStoriesButton";
 import { useRouter } from "next/navigation";
 
 export const SuccessStoriesComp = () => {
   const stories = [
     {
       title: "iWantTFC",
-      description:
-        "Here's what targeted content and personalised communication can do.",
+      subtitle: "Here's what targeted content and personalised communication can do.",
       metrics: [
-        { text: "Increased conversions by", value: "3x" },
-        { text: "Reduced churn by", value: "2x" },
-        { text: "Boost engagement by", value: "5x" },
-        { text: "Higher customer satisfaction by", value: "4x" },
+        { text: "Increased retention by", value: "30%" },
+        { text: "Reduced operation cost by", value: "20%" },
+        { text: "Campaign delivery improved by", value: "30%" },
+        { text: "Operational cost reduced by", value: "20%" },
       ],
-      image: "/components/iwanttfcstories.svg",
+      image: "/components/iwanttfcstories.png",
     },
     {
-      title: "BrandX",
-      description: "Driving engagement through AI-driven marketing strategies.",
+      title: "COTO",
+      subtitle: "See how COTO- A woman-only platform got these results from our tailored data-driven strategies",
       metrics: [
-        { text: "Revenue growth by", value: "4x" },
-        { text: "Customer retention improved by", value: "3.5x" },
-        { text: "User engagement boosted by", value: "6x" },
-        { text: "Higher conversion rates by", value: "2.5x" },
+        { text: "Reduction in churn by", value: "8%" },
+        { text: "Increased networking by", value: "2x" },
+        { text: "Community engagement up by", value: "20%" },
+        { text: "Increased user activity by", value: "30%" },
       ],
-      image: "/components/iwanttfcstories.svg",
-    },
-    {
-      title: "ShopEase",
-      description:
-        "Transforming eCommerce with personalized shopping experiences.",
-      metrics: [
-        { text: "Sales increased by", value: "5x" },
-        { text: "Cart abandonment reduced by", value: "40%" },
-        { text: "Returning customers up by", value: "3.8x" },
-        { text: "Overall satisfaction increased by", value: "4.5x" },
-      ],
-      image: "/components/iwanttfcstories.svg",
-    },
+      image: "/components/womenonlyplatform.png", 
+    }
   ];
 
   const [index, setIndex] = useState(0);
-  const autoPlayInterval = 4000; //
+  const [direction, setDirection] = useState(1); // 1 for right, -1 for left
+  const autoPlayInterval = 4000;
 
   // Auto-play functionality
   useEffect(() => {
     const intervalId = setInterval(() => {
+      setDirection(1);
       setIndex((prevIndex) => (prevIndex + 1) % stories.length);
     }, autoPlayInterval);
     
     // Clean up interval on component unmount
     return () => clearInterval(intervalId);
-  }, []); // Empty dependency array means this effect runs once on mount
+  }, []);
 
   const nextStory = () => {
+    setDirection(1);
     setIndex((prevIndex) => (prevIndex + 1) % stories.length);
   };
 
   const prevStory = () => {
+    setDirection(-1);
     setIndex((prevIndex) => (prevIndex - 1 + stories.length) % stories.length);
   };
 
   const router = useRouter();
 
+  // Slide variants for the entire story content
+  const slideVariants = {
+    enter: (direction : number) => ({
+      x: direction > 0 ? 500 : -500,
+      opacity: 0
+    }),
+    center: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction : number) => ({
+      x: direction > 0 ? -500 : 500,
+      opacity: 0
+    })
+  };
+
   return (
     <div className="flex justify-center">
-      <div className="p-4 md:p-10 flex flex-col items-center relative overflow-hidden">
-        <div className="font-extrabold text-[#555555] text-2xl md:text-4xl my-4 md:my-6">
+      <div className="p-4 md:p-8 flex flex-col items-center relative overflow-hidden">
+        <div className="font-extrabold text-[#555555] text-[42px] md:text-4xl mb-4 text-center">
           Proven Success Stories
         </div>
-        <div className="text-2xl md:text-4xl font-extrabold text-[#555555]">
-          <div>
-            Here's what
-            <span className="text-[#6438C3]"> targeted content </span> and
-            <span className="text-[#6438C3]"> personalised </span>
-          </div>
-          <div className="flex justify-center">
-            <span className="text-[#6438C3] mr-2">communication </span> can do. Story
-            of {stories[index].title}:
-          </div>
-        </div>
-
-        <div className="w-full max-w-6xl flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0 my-4 md:mt-8">
-          <div className="flex flex-col items-start lg:w-1/2 space-y-6">
+        
+        {/* Entire sliding content section */}
+        <div className="overflow-hidden w-full mt-10">
+          <AnimatePresence custom={direction} mode="wait">
             <motion.div
               key={index}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
               transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="w-full min-h-[200px]" // Fixed height for smooth transitions
+              className="w-full"
             >
-              <ul className="space-y-2 md:space-y-3 mt-4">
-                {stories[index].metrics.map((metric, idx) => (
-                  <li
-                    key={idx}
-                    className="flex items-center text-base md:text-lg text-[#555555] font-medium"
-                  >
-                    <span className="mr-2">
-                      <Image src='/icons/rocket.png' alt="point" width={20} height={20} />
-                    </span> {metric.text}{" "}
-                    <span className="font-bold ml-1">{metric.value}</span>
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-
-            {/* Call to Action */}
-            <div className="mt-6">
-              <p className="text-[#555555] mb-2">
-                Want targeted communication for your brand?
-              </p>
-              <button className="bg-[#6438C3] text-white rounded-lg text-base w-full">
-                
-              </button>
-
-              <a href="https://cal.com/consoul-solutions">
-                <SwipeButton
-                  className="w-full hidden lg:block bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white rounded-lg md:text-lg font-semibold"
-                  firstClass=" bg-gradient-to-b from-[#6438C3] to-[#4B21A6] text-white text-lg py-2 md:py-3 px-4 md:px-6 "
-                  firstText="Yes, let's talk"
-                  secondClass="bg-[#A47EF6] text-white py-2 md:py-3 px-4 md:px-6 text-lg"
-                  secondText="Yes, let's talk"
-                />
-              </a>
-              <div onClick={() => router.push('/success-stories')}>
-                <ReadAllSuccessStoriesButton text="Read all success stories" />
+              {/* Story subtitle */}
+              <div className="text-xl md:text-3xl font-extrabold text-[#555555] text-center mb-8">
+                {index === 0 ? (
+                  <>
+                    Here's what <span className="text-[#6438C3]">targeted content</span> and <span className="text-[#6438C3]">personalised communication</span> can do.
+                    <br />Story of iWantTFC:
+                  </>
+                ) : (
+                  <>
+                    See how COTO- A <span className="text-[#6438C3]">woman-only</span> platform got these results from our
+                    <br /><span className="text-[#6438C3]">tailored data-driven strategies</span>
+                  </>
+                )}
               </div>
-            </div>
-          </div>
 
-          {/* Right Side - Image */}
-          <div className="lg:w-1/2 flex justify-center">
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.8 }}
-              transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="w-[250px] h-[250px] md:w-[300px] md:h-[300px] lg:w-[400px] lg:h-[400px] flex justify-center items-center"
-            >
-              <Image
-                src={stories[index].image || "/placeholder.svg"}
-                alt="Success Story"
-                className="max-w-full h-auto"
-                width={400}
-                height={400}
-              />
+              {/* Content and image section */}
+              <div className="w-full max-w-5xl flex items-start justify-between px-0 md:px-4 mx-auto">
+                {/* Left Side - Content */}
+                <div className="w-1/2 pr-0 md:pr-3">
+                  <ul className="space-y-3 md:space-y-4">
+                    {stories[index].metrics.map((metric, idx) => (
+                      <li
+                        key={idx}
+                        className="flex items-center text-base md:text-lg text-[#555555] font-medium"
+                      >
+                        <span className="mr-2 text-[#6438C3]">
+                          <Image src='/icons/rocket.png' alt="point" width={20} height={20} />
+                        </span> 
+                        {metric.text} <span className="font-bold ml-1">{metric.value}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Call to Action */}
+                  <div className="mt-8">
+                    <p className="text-[#555555] mb-3">
+                      Want targeted communication for your brand?
+                    </p>
+                    
+                    <a href="https://cal.com/consoul-solutions">
+                      <div className="bg-[#6438C3] text-white py-3 px-4 rounded-lg text-center font-medium mb-3">
+                        Yes, let's talk
+                      </div>
+                    </a>
+                    
+                    <div onClick={() => router.push('/success-stories')} className="flex items-center justify-center">
+                      <span className="text-[#6438C3] font-medium cursor-pointer flex items-center">
+                        Read all success stories
+                        <svg className="ml-1" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill="#6438C3"/>
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Right Side - Image with fixed height container */}
+                <div className="w-1/2 pl-0 md:pl-3 flex justify-center">
+                  <div className="h-96 flex items-center justify-center">
+                    <Image
+                      src={stories[index].image || "/placeholder.svg"}
+                      alt={`${stories[index].title} Success Story`}
+                      width={400}
+                      height={400}
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
+                </div>
+              </div>
             </motion.div>
-          </div>
+          </AnimatePresence>
         </div>
 
-        <div className="absolute bottom-4 md:bottom-0 flex space-x-4 md:space-x-6">
+        {/* Navigation buttons - fixed position with absolute positioning */}
+        <div className="flex space-x-4 mt-12 justify-center">
           <button onClick={prevStory} className="flex-shrink-0">
             <svg
-              width="51"
-              height="49"
+              width="44"
+              height="44"
               viewBox="0 0 51 49"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -192,8 +203,8 @@ export const SuccessStoriesComp = () => {
           </button>
           <button onClick={nextStory} className="flex-shrink-0">
             <svg
-              width="51"
-              height="49"
+              width="44"
+              height="44"
               viewBox="0 0 51 49"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"

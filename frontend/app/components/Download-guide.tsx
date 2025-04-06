@@ -378,18 +378,20 @@ export const DownloadGuide = () => {
   if (isLoading || !pdfDocument) return null;
 
   return (
-    <div className="relative md:max-w-full">
-      <div className="p-6 md:p-12 bg-[#6438C3] text-white md:rounded-3xl font-semibold">
-        <div className="grid md:grid-cols-6 gap-5">
-          <div className="col-span-4 grid gap-5">
-            <div className="text-lg md:text-[27px] md:whitespace-nowrap">
-              Read our latest step-by-step guide
-              <br />
-              to increasing {pdfDocument.title}
+    // Removed the max-width constraint and used full width container
+    <div className="relative w-full">
+      <div className="p-4 md:p-10 md:py-12 bg-[#6438C3] text-white md:rounded-3xl font-semibold">
+        <div className="grid md:grid-cols-5 gap-4">
+          {/* Increased column span to use more horizontal space */}
+          <div className="col-span-5 lg:col-span-4 grid gap-4 md:pl-6">
+            <div className="text-lg md:text-[32px]">
+            <div className="grid gap-4"><span> Read our latest step-by-step guide</span> 
+             
+             <span> to increasing {pdfDocument.title}</span></div>
             </div>
-            <div>
+            <div className="mt-2">
               <button
-                className="p-2 px-5 bg-white hover:bg-[#F1EAFF] text-[#6438c3] flex text-xl rounded-xl"
+                className="p-2 px-6 bg-white hover:bg-[#F1EAFF] text-[#6438c3] flex text-xl rounded-md"
                 onClick={() => setIsDialogOpen(true)}>
                 <span className="mx-2">Download</span>
                 <span>
@@ -421,7 +423,7 @@ export const DownloadGuide = () => {
           </div>
         </div>
       </div>
-      <div className="hidden md:block absolute right-14 bottom-0">
+      <div className="hidden md:block absolute right-14 -bottom-1">
         <Image src="/icons/docs.svg" alt="guide" width={200} height={200} />
       </div>
 

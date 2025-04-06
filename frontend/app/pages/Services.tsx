@@ -107,6 +107,12 @@ export const Services = () => {
   const [activeDataDrivenPoint, setActiveDataDrivenPoint] = useState(0);
   const [activeMarTechPoint, setActiveMarTechPoint] = useState(0);
   const [activeOptimizePoint, setActiveOptimizePoint] = useState(0);
+  
+  // Add hover state for each section to pause auto-rotation
+  const [isDataDrivenHovered, setIsDataDrivenHovered] = useState(false);
+  const [isMarTechHovered, setIsMarTechHovered] = useState(false);
+  const [isOptimizeHovered, setIsOptimizeHovered] = useState(false);
+  
   const [imagesPreloaded, setImagesPreloaded] = useState({
     dataDriven: false,
     marTech: false,
@@ -135,11 +141,12 @@ export const Services = () => {
     threshold: 0.1,
   });
 
-  // Auto-cycling of service points when in view
+  // Auto-cycling of service points when in view - now with hover pause
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
-    if (dataDrivenInView) {
+    // Only start interval if in view AND not being hovered
+    if (dataDrivenInView && !isDataDrivenHovered) {
       interval = setInterval(() => {
         setActiveDataDrivenPoint((prev) => 
           prev === dataDrivenStrategies.points.length - 1 ? 0 : prev + 1
@@ -148,12 +155,13 @@ export const Services = () => {
     }
     
     return () => clearInterval(interval);
-  }, [dataDrivenInView, dataDrivenStrategies.points.length]);
+  }, [dataDrivenInView, dataDrivenStrategies.points.length, isDataDrivenHovered]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
-    if (marTechInView) {
+    // Only start interval if in view AND not being hovered
+    if (marTechInView && !isMarTechHovered) {
       interval = setInterval(() => {
         setActiveMarTechPoint((prev) => 
           prev === marTechTools.points.length - 1 ? 0 : prev + 1
@@ -162,12 +170,13 @@ export const Services = () => {
     }
     
     return () => clearInterval(interval);
-  }, [marTechInView, marTechTools.points.length]);
+  }, [marTechInView, marTechTools.points.length, isMarTechHovered]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
     
-    if (optimizeInView) {
+    // Only start interval if in view AND not being hovered
+    if (optimizeInView && !isOptimizeHovered) {
       interval = setInterval(() => {
         setActiveOptimizePoint((prev) => 
           prev === optimizeOperations.points.length - 1 ? 0 : prev + 1
@@ -176,7 +185,7 @@ export const Services = () => {
     }
     
     return () => clearInterval(interval);
-  }, [optimizeInView, optimizeOperations.points.length]);
+  }, [optimizeInView, optimizeOperations.points.length, isOptimizeHovered]);
 
   // Preload images for each section when they come into view
   useEffect(() => {
@@ -256,7 +265,7 @@ export const Services = () => {
   };
 
   // Create reusable section component to reduce code duplication
-  // Define ServiceSectionProps type
+  // Update ServiceSectionProps type to include hover state
   type ServiceSectionProps = {
     bgColor: string;
     data: ServiceData;
@@ -265,6 +274,8 @@ export const Services = () => {
     inViewRef: (node?: Element | null) => void;
     isInView: boolean;
     imagesLoaded: boolean;
+    isHovered: boolean;
+    setIsHovered: (isHovered: boolean) => void;
   };
 
   const ServiceSection = useCallback(
@@ -276,6 +287,8 @@ export const Services = () => {
       inViewRef,
       isInView,
       imagesLoaded,
+      isHovered,
+      setIsHovered,
     }: ServiceSectionProps) => {
       // Background color classes based on the section type
       const getBgClass = () => {
@@ -293,9 +306,14 @@ export const Services = () => {
         return "bg-gray-200";
       };
 
-      // Function to temporarily pause auto-cycling when hovering
+      // Updated handlers to set hover state
       const handleMouseEnter = (pointIndex: number) => {
         setActivePoint(pointIndex);
+        setIsHovered(true); // Pause auto-cycling
+      };
+
+      const handleMouseLeave = () => {
+        setIsHovered(false); // Resume auto-cycling
       };
 
       return (
@@ -308,9 +326,12 @@ export const Services = () => {
               </div>
             </div>
 
-            {/* Points Navigation - UPDATED with line breaks and auto-cycling */}
+            {/* Points Navigation - UPDATED with hover handlers */}
             <div className="flex justify-center md:mt-8 mb-6 text-base md:text-xl px-4 md:px-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-10 text-center px-4 md:px-24">
+              <div 
+                className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-10 text-center px-4 md:px-24"
+                onMouseLeave={handleMouseLeave} // Resume auto-cycling when mouse leaves the entire section
+              >
                 {data.points.map((point, pointIndex) => (
                   <div
                     key={pointIndex}
@@ -372,7 +393,7 @@ export const Services = () => {
         </div>
       </div>
 
-      {/* Data Driven Strategies Section */}
+      {/* Data Driven Strategies Section - Now with hover state */}
       <ServiceSection
         bgColor="#E5E9FF"
         data={dataDrivenStrategies}
@@ -381,9 +402,11 @@ export const Services = () => {
         inViewRef={dataDrivenRef}
         isInView={dataDrivenInView}
         imagesLoaded={imagesPreloaded.dataDriven}
+        isHovered={isDataDrivenHovered}
+        setIsHovered={setIsDataDrivenHovered}
       />
 
-      {/* MarTech Tools Section */}
+      {/* MarTech Tools Section - Now with hover state */}
       <ServiceSection
         bgColor="#EBE2FF"
         data={marTechTools}
@@ -392,9 +415,11 @@ export const Services = () => {
         inViewRef={marTechRef}
         isInView={marTechInView}
         imagesLoaded={imagesPreloaded.marTech}
+        isHovered={isMarTechHovered}
+        setIsHovered={setIsMarTechHovered}
       />
 
-      {/* Optimize Operations Section */}
+      {/* Optimize Operations Section - Now with hover state */}
       <ServiceSection
         bgColor="#EED3D3"
         data={optimizeOperations}
@@ -403,6 +428,8 @@ export const Services = () => {
         inViewRef={optimizeRef}
         isInView={optimizeInView}
         imagesLoaded={imagesPreloaded.optimize}
+        isHovered={isOptimizeHovered}
+        setIsHovered={setIsOptimizeHovered}
       />
 
       {/* Call-to-action Component */}
@@ -438,7 +465,7 @@ export const Services = () => {
 
       {/* Download Guide Component */}
       <div className="download-guide-section">
-        <div className="flex w-full md:justify-center my-8 md:my-14 ">
+        <div className="flex md:mx-28  md:justify-center my-8 md:my-14  ">
           <DownloadGuide />
         </div>
       </div>

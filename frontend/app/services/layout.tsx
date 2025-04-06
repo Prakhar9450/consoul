@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                               secondText="Book a free Consultation"
                             /></a>
         </div>
-        <div className="my-10  md:my-20 flex justify-center">
+        <div className="my-10 md:mx-20 md:my-20 flex justify-center">
           <DownloadGuide />
         </div>
         <div className="my-10 hidden md:block">

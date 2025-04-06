@@ -2,8 +2,24 @@
 import Image from "next/image";
 import BlogListing from "@/app/components/BlogListing";
 import Footer from "@/app/components/Footer";
+import { useEffect } from "react";
+import Lenis from "lenis";
 
 export default function BlogsPage() {
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}

@@ -5,9 +5,25 @@ import { Form } from "../components/Form";
 import Footer from "../components/Footer";
 import { ContactForm } from "../components/ContactForm";
 import { useRouter } from "next/navigation";
-
+import { useEffect } from "react";
+import Lenis from "lenis";
 
 export default function Page() {
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+  
   const team = [
     {
       image: "/logos/headstrat1.svg",
@@ -25,7 +41,9 @@ export default function Page() {
       position: "Head of operations",
     },
   ];
+  
   const router = useRouter();
+  
   return (
     <div>
       <div className="grid md:grid-cols-2 m-2 md:m-0 md:p-5">
@@ -58,36 +76,49 @@ export default function Page() {
         />
       </div>
 
-      <div>
-      <div className="grid grid-cols-2 p-5 my-10 gap-5 md:gap-20  md:items-center">
-  <div className="flex flex-col md:justify-center md:items-center text-center space-y-2 my-2">
-    <div className="w-30 h-40 rounded-lg overflow-hidden">
-      <Image
-        src="/logos/founder.svg"
-        alt="Vani Garg"
-        className="w-full h-full object-cover"
-        height={200}
-        width={200}
-      />
-    </div>
-    <div className="text-base md:text-xl font-bold text-[#555555]">
-      Vani Garg
-    </div>
-    <div className="text-base md:text-xl">Founder & CEO</div>
-    <div className="text-base md:text-xl text-blue-600">
-      Connect with Vani on{' '}
-      <span className="underline">LinkedIn</span>
-    </div>
-  </div>
-  <div className="flex flex-col space-y-6">
-    <div className="text-sm md:text-3xl font-semibold ">
-      &ldquo;Consoul was born from a powerful vision: To elevate the customer&apos;s voice and place them at the centre of every business decision.&rdquo;
-    </div>
-    <div className="text-xs md:text-xl text-[#555555]">
-      This passion for &ldquo;marketing that delivers&rdquo; guided our founder&apos;s journey through renowned companies like HDFC Bank, Westside, Axis Bank, and Zee5. Each experience honed their expertise in crafting impactful marketing strategies that drive real results. <br /><br /> This background fuels Consoul&apos;s mission - to empower businesses to make customer-centric decisions and achieve lasting success.
-    </div>
-  </div>
-</div>
+      {/* Updated Founder Section */}
+      <div className="container mx-auto px-4 md:px-16 my-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start">
+          {/* Left Column - Image and Title */}
+          <div className="md:col-span-4 flex flex-col items-center md:items-start space-y-3">
+            <div className="w-64 h-72 overflow-hidden">
+              <Image
+                src="/logos/founder.svg"
+                alt="Vani Garg"
+                className="w-full h-full object-cover"
+                height={300}
+                width={250}
+              />
+            </div>
+            <div className="text-center md:text-left">
+              <div className="text-xl font-bold text-[#555555]">
+                Vani Garg
+              </div>
+              <div className="text-lg text-[#555555]">Founder & CEO</div>
+              <div className="text-base text-[#0077B5] mt-1">
+                Connect with Vani on{' '}
+                <a href="https://linkedin.com" className="underline">
+                  LinkedIn
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Quote and Description */}
+          <div className="md:col-span-8 flex flex-col space-y-6 md:pt-4">
+            <div className="text-xl md:text-3xl font-semibold text-[#333333]">
+              &ldquo;Consoul was born from a powerful vision: To elevate the customer&apos;s voice and place them at the centre of every business decision.&rdquo;
+            </div>
+            <div className="space-y-4 text-[#555555]">
+              <p className="text-base md:text-lg">
+                This passion for &ldquo;marketing that delivers&rdquo; guided our founder&apos;s journey through renowned companies like HDFC Bank, Westside, Axis Bank, and Zee5. Each experience honed their expertise in crafting impactful marketing strategies that drive real results.
+              </p>
+              <p className="text-base md:text-lg">
+                This background fuels Consoul&apos;s mission - to empower businesses to make customer-centric decisions and achieve lasting success.
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="m-5 md:m-10 md:mx-40 border-t py-10">
@@ -149,37 +180,37 @@ export default function Page() {
           <p className="flex justify-center">grow your business.</p>{" "}
         </div>
         <div>
-        <div className="w-full px-4 md:px-40 overflow-hidden  ">
-  <div className="flex md:grid grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4">
-    {team.map((member) => (
-      <div
-        key={member.name}
-        className="flex-shrink-0 md:col-span-1 w-[280px] md:w-full max-w-[300px] snap-center mx-auto my-4"
-      >
-        <div className="rounded-lg overflow-hidden shadow-lg flex flex-col items-center">
-          <Image
-            src={member.image}
-            alt={member.name}
-            className="w-full h-[280px] md:h-[300px] object-cover"
-            height={300}
-            width={300}
-          />
-          <div className="text-white bg-[#6438C3] p-4 w-full text-center">
-            <div className="text-xl md:text-2xl font-bold">
-              {member.name}
-            </div>
-            <div className="flex justify-between items-center mt-2">
-              <div className="text-sm md:text-base">
-                {member.position}
-              </div>
-              <Image src='/logos/linkedin.svg' width={15} height={15} alt="Linkedin"></Image>
+          <div className="w-full px-4 md:px-40 overflow-hidden  ">
+            <div className="flex md:grid grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4">
+              {team.map((member) => (
+                <div
+                  key={member.name}
+                  className="flex-shrink-0 md:col-span-1 w-[280px] md:w-full max-w-[300px] snap-center mx-auto my-4"
+                >
+                  <div className="rounded-lg overflow-hidden shadow-lg flex flex-col items-center">
+                    <Image
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-[280px] md:h-[300px] object-cover"
+                      height={300}
+                      width={300}
+                    />
+                    <div className="text-white bg-[#6438C3] p-4 w-full text-center">
+                      <div className="text-xl md:text-2xl font-bold">
+                        {member.name}
+                      </div>
+                      <div className="flex justify-between items-center mt-2">
+                        <div className="text-sm md:text-base">
+                          {member.position}
+                        </div>
+                        <Image src='/logos/linkedin.svg' width={15} height={15} alt="Linkedin"></Image>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
         </div>
       </div>
       <div className=" max-w-6xl mx-auto px-4">

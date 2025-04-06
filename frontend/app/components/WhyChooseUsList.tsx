@@ -59,7 +59,7 @@ export const ChooseUs = () => {
       <div className="grid grid-cols-2 w-full h-screen">
         <div className="col-span-1 flex justify-center pl-40 mt-72">
           <div className="font-extrabold text-4xl text-[#555555]">
-            why choose us?
+            Why choose us?
           </div>
         </div>
         <div className="w-full mt-32 pr-80">

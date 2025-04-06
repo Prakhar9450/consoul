@@ -16,6 +16,7 @@ import {
 import { db } from "@/app/lib/firebaseConfig";
 import Footer from "@/app/components/Footer";
 import { Button } from "@/components/ui/button";
+import Lenis from "lenis";
 
 interface NumberItem {
   key: string;
@@ -174,6 +175,21 @@ export default function SuccessStoryPage() {
     : 0;
 
   const readTime = Math.max(1, Math.ceil(contentLength / 200));
+
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">

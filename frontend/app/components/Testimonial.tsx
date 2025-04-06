@@ -49,9 +49,9 @@ export const Testimonial = () => {
   };
 
   return (
-    <div className="my-20 md:min-h-80">
-      <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-2 w-full">
-        <div className="col-span-1 flex justify-start md:justify-center md:pl-20 lg:pl-40">
+    <div className="my-32 ">
+      <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-5 w-full">
+        <div className="col-span-2 flex justify-start md:justify-center  ">
           <div className="flex flex-col">
             <FadeAnimation direction="fadeUp" delay={0.2}>
               <div className="font-extrabold text-xl md:text-4xl text-[#555555]">
@@ -133,7 +133,7 @@ export const Testimonial = () => {
           </div>
         </div>
         
-        <div className="col-span-1 md:pr-20 lg:pr-40 mt-6 md:mt-0">
+        <div className="col-span-3 md:pr-20 lg:pr-40 mt-6 md:mt-0">
           <div className="min-h-[200px] relative">
             <motion.div
               key={currentIndex}

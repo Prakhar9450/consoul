@@ -18,6 +18,7 @@ import Footer from "@/app/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar, Clock, Linkedin } from "lucide-react";
+import Lenis from "lenis";
 
 interface BlogPost {
   id: string;
@@ -176,6 +177,21 @@ export default function BlogPostPage() {
 
   // Split content into paragraphs
   const contentParagraphs = post?.content ? post.content.split("\n\n") : [];
+
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">

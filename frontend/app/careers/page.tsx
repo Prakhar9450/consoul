@@ -9,6 +9,7 @@ import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { db } from "@/app/lib/firebaseConfig";
 import Footer from "@/app/components/Footer";
 import ApplicationForm from "@/app/components/ApplyForm";
+import Lenis from "lenis";
 
 const LocationIcon = () => (
   <svg
@@ -152,6 +153,21 @@ export default function CareersPage() {
   };
 
   console.log(handleApply)
+
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   return (
     <div className="flex flex-col min-h-screen">

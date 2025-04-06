@@ -8,7 +8,7 @@ export const ChooseUs = () => {
       <div className="hidden md:grid grid-cols-2 w-full max-h-[100vh]">
         <div className="col-span-1 flex justify-center pl-40 mt-64 ">
           <div className="font-extrabold text-4xl text-[#555555]">
-            why choose us?
+            Why choose us?
           </div>
         </div>
 
