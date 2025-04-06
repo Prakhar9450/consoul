@@ -25,18 +25,14 @@ export default function Page() {
   }, []);
   
   const team = [
+   
     {
-      image: "/logos/headstrat1.svg",
-      name: "Vani Garg",
-      position: "Head Stratergist",
-    },
-    {
-      image: "/logos/headstrat.svg",
+      image: "/logos/komal.png",
       name: "Varsha Dodeja",
       position: "Head Stratergist",
     },
     {
-      image: "/logos/headops.svg",
+      image: "/logos/rajiv.png",
       name: "Rajiv Narang",
       position: "Head of operations",
     },
@@ -77,35 +73,41 @@ export default function Page() {
       </div>
 
       {/* Updated Founder Section */}
-      <div className="container mx-auto px-4 md:px-16 my-16">
+      <div className="md:ml-40 px-4 md:px-16 my-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start">
           {/* Left Column - Image and Title */}
           <div className="md:col-span-4 flex flex-col items-center md:items-start space-y-3">
-            <div className="w-64 h-72 overflow-hidden">
+            <div className="w-64 h-100 overflow-hidden">
               <Image
                 src="/logos/founder.svg"
                 alt="Vani Garg"
                 className="w-full h-full object-cover"
-                height={300}
-                width={250}
+                height={397}
+                width={309}
               />
             </div>
-            <div className="text-center md:text-left">
+            <div className="text-center md:text-left ">
               <div className="text-xl font-bold text-[#555555]">
                 Vani Garg
               </div>
               <div className="text-lg text-[#555555]">Founder & CEO</div>
-              <div className="text-base text-[#0077B5] mt-1">
+              <div className="text-lg text-[#555555] mt-1 flex">
                 Connect with Vani on{' '}
-                <a href="https://linkedin.com" className="underline">
-                  LinkedIn
+                <a href="https://linkedin.com" className="mx-1 flex flex-col justify-center">
+                 <Image
+                    src="/icons/linkedinblue.png"
+                    alt="LinkedIn"
+                    className=""
+                    height={70}
+                    width={70}
+                  />
                 </a>
               </div>
             </div>
           </div>
 
           {/* Right Column - Quote and Description */}
-          <div className="md:col-span-8 flex flex-col space-y-6 md:pt-4">
+          <div className="md:col-span-8 flex flex-col space-y-6 md:pt-4 md:mx-36">
             <div className="text-xl md:text-3xl font-semibold text-[#333333]">
               &ldquo;Consoul was born from a powerful vision: To elevate the customer&apos;s voice and place them at the centre of every business decision.&rdquo;
             </div>
@@ -132,7 +134,7 @@ export default function Page() {
                 />
                 %
               </div>
-              <div className="text-xs md:text-2xl text-[#555555]">
+              <div className="text-sm md:text-2xl text-[#555555] font-light">
                 cost saved by our experts
                 <br className="hidden md:block" /> Martech stack
               </div>
@@ -148,7 +150,7 @@ export default function Page() {
                 />
                 +
               </div>
-              <div className="text-xs md:text-2xl text-[#555555]">
+              <div className="text-xs md:text-2xl text-[#555555]  font-light">
                 Tools successfully tested
                 <br className="hidden md:block" /> and implemented
               </div>
@@ -164,7 +166,7 @@ export default function Page() {
                 />
                 %
               </div>
-              <div className=" text-xs md:text-2xl text-[#555555]">
+              <div className=" text-xs md:text-2xl text-[#555555]  font-light">
                 Boost recorded in <br className="hidden md:block" />
                 Customer Lifetime Value
               </div>
@@ -175,13 +177,12 @@ export default function Page() {
 
       <div>
         <div className="grid justify-center font-extrabold md:text-3xl text-[#3F3F3F] ">
-          Meet our entire team that is dedicated to
-          <br />
-          <p className="flex justify-center">grow your business.</p>{" "}
+          Meet our team leads
+          
         </div>
         <div>
-          <div className="w-full px-4 md:px-40 overflow-hidden  ">
-            <div className="flex md:grid grid-cols-3 gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4">
+          <div className="w-full px-4 md:px-40 md:mt-8 overflow-hidden  ">
+            <div className="flex md:grid grid-cols-2 gap-4 md:gap-0 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4">
               {team.map((member) => (
                 <div
                   key={member.name}
