@@ -4,10 +4,12 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import type { BlogPost } from "@/app/lib/data";
+import CursorTracker from "@/components/animata/container/cursor-tracker";
 
 export function BlogCard({ post }: { post: BlogPost }) {
   return (
     <Card className="group overflow-hidden border-none bg-transparent shadow-none">
+       <CursorTracker />
       <Link href={`/blog/${post.id}`}>
         <div className="overflow-hidden rounded-lg">
           <Image
@@ -42,6 +44,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
           ))}
         </div>
       </CardContent>
+     
     </Card>
   );
 }
