@@ -1,77 +1,89 @@
-"use client"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import Image from "next/image"
+"use client";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface Feature {
-  title: string
-  description: string
-  image: string
+  title: string;
+  description: string;
+  image: string;
 }
 
 interface Section {
-  id: number
-  title: string
-  subtitle: string
-  features: Feature[]
+  id: number;
+  title: string;
+  subtitle: string;
+  features: Feature[];
 }
 
 export default function Page() {
-  const [activeSection, setActiveSection] = useState(0)
-  const [activeFeaturesMap, setActiveFeaturesMap] = useState<Record<number, number>>({})
+  const [activeSection, setActiveSection] = useState(0);
+  const [activeFeaturesMap, setActiveFeaturesMap] = useState<
+    Record<number, number>
+  >({});
 
   const sections: Section[] = [
     {
       id: 0,
       title: "Strategic Marketing Programs",
-      subtitle: "We boost growth for travel and tourism platforms with targeted strategies",
+      subtitle:
+        "We boost growth for travel and tourism platforms with targeted strategies",
       features: [
         {
           title: "Implement CLM strategies",
-          description: "to boost engagement across travel discovery, booking, and loyalty stages.",
-          image: "/components/fnb1.1.png",
+          description:
+            "to boost engagement across travel discovery, booking, and loyalty stages",
+          image: "/components/travel/travel1.1.webp",
         },
         {
           title: "Offer personalised travel packages & deals",
-          description: "using tailored data segmentation based on traveler behavior, interests, and booking history.",
-          image: "/components/fnb1.2.png",
+          description:
+            "using advanced data segmentation based on traveler preferences and booking behaviour",
+          image: "/components/travel/travel1.2.webp",
         },
         {
           title: "Continuously refine loyalty initiatives",
-          description: "with real-time booking insights, frequency tracking, and retention strategies.",
-          image: "/components/fnb1.3.png",
+          description:
+            "and track KPIs like booking frequency, trip value, and customer retention",
+          image: "/components/travel/travel1.3.webp",
         },
         {
           title: "More re-bookings with funnel optimisation",
-          description: "by improving major customer touch-points & delivering personalized travel experiences.",
-          image: "/components/fnb1.4.png",
+          description:
+            "by improving major customer touch-points & delivering personalized travel experiences",
+          image: "/components/travel/travel1.4.webp",
         },
       ],
     },
     {
       id: 1,
       title: "MarTech audits and optimisation",
-      subtitle: "We enhance traveler engagement through streamlined tech solutions",
+      subtitle:
+        "We enhance traveler engagement through streamlined tech solutions",
       features: [
         {
           title: "Review MarTech and spot inefficiencies",
-          description: "to maximise ROI on booking and travel campaigns and ensure smooth operations.",
-          image: "/components/media&ott2.1.png",
+          description:
+            "to maximise ROI on booking and travel campaigns and ensure smooth operations",
+          image: "/components/travel/travel2.1.webp",
         },
         {
           title: "Streamline bookings and increase CX",
-          description: "with automated tools designed to optimise interactions and personalise user experiences.",
-          image: "/components/media&ott2.2.png",
+          description:
+            "with automated tools designed to optimise interactions and personalise user experiences",
+          image: "/components/travel/travel2.2.webp",
         },
         {
           title: "Transition effortlessly to advanced systems",
-          description: "that enable scalable campaigns and in-depth analysis of guest behavior.",
-          image: "/components/media&ott2.3.png",
+          description:
+            "that enable scalable campaigns and in-depth analysis of guest behavior",
+          image: "/components/travel/travel2.3.webp",
         },
         {
           title: "Get an integrated dashboard",
-          description: "that consolidates booking data, offers, and rewards programs to guide better decision-making.",
-          image: "/components/media&ott2.4.png",
+          description:
+            "that consolidates booking data, offers, and rewards programs to guide better decision-making",
+          image: "/components/travel/travel2.4.webp",
         },
       ],
     },
@@ -82,32 +94,35 @@ export default function Page() {
       features: [
         {
           title: "Execute and optimise travel campaigns",
-          description: "using real-time analytics to increase bookings and CLTV.",
-          image: "/components/media&ott3.0.png",
+          description:
+            "using real-time analytics to increase bookings and CLTV",
+          image: "/components/travel/travel3.1.webp",
         },
         {
           title: "Add relevance & more loyalty enrollments",
-          description: "with advanced testing like multi-variate and content personalisation.",
-          image: "/components/media&ott3.1.png",
+          description:
+            "with advanced testing like multi-variate and content performance analysis",
+          image: "/components/travel/travel3.2.webp",
         },
         {
           title: "Run tailored campaigns",
-          description: "based on traveler interests and booking behaviors to increase retention.",
-          image: "/components/media&ott3.2.png",
+          description:
+            "based on traveler preferences and booking behaviours to maximise engagement",
+          image: "/components/travel/travel3.3.webp",
         },
         {
           title: "Create SOPs and systems",
-          description: "for scalable, consistent travel campaigns and seamless team coordination.",
-          image: "/components/media&ott3.4.png",
+          description:
+            "for scalable, consistent travel campaigns and seamless team coordination",
+          image: "/components/travel/travel3.4.webp",
         },
       ],
     },
   ];
 
-
   useEffect(() => {
     const initialMap: Record<number, number> = {};
-    sections.forEach(section => {
+    sections.forEach((section) => {
       initialMap[section.id] = 0; // Set all sections to first feature
     });
     setActiveFeaturesMap(initialMap);
@@ -115,15 +130,15 @@ export default function Page() {
   }, []);
 
   const handleSubtitleClick = (sectionId: number) => {
-    setActiveSection(sectionId)
+    setActiveSection(sectionId);
     setActiveFeaturesMap((prev) => ({
       ...prev,
       [sectionId]: (prev[sectionId] + 1) % sections[sectionId].features.length,
-    }))
-  }
+    }));
+  };
 
   const renderSectionContent = (section: Section) => {
-    const isMiddleSection = section.id === 1
+    const isMiddleSection = section.id === 1;
     const activeFeatureIndex = activeFeaturesMap[section.id] ?? 0; // Default to 0 if undefined
 
     const imageComponent = (
@@ -132,8 +147,7 @@ export default function Page() {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="relative h-[300px] rounded-lg order-last md:order-none"
-      >
+        className="relative h-[300px] rounded-lg order-last md:order-none">
         <Image
           src={section.features[activeFeatureIndex].image || "/placeholder.svg"}
           alt={section.features[activeFeatureIndex].title}
@@ -143,7 +157,7 @@ export default function Page() {
           width={500}
         />
       </motion.div>
-    )
+    );
 
     const featuresComponent = (
       <div className="relative">
@@ -151,28 +165,32 @@ export default function Page() {
         <div className="space-y-8">
           {section.features.map((feature, index) => {
             // Show first feature as active by default when section loads
-            const isActive = (activeSection === section.id && activeFeatureIndex === index) ||
-                           (index === 0 && activeFeaturesMap[section.id] === 0);
+            const isActive =
+              (activeSection === section.id && activeFeatureIndex === index) ||
+              (index === 0 && activeFeaturesMap[section.id] === 0);
 
             return (
-              <motion.div 
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.1, ease: "easeInOut" }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.1,
+                  ease: "easeInOut",
+                }}
                 className={`relative pl-6 cursor-pointer group ${
                   isActive
                     ? "bg-[#E2E9FF] rounded-lg p-3 md:py-3 md:bg-white"
                     : "bg-white md:bg-white"
                 }`}
                 onClick={() => {
-                  setActiveSection(section.id)
+                  setActiveSection(section.id);
                   setActiveFeaturesMap((prev) => ({
                     ...prev,
                     [section.id]: index,
-                  }))
-                }}
-              >
+                  }));
+                }}>
                 <div
                   className={`hidden md:block absolute left-0 top-0 w-1 h-full transition-all duration-300 rounded-t-full rounded-b-full ${
                     isActive ? "bg-[#6438C3]" : "bg-purple-100"
@@ -184,15 +202,13 @@ export default function Page() {
                       isActive
                         ? "text-[#555555] md:text-[#6438C3]"
                         : "text-[#555555] md:text-gray-800 group-hover:text-[#6438C3]"
-                    }`}
-                  >
+                    }`}>
                     {feature.title}
                   </h3>
-                  <p 
+                  <p
                     className={`text-[#8C8C8C] ${
                       isActive ? "block" : "hidden md:block"
-                    }`}
-                  >
+                    }`}>
                     {feature.description}
                   </p>
                 </div>
@@ -201,7 +217,7 @@ export default function Page() {
           })}
         </div>
       </div>
-    )
+    );
 
     return (
       <div className="grid md:grid-cols-2 gap-12 items-start">
@@ -217,8 +233,8 @@ export default function Page() {
           </>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -228,16 +244,16 @@ export default function Page() {
             <div className="mb-12 text-center">
               <h2
                 className={`text-3xl font-bold mb-4 transition-colors duration-300 cursor-pointer ${
-                  activeSection === section.id ? "md:text-[#6438C3]" : "text-gray-800 hover:text-[#6438C3]"
+                  activeSection === section.id
+                    ? "md:text-[#6438C3]"
+                    : "text-gray-800 hover:text-[#6438C3]"
                 }`}
-                onClick={() => setActiveSection(section.id)}
-              >
+                onClick={() => setActiveSection(section.id)}>
                 {section.title}
               </h2>
               <p
                 className="text-gray-600 max-w-2xl mx-auto cursor-pointer hover:text-[#6438C3]"
-                onClick={() => handleSubtitleClick(section.id)}
-              >
+                onClick={() => handleSubtitleClick(section.id)}>
                 {section.subtitle}
               </p>
             </div>
@@ -246,5 +262,5 @@ export default function Page() {
         </section>
       ))}
     </div>
-  )
+  );
 }
