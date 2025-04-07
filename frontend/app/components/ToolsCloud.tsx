@@ -11,10 +11,10 @@ const images = [
   "/icons/salesforce.svg",
   "/icons/servicenow.svg",
   "/icons/smartsheet.svg",
-  "/icons/unica.svg",
-  "/icons/jira.svg",
+  "https://connect.redhat.com/s3api/prod-s3api/1722570002--6684036ceabc450680778892.png",
+  "https://cdn.iconscout.com/icon/free/png-256/free-jira-icon-download-in-svg-png-gif-file-formats--logo-social-media-pack-logos-icons-1912014.png",
   "/icons/vtiger.svg",
-  "/icons/zoho.svg",
+  "https://images.seeklogo.com/logo-png/50/3/zoho-corporation-logo-png_seeklogo-506148.png",
 ];
 
 // Split the images array into two groups for the two orbits

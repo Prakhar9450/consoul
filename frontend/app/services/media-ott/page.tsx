@@ -23,6 +23,16 @@ export default function Page() {
   const [activeFeaturesMap, setActiveFeaturesMap] = useState<
     Record<number, number>
   >({});
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    // Simulate loading
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const lenis = new Lenis();

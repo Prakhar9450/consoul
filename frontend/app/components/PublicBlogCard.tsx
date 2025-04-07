@@ -113,9 +113,9 @@ export default function PublicBlogCard({ post }: PublicBlogCardProps) {
         style={{
           transform: "translate(var(--x), var(--y))",
         }}
-        className="pointer-events-none absolute left-0 top-0 z-50 rounded-full bg-blue-800/80 px-4 py-2 text-sm font-bold text-white opacity-0 duration-0 group-hover:opacity-100"
+        className="flex pointer-events-none absolute left-0 top-0 z-50 rounded-full bg-[#5D40BC] px-4 py-2 text-sm font-bold text-white opacity-0 duration-0 group-hover:opacity-100"
       >
-        Read more &rarr;
+        Read more <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="M640-624 284-268q-11 11-28 11t-28-11q-11-11-11-28t11-28l356-356H280q-17 0-28.5-11.5T240-720q0-17 11.5-28.5T280-760h400q17 0 28.5 11.5T720-720v400q0 17-11.5 28.5T680-280q-17 0-28.5-11.5T640-320v-304Z"/></svg>
       </div>
       </Link>
     </div>

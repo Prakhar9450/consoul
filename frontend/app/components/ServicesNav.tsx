@@ -41,10 +41,27 @@ type Service = {
   route: string;
 };
 
+// Create a flag in localStorage to track first load
+const isFirstLoad = () => {
+  if (typeof window === 'undefined') return true; // Server-side rendering
+
+  const hasLoaded = localStorage.getItem('servicesNavLoaded');
+  if (!hasLoaded) {
+    return true;
+  }
+  return false;
+};
+
+const markAsLoaded = () => {
+  if (typeof window === 'undefined') return; // Server-side rendering
+  localStorage.setItem('servicesNavLoaded', 'true');
+};
+
 export const ServicesNav = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [activeService, setActiveService] = useState("Media & OTT");
+  const [isLoading, setIsLoading] = useState(isFirstLoad);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -56,7 +73,17 @@ export const ServicesNav = () => {
         scrollToActiveItem();
       }, 100);
     }
-  }, [pathname]);
+    
+    // If this is the first load, show skeleton for a short time
+    if (isLoading) {
+      const timer = setTimeout(() => {
+        setIsLoading(false);
+        markAsLoaded(); // Mark as loaded after first time
+      }, 2000); // Adjust time as needed
+      
+      return () => clearTimeout(timer);
+    }
+  }, [pathname, isLoading]);
   
   const handleServiceClick = (service: Service) => {
     setActiveService(service.name);
@@ -85,6 +112,37 @@ export const ServicesNav = () => {
     }
   };
 
+  // If loading, show skeleton version
+  if (isLoading) {
+    return (
+      <div className="relative my-10 mx-4 md:mx-48">
+        <div 
+          className="flex justify-between md:justify-between overflow-x-auto scrollbar-hide gap-6 py-2 px-2"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {Array(6).fill(0).map((_, index) => (
+            <div
+              key={index}
+              className="service-item grid gap-2 flex-shrink-0"
+            >
+              <div className="flex justify-center">
+                <div className="flex items-center justify-center w-10 h-10 rounded bg-gray-200 animate-pulse"></div>
+              </div>
+              <div className="w-24 h-5 bg-gray-200 rounded animate-pulse mx-auto"></div>
+            </div>
+          ))}
+        </div>
+        
+        <style jsx>{`
+          :global(.scrollbar-hide::-webkit-scrollbar) {
+            display: none;
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  // Regular component when not loading
   return (
     <div className="relative my-10 mx-4 md:mx-48">
       <div 
