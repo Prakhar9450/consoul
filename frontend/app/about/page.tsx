@@ -233,89 +233,49 @@ export default function Page() {
 
         <div className="hidden md:grid grid-cols-1 md:grid-cols-2 w-full border rounded-xl">
           <div className="bg-[#6438C3] p-12 rounded-t-xl md:rounded-l-xl md:rounded-tr-none text-white">
-            <h2 className="text-2xl font-bold mb-4">
+            <h2 className="text-3xl font-bold mb-4">
               Talk to our Strategy Expert
             </h2>
-            <p className="text-sm mb-8">
+            <p className="text-lg font-light mb-8">
               Fill the form to schedule a delivery call and start the process to
               build revenue
             </p>
 
             <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg">
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                    />
-                  </svg>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 flex items-center justify-center bg-[#F1EAFF] rounded-md">
+                  <span className="material-symbols-rounded text-[#7122FA]">
+                    call
+                  </span>
                 </div>
-                <span>Schedule a discovery call</span>
+                <span className="text-lg">Schedule a discovery call</span>
               </div>
 
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg">
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                    />
-                  </svg>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 flex items-center justify-center bg-[#F1EAFF] rounded-md">
+                  <span className="material-symbols-rounded text-[#7122FA]">
+                    article
+                  </span>
                 </div>
-                <span>Draft a personalised proposal</span>
+                <span className="text-lg">Get a personalised proposal</span>
               </div>
 
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg">
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                    />
-                  </svg>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 flex items-center justify-center bg-[#F1EAFF] rounded-md">
+                  <span className="material-symbols-rounded text-[#7122FA]">
+                    layers
+                  </span>
                 </div>
-                <span>Evaluate current MarTech stack</span>
+                <span className="text-lg">Evaluation of current MarTech stack</span>
               </div>
 
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg">
-                  <svg
-                    className="w-6 h-6"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-                    />
-                  </svg>
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 flex items-center justify-center bg-[#F1EAFF] rounded-md">
+                  <span className="material-symbols-rounded text-[#7122FA]">
+                    trending_up
+                  </span>
                 </div>
-                <span>Develop project roadmap</span>
+                <span className="text-lg">Get project roadmap</span>
               </div>
             </div>
           </div>
@@ -331,6 +291,12 @@ export default function Page() {
       <div className="block md:hidden">
         <ContactForm />
       </div>
+
+      {/* Link to Google's Material Symbols font */}
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"
+      />
 
       <div>
         <Footer />
