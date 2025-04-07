@@ -2,6 +2,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import FadeAnimation from "@/app/components/Animations/fade"; // Adjust the import path as necessary
+import Lenis from "lenis";
 
 interface Feature {
   title: string;
@@ -21,6 +23,21 @@ export default function Page() {
   const [activeFeaturesMap, setActiveFeaturesMap] = useState<
     Record<number, number>
   >({});
+
+  useEffect(() => {
+    const lenis = new Lenis();
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   const sections: Section[] = [
     {
@@ -147,15 +164,16 @@ export default function Page() {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="relative h-[300px] rounded-lg order-last md:order-none">
-        <Image
-          src={section.features[activeFeatureIndex].image || "/placeholder.svg"}
-          alt={section.features[activeFeatureIndex].title}
-          className="object-cover"
-          priority
-          height={500}
-          width={500}
-        />
+        className="relative h-[300px] w-full rounded-lg order-last md:order-none">
+        <div className="w-full h-full flex items-center justify-center">
+          <Image
+            src={section.features[activeFeatureIndex].image || "/placeholder.svg"}
+            alt={section.features[activeFeatureIndex].title}
+            className="object-contain"
+            width={400}
+            height={240}
+          />
+        </div>
       </motion.div>
     );
 
@@ -220,16 +238,24 @@ export default function Page() {
     );
 
     return (
-      <div className="grid md:grid-cols-2 gap-12 items-start">
+      <div className="grid md:grid-cols-2 gap-12 items-center">
         {isMiddleSection ? (
           <>
-            <div className="order-last md:order-first">{imageComponent}</div>
-            <div className="order-first md:order-last">{featuresComponent}</div>
+            <FadeAnimation direction="fadeLeft" duration={0.8} delay={0.2}>
+              <div className="order-last md:order-first">{imageComponent}</div>
+            </FadeAnimation>
+            <FadeAnimation direction="fadeRight" duration={0.8} delay={0.3}>
+              <div className="order-first md:order-last">{featuresComponent}</div>
+            </FadeAnimation>
           </>
         ) : (
           <>
-            <div>{featuresComponent}</div>
-            <div className="order-last md:order-none">{imageComponent}</div>
+            <FadeAnimation direction="fadeRight" duration={0.8} delay={0.2}>
+              <div>{featuresComponent}</div>
+            </FadeAnimation>
+            <FadeAnimation direction="fadeLeft" duration={0.8} delay={0.3}>
+              <div className="order-last md:order-none">{imageComponent}</div>
+            </FadeAnimation>
           </>
         )}
       </div>
@@ -238,25 +264,27 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-white">
-      {sections.map((section) => (
+      {sections.map((section, index) => (
         <section key={section.id} className="py-10 md:py-20 px-4">
           <div className="max-w-6xl mx-auto">
-            <div className="mb-12 text-center">
-              <h2
-                className={`text-3xl font-bold mb-4 transition-colors duration-300 cursor-pointer ${
-                  activeSection === section.id
-                    ? "md:text-[#6438C3]"
-                    : "text-gray-800 hover:text-[#6438C3]"
-                }`}
-                onClick={() => setActiveSection(section.id)}>
-                {section.title}
-              </h2>
-              <p
-                className="text-gray-600 max-w-2xl mx-auto cursor-pointer hover:text-[#6438C3]"
-                onClick={() => handleSubtitleClick(section.id)}>
-                {section.subtitle}
-              </p>
-            </div>
+            <FadeAnimation direction="fadeUp" duration={0.8} delay={0.1 * index}>
+              <div className="mb-12 text-center">
+                <h2
+                  className={`text-3xl font-bold mb-4 transition-colors duration-300 cursor-pointer ${
+                    activeSection === section.id
+                      ? "md:text-[#6438C3]"
+                      : "text-gray-800 hover:text-[#6438C3]"
+                  }`}
+                  onClick={() => setActiveSection(section.id)}>
+                  {section.title}
+                </h2>
+                <p
+                  className="text-gray-600 max-w-2xl mx-auto cursor-pointer hover:text-[#6438C3]"
+                  onClick={() => handleSubtitleClick(section.id)}>
+                  {section.subtitle}
+                </p>
+              </div>
+            </FadeAnimation>
             {renderSectionContent(section)}
           </div>
         </section>
