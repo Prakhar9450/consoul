@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import ExternalLinkButton from "./ui/ExternalLinkButton";
 
 export const SuccessStoriesComp = () => {
   const stories = [
@@ -32,18 +33,6 @@ export const SuccessStoriesComp = () => {
 
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1); // 1 for right, -1 for left
-  const autoPlayInterval = 4000;
-
-  // Auto-play functionality
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setDirection(1);
-      setIndex((prevIndex) => (prevIndex + 1) % stories.length);
-    }, autoPlayInterval);
-    
-    // Clean up interval on component unmount
-    return () => clearInterval(intervalId);
-  }, []);
 
   const nextStory = () => {
     setDirection(1);
@@ -109,7 +98,7 @@ export const SuccessStoriesComp = () => {
               </div>
 
               {/* Content and image section */}
-              <div className="w-full max-w-5xl flex items-start justify-between px-0 md:px-4 mx-auto">
+              <div className="w-full max-w-5xl flex items-center justify-between px-0 md:px-4 mx-auto">
                 {/* Left Side - Content */}
                 <div className="w-1/2 pr-0 md:pr-3">
                   <ul className="space-y-3 md:space-y-4">
@@ -133,31 +122,27 @@ export const SuccessStoriesComp = () => {
                     </p>
                     
                     <a href="https://cal.com/consoul-solutions">
-                      <div className="bg-[#6438C3] text-white py-3 px-4 rounded-lg text-center font-medium mb-3">
+                      <div className="bg-[#6438C3] text-white py-2 px-4 rounded-lg text-center font-bold mb-3">
                         Yes, let's talk
                       </div>
                     </a>
                     
                     <div onClick={() => router.push('/success-stories')} className="flex items-center justify-center">
-                      <span className="text-[#6438C3] font-medium cursor-pointer flex items-center">
-                        Read all success stories
-                        <svg className="ml-1" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z" fill="#6438C3"/>
-                        </svg>
-                      </span>
+                       <ExternalLinkButton text="Read all success stories" />
                     </div>
                   </div>
                 </div>
                 
-                {/* Right Side - Image with fixed height container */}
-                <div className="w-1/2 pl-0 md:pl-3 flex justify-center">
-                  <div className="h-96 flex items-center justify-center">
+                {/* Right Side - Image with constrained size */}
+                <div className="w-1/2 pl-0 md:pl-3 flex items-center justify-center">
+                  <div className="flex items-center justify-center">
                     <Image
                       src={stories[index].image || "/placeholder.svg"}
                       alt={`${stories[index].title} Success Story`}
-                      width={400}
-                      height={400}
-                      className="max-w-full max-h-full object-contain"
+                      width={350}
+                      height={350}
+                      className="object-contain"
+                      style={{ maxHeight: "350px" }}
                     />
                   </div>
                 </div>
