@@ -50,7 +50,7 @@ export const Navbar = () => {
     { label: "Blog", path: "/blogs" },
     { label: "Careers", path: "/careers" },
     { label: "About Us", path: "/about" },
-    { label: "Contact", path: "#contact" },
+    { label: "Contact", path: "/about#contact" },
   ];
 
   const router = useRouter();

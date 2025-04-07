@@ -1,8 +1,10 @@
+
+// Testimonial.jsx component for mobile
 "use client";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
-import FadeAnimation from "../components/Animations/fade"; // Import FadeAnimation instead of TextAnimate
+import FadeAnimation from "../components/Animations/fade"; 
 
 export const Testimonial = () => {
   const testimonials = [
@@ -49,9 +51,39 @@ export const Testimonial = () => {
   };
 
   return (
-    <div className="my-32 ">
-      <div className="p-4 md:p-0 grid grid-cols-1 md:grid-cols-5 w-full">
-        <div className="col-span-2 flex justify-start md:justify-center  ">
+    <div className="my-32">
+      {/* Mobile version - matching the image */}
+      <div className="md:hidden px-4 space-y-6">
+        <div className="text-gray-700 font-bold text-2xl">
+          Word from<br />our clients
+        </div>
+        
+        <div className="p-4 pb-6 bg-white rounded-md">
+          <div className="text-[#6438C3] text-lg">
+            "The platform has revolutionised our approach to customer engagement, making it seamless and personalised. We've seen a significant increase in customer retention and satisfaction."
+          </div>
+          
+          <div className="mt-4 flex items-center">
+            <div className="flex-shrink-0 mr-3">
+              <Image 
+                src="/logos/gitam.svg"
+                alt="Smriti Mandhana"
+                width={40}
+                height={40}
+                className="rounded-full bg-gray-100"
+              />
+            </div>
+            <div>
+              <div className="font-semibold">Smriti Mandhana</div>
+              <div className="text-sm text-gray-600">Head of Marketing, AXIS Bank</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Desktop version - unchanged */}
+      <div className="hidden md:grid grid-cols-1 md:grid-cols-5 w-full">
+        <div className="col-span-2 flex justify-start md:justify-center">
           <div className="flex flex-col">
             <FadeAnimation direction="fadeUp" delay={0.2}>
               <div className="font-extrabold text-xl md:text-4xl text-[#555555]">

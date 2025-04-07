@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import ExternalLinkButton from "./ui/ExternalLinkButton";
+import SwipeButton from "./ui/SwipeButton";
 
 export const SuccessStoriesComp = () => {
   const stories = [
@@ -122,12 +123,16 @@ export const SuccessStoriesComp = () => {
                     </p>
                     
                     <a href="https://cal.com/consoul-solutions">
-                      <div className="bg-[#6438C3] text-white py-2 px-4 rounded-lg text-center font-bold mb-3">
-                        Yes, let's talk
-                      </div>
+                    <SwipeButton
+  className="hidden lg:block rounded-lg"
+  firstClass="bg-[#6438C3] text-white py-2 w-fit text-lg px-36  text-center font-bold"
+  firstText="Yes, let's talk"
+  secondClass="bg-[#A47EF6] text-white py-2 w-fit text-lg px-36  text-center font-bold "
+  secondText="Yes, let's talk"
+/>
                     </a>
                     
-                    <div onClick={() => router.push('/success-stories')} className="flex items-center justify-center">
+                    <div onClick={() => router.push('/success-stories')} className="flex items-center justify-center pr-16">
                        <ExternalLinkButton text="Read all success stories" />
                     </div>
                   </div>

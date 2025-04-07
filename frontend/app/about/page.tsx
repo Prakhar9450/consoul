@@ -8,6 +8,61 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Lenis from "lenis";
 
+// Team Member Components defined within the same file
+const TeamMemberKomal = () => {
+  return (
+    <div className="rounded-lg overflow-hidden shadow-lg w-[300px] md:w-[352px] flex-shrink-0 snap-center">
+      <div className="h-[300px] md:h-[352px] overflow-hidden">
+        <Image
+          src="/logos/komal.png"
+          alt="Komal Ranka"
+          className="w-full h-full object-cover"
+          width={352}
+          height={352}
+        />
+      </div>
+      <div className="text-white bg-[#6438C3] h-[100px] p-4 w-full">
+        <div className="text-xl font-bold">
+          Komal Ranka
+        </div>
+        <div className="flex justify-between items-center mt-2">
+          <div className="text-sm">
+            Head of Account Management<br/>and Marketing Strategy
+          </div>
+          <Image src='/logos/linkedin.svg' width={15} height={15} alt="Linkedin" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const TeamMemberRajiv = () => {
+  return (
+    <div className="rounded-lg overflow-hidden shadow-lg w-[300px] md:w-[352px] flex-shrink-0 snap-center">
+      <div className="h-[300px] md:h-[352px] overflow-hidden">
+        <Image
+          src="/logos/rajiv.png"
+          alt="Rajiv Narang"
+          className="w-full h-full object-cover"
+          width={352}
+          height={352}
+        />
+      </div>
+      <div className="text-white bg-[#6438C3] h-[100px] p-4 w-full">
+        <div className="text-xl font-bold">
+          Rajiv Narang
+        </div>
+        <div className="flex justify-between items-center mt-2">
+          <div className="text-sm">
+            Head of Delivery<br/>and Managed Services
+          </div>
+          <Image src='/logos/linkedin.svg' width={15} height={15} alt="Linkedin" />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 export default function Page() {
   useEffect(() => {
     const lenis = new Lenis();
@@ -23,20 +78,6 @@ export default function Page() {
       lenis.destroy();
     };
   }, []);
-  
-  const team = [
-   
-    {
-      image: "/logos/komal.png",
-      name: "Varsha Dodeja",
-      position: "Head Stratergist",
-    },
-    {
-      image: "/logos/rajiv.png",
-      name: "Rajiv Narang",
-      position: "Head of operations",
-    },
-  ];
   
   const router = useRouter();
   
@@ -72,7 +113,7 @@ export default function Page() {
         />
       </div>
 
-      {/* Updated Founder Section */}
+      {/* Founder Section */}
       <div className="md:ml-40 px-4 md:px-16 my-16">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-12 items-start">
           {/* Left Column - Image and Title */}
@@ -175,46 +216,34 @@ export default function Page() {
         </div>
       </div>
 
+      {/* Team Section with desktop grid and mobile slider */}
       <div>
-        <div className="grid justify-center font-extrabold md:text-3xl text-[#3F3F3F] ">
+        <div className="text-center font-extrabold md:text-3xl text-[#3F3F3F] mb-6">
           Meet our team leads
-          
         </div>
-        <div>
-          <div className="w-full px-4 md:px-40 md:mt-8 overflow-hidden  ">
-            <div className="flex md:grid grid-cols-2 gap-4 md:gap-0 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4">
-              {team.map((member) => (
-                <div
-                  key={member.name}
-                  className="flex-shrink-0 md:col-span-1 w-[280px] md:w-full max-w-[300px] snap-center mx-auto my-4"
-                >
-                  <div className="rounded-lg overflow-hidden shadow-lg flex flex-col items-center">
-                    <Image
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-[280px] md:h-[300px] object-cover"
-                      height={300}
-                      width={300}
-                    />
-                    <div className="text-white bg-[#6438C3] p-4 w-full text-center">
-                      <div className="text-xl md:text-2xl font-bold">
-                        {member.name}
-                      </div>
-                      <div className="flex justify-between items-center mt-2">
-                        <div className="text-sm md:text-base">
-                          {member.position}
-                        </div>
-                        <Image src='/logos/linkedin.svg' width={15} height={15} alt="Linkedin"></Image>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+        
+        {/* Desktop View - Same as before */}
+        <div className="hidden md:flex justify-center">
+          <div className="flex gap-16">
+            <TeamMemberKomal />
+            <TeamMemberRajiv />
+          </div>
+        </div>
+        
+        {/* Mobile View - Horizontal Slider */}
+        <div className="md:hidden w-full px-4 overflow-hidden">
+          <div className="flex overflow-x-auto snap-x snap-mandatory pb-6 scrollbar-hide">
+            <div className="pl-4 pr-2">
+              <TeamMemberKomal />
+            </div>
+            <div className="pl-2 pr-4">
+              <TeamMemberRajiv />
             </div>
           </div>
         </div>
       </div>
-      <div className=" max-w-6xl mx-auto px-4">
+
+      <div className="max-w-6xl mx-auto px-4">
         <div className="grid justify-center items-center gap-5 my-10">
           <div className="flex justify-center text-[#3F3F3F] text-3xl font-extrabold">
             Join our team
@@ -231,7 +260,7 @@ export default function Page() {
           </div>
         </div>
 
-        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 w-full border rounded-xl">
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 w-full border rounded-xl" id="contact">
           <div className="bg-[#6438C3] p-12 rounded-t-xl md:rounded-l-xl md:rounded-tr-none text-white">
             <h2 className="text-3xl font-bold mb-4">
               Talk to our Strategy Expert
@@ -280,14 +309,12 @@ export default function Page() {
             </div>
           </div>
 
-          <div
-            className="bg-white p-12 rounded-b-xl md:rounded-r-xl md:rounded-bl-none"
-            id="contact"
-          >
+          <div className="bg-white p-12 rounded-b-xl md:rounded-r-xl md:rounded-bl-none">
             <Form />
           </div>
         </div>
       </div>
+      
       <div className="block md:hidden">
         <ContactForm />
       </div>
