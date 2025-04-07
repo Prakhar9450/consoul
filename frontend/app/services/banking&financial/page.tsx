@@ -1,77 +1,89 @@
-"use client"
-import { useState, useEffect } from "react"
-import { motion } from "framer-motion"
-import Image from "next/image"
+"use client";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface Feature {
-  title: string
-  description: string
-  image: string
+  title: string;
+  description: string;
+  image: string;
 }
 
 interface Section {
-  id: number
-  title: string
-  subtitle: string
-  features: Feature[]
+  id: number;
+  title: string;
+  subtitle: string;
+  features: Feature[];
 }
 
 export default function Page() {
-  const [activeSection, setActiveSection] = useState(0)
-  const [activeFeaturesMap, setActiveFeaturesMap] = useState<Record<number, number>>({})
+  const [activeSection, setActiveSection] = useState(0);
+  const [activeFeaturesMap, setActiveFeaturesMap] = useState<
+    Record<number, number>
+  >({});
 
   const sections: Section[] = [
     {
       id: 0,
       title: "Strategic Marketing Programs",
-      subtitle: "We implement strategies to drive customer acquisition and retention for banks",
+      subtitle:
+        "We implement strategies to drive customer acquisition and retention for banks",
       features: [
         {
           title: "Map and optimise banker’s journey",
-          description: "Ensuring seamless transitions and enhanced engagement across all consumer stages.",
-          image: "/components/fnb1.1.png",
+          description:
+            "ensuring seamless transitions and enhanced engagement across all consumer stages",
+          image: "/components/banking/banking1.1.webp",
         },
         {
           title: "Use data segmentation & personalisation",
-          description: "Tailoring communication and services based on customer behaviour, preferences, and life stages.",
-          image: "/components/fnb1.2.png",
+          description:
+            "to deliver tailored financial services optimised for customer behaviour, preferences, and life stages",
+          image: "/components/banking/banking1.2.webp",
         },
         {
           title: "Monitor Real-Time Banking KPIs",
-          description: "Tracking activation rates, adoption trends, and transaction frequency to refine loyalty strategies.",
-          image: "/components/fnb1.3.png",
+          description:
+            "like activation rate, adoption rate, spends , transaction frequency to optimise loyalty strategies",
+          image: "/components/banking/banking1.3.webp",
         },
         {
           title: "Funnel optimisation to increase conversions",
-          description: "Enhancing touchpoints like account setup and loan applications with personalised offers.",
-          image: "/components/fnb1.4.png",
+          description:
+            "by enhancing touch-points like account setup, loan applications with personalised offers",
+          image: "/components/banking/banking1.4.webp",
         },
       ],
     },
     {
       id: 1,
       title: "MarTech audits and optimisation",
-      subtitle: "We optimise technology to facilitate better customer engagement",
+      subtitle:
+        "We optimise technology to facilitate better customer engagement",
       features: [
         {
           title: "MarTech audit to identify inefficiencies",
-          description: "Maximising campaign ROI while ensuring seamless marketing operations.",
-          image: "/components/media&ott2.1.png",
+          description:
+            "and maximize campaign ROI while ensuring seamless marketing operations",
+          image: "/components/banking/banking2.1.webp",
         },
         {
           title: "Simplify customer journeys with right tools",
-          description: "Optimising KYC, personalised financial offers, and account management processes.",
-          image: "/components/media&ott2.2.png",
+          description:
+            "to simplify KYC, personalised financial offers, and account management processes",
+          image: "/components/banking/banking2.2.webp",
         },
         {
           title: "Seamless upgrade to advanced MarTech",
-          description: "Automating processes, refining ad spending, and improving product targeting.",
-          image: "/components/media&ott2.3.png",
+          description:
+            "enable scalable campaigns, analyse spending, and target financial products precisely",
+          image: "/components/banking/banking2.3.webp",
         },
         {
           title: "Well-integrated dashboard",
-          description: "Combining financial data, customer insights, and loyalty program analytics in one view.",
-          image: "/components/media&ott2.4.png",
+          description:
+            "that consolidates financial data, customer insights, and rewards program metrics",
+          image: "/components/banking/banking2.4.webp",
         },
       ],
     },
@@ -82,33 +94,28 @@ export default function Page() {
       features: [
         {
           title: "Execute and optimise campaigns",
-          description: "Using real-time data to drive credit card sign-ups and loan applications.",
-          image: "/components/media&ott3.0.png",
+          description:
+            "by leveraging real-time data to promote loans and credit cards, driving applications and usage",
+          image: "/components/banking/banking3.1.webp",
         },
         {
           title: "Boost offer relevance and conversions",
-          description: "Leveraging A/B testing, multi-variate experiments, and personalised content strategies.",
-          image: "/components/media&ott3.1.png",
+          description:
+            "with advanced testing like multi-variate and content performance analysis",
+          image: "/components/banking/banking3.2.webp",
         },
         {
           title: "Maximise ROI with behaviour-based campaigns",
-          description: "Utilising data-driven up-selling and cross-selling techniques.",
-          image: "/components/media&ott3.2.png",
-        },
-        {
-          title: "Develop SOPs for scalable marketing",
-          description: "Ensuring smooth execution of campaigns with structured processes.",
-          image: "/components/media&ott3.4.png",
+          description: "through dynamic up-selling and cross-selling",
+          image: "/components/banking/banking3.3.webp",
         },
       ],
     },
   ];
 
-
-
   useEffect(() => {
     const initialMap: Record<number, number> = {};
-    sections.forEach(section => {
+    sections.forEach((section) => {
       initialMap[section.id] = 0; // Set all sections to first feature
     });
     setActiveFeaturesMap(initialMap);
@@ -116,15 +123,15 @@ export default function Page() {
   }, []);
 
   const handleSubtitleClick = (sectionId: number) => {
-    setActiveSection(sectionId)
+    setActiveSection(sectionId);
     setActiveFeaturesMap((prev) => ({
       ...prev,
       [sectionId]: (prev[sectionId] + 1) % sections[sectionId].features.length,
-    }))
-  }
+    }));
+  };
 
   const renderSectionContent = (section: Section) => {
-    const isMiddleSection = section.id === 1
+    const isMiddleSection = section.id === 1;
     const activeFeatureIndex = activeFeaturesMap[section.id] ?? 0; // Default to 0 if undefined
 
     const imageComponent = (
@@ -133,8 +140,7 @@ export default function Page() {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, ease: "easeInOut" }}
-        className="relative h-[300px] rounded-lg order-last md:order-none"
-      >
+        className="relative h-[300px] rounded-lg order-last md:order-none">
         <Image
           src={section.features[activeFeatureIndex].image || "/placeholder.svg"}
           alt={section.features[activeFeatureIndex].title}
@@ -144,7 +150,7 @@ export default function Page() {
           width={500}
         />
       </motion.div>
-    )
+    );
 
     const featuresComponent = (
       <div className="relative">
@@ -152,28 +158,32 @@ export default function Page() {
         <div className="space-y-8">
           {section.features.map((feature, index) => {
             // Show first feature as active by default when section loads
-            const isActive = (activeSection === section.id && activeFeatureIndex === index) ||
-                           (index === 0 && activeFeaturesMap[section.id] === 0);
+            const isActive =
+              (activeSection === section.id && activeFeatureIndex === index) ||
+              (index === 0 && activeFeaturesMap[section.id] === 0);
 
             return (
-              <motion.div 
+              <motion.div
                 key={index}
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: index * 0.1, ease: "easeInOut" }}
+                transition={{
+                  duration: 0.3,
+                  delay: index * 0.1,
+                  ease: "easeInOut",
+                }}
                 className={`relative pl-6 cursor-pointer group ${
                   isActive
                     ? "bg-[#E2E9FF] rounded-lg p-3 md:py-3 md:bg-white"
                     : "bg-white md:bg-white"
                 }`}
                 onClick={() => {
-                  setActiveSection(section.id)
+                  setActiveSection(section.id);
                   setActiveFeaturesMap((prev) => ({
                     ...prev,
                     [section.id]: index,
-                  }))
-                }}
-              >
+                  }));
+                }}>
                 <div
                   className={`hidden md:block absolute left-0 top-0 w-1 h-full transition-all duration-300 rounded-t-full rounded-b-full ${
                     isActive ? "bg-[#6438C3]" : "bg-purple-100"
@@ -185,15 +195,13 @@ export default function Page() {
                       isActive
                         ? "text-[#555555] md:text-[#6438C3]"
                         : "text-[#555555] md:text-gray-800 group-hover:text-[#6438C3]"
-                    }`}
-                  >
+                    }`}>
                     {feature.title}
                   </h3>
-                  <p 
+                  <p
                     className={`text-[#8C8C8C] ${
                       isActive ? "block" : "hidden md:block"
-                    }`}
-                  >
+                    }`}>
                     {feature.description}
                   </p>
                 </div>
@@ -202,7 +210,7 @@ export default function Page() {
           })}
         </div>
       </div>
-    )
+    );
 
     return (
       <div className="grid md:grid-cols-2 gap-12 items-start">
@@ -218,8 +226,8 @@ export default function Page() {
           </>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -229,23 +237,23 @@ export default function Page() {
             <div className="mb-12 text-center">
               <h2
                 className={`text-3xl font-bold mb-4 transition-colors duration-300 cursor-pointer ${
-                  activeSection === section.id ? "md:text-[#6438C3]" : "text-gray-800 hover:text-[#6438C3]"
+                  activeSection === section.id
+                    ? "md:text-[#6438C3]"
+                    : "text-gray-800 hover:text-[#6438C3]"
                 }`}
-                onClick={() => setActiveSection(section.id)}
-              >
+                onClick={() => setActiveSection(section.id)}>
                 {section.title}
               </h2>
               <p
                 className="text-gray-600 max-w-2xl mx-auto cursor-pointer hover:text-[#6438C3]"
-                onClick={() => handleSubtitleClick(section.id)}
-              >
+                onClick={() => handleSubtitleClick(section.id)}>
                 {section.subtitle}
               </p>
             </div>
             {renderSectionContent(section)}
           </div>
         </section>
-      ))} 
+      ))}
     </div>
-  )
+  );
 }
