@@ -155,9 +155,9 @@ export default function Page() {
     const imageComponent = (
       <motion.div
         key={`${section.id}-${activeFeatureIndex}`}
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: "easeInOut" }}
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         className="relative h-[300px] w-full rounded-lg order-last md:order-none">
         <div className="w-full h-full flex items-center justify-center">
           <Image
@@ -237,10 +237,10 @@ export default function Page() {
       <div className="grid md:grid-cols-2 gap-12 items-center">
         {isMiddleSection ? (
           <>
-            <FadeAnimation direction="fadeLeft" duration={0.8} delay={0.2}>
+            <FadeAnimation direction="fadeUp" duration={0.8} delay={0.2}>
               <div className="order-last md:order-first">{imageComponent}</div>
             </FadeAnimation>
-            <FadeAnimation direction="fadeRight" duration={0.8} delay={0.3}>
+            <FadeAnimation direction="fadeUp" duration={0.8} delay={0.3}>
               <div className="order-first md:order-last">
                 {featuresComponent}
               </div>
@@ -248,10 +248,10 @@ export default function Page() {
           </>
         ) : (
           <>
-            <FadeAnimation direction="fadeRight" duration={0.8} delay={0.2}>
+            <FadeAnimation direction="fadeUp" duration={0.8} delay={0.2}>
               <div>{featuresComponent}</div>
             </FadeAnimation>
-            <FadeAnimation direction="fadeLeft" duration={0.8} delay={0.3}>
+            <FadeAnimation direction="fadeUp" duration={0.8} delay={0.3}>
               <div className="order-last md:order-none">{imageComponent}</div>
             </FadeAnimation>
           </>
