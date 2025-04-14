@@ -161,11 +161,13 @@ export default function Page() {
         className="relative h-[300px] w-full rounded-lg order-last md:order-none">
         <div className="w-full h-full flex items-center justify-center">
           <Image
-            src={section.features[activeFeatureIndex].image || "/placeholder.svg"}
+            src={
+              section.features[activeFeatureIndex].image || "/placeholder.svg"
+            }
             alt={section.features[activeFeatureIndex].title}
             className="object-contain"
-            width={400}
-            height={240}
+            width={1000}
+            height={640}
           />
         </div>
       </motion.div>
@@ -239,7 +241,9 @@ export default function Page() {
               <div className="order-last md:order-first">{imageComponent}</div>
             </FadeAnimation>
             <FadeAnimation direction="fadeRight" duration={0.8} delay={0.3}>
-              <div className="order-first md:order-last">{featuresComponent}</div>
+              <div className="order-first md:order-last">
+                {featuresComponent}
+              </div>
             </FadeAnimation>
           </>
         ) : (
@@ -261,7 +265,10 @@ export default function Page() {
       {sections.map((section, index) => (
         <section key={section.id} className="py-10 md:py-20 px-4">
           <div className="max-w-6xl mx-auto">
-            <FadeAnimation direction="fadeUp" duration={0.8} delay={0.1 * index}>
+            <FadeAnimation
+              direction="fadeUp"
+              duration={0.8}
+              delay={0.1 * index}>
               <div className="mb-12 text-center">
                 <h2
                   className={`text-3xl font-bold mb-4 transition-colors duration-300 cursor-pointer ${
